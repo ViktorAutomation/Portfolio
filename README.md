@@ -8,8 +8,9 @@ I work on Upwork helping clients optimize their digital marketing workflows.
 📌 [View My Upwork Profile](https://www.upwork.com/freelancers/~019b07d8b6eefca9ad?mp_source=share)
 
 ## 🏅 Certifications
-- [Certification Name 1](link to the certification)
-- [Certification Name 2](link to the certification)
+- [Make Advance](https://www.credly.com/badges/92872e93-adff-4cd9-9c92-387ddd4401a4/public_url)
+- [Airtable Builder](http://verify.skilljar.com/c/6ppqipat87y3)
+- []
 
 ## 🚀 Projects & Case Studies
 - [Project Title](link to project or detailed description)

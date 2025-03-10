@@ -1,9 +1,11 @@
 # [Your Name]'s Portfolio
 
 ## 👋 About Me
-Hi! I'm [Your Name], a Marketing Automation Specialist with expertise in Airtable, Make.com, Zapier, ActiveCampaign, and Mailchimp. I work on Upwork helping clients optimize their digital marketing workflows.
+Hi! I'm Viktor, an expert in no-code Business Process Automation 🔧, helping businesses streamline operations and boost productivity through Workflow Optimization🚀. With a deep understanding of Make.com (formerly Integromat), Zapier, Airtable, Mailchimp, ActiveCampaign, I specialize in building customized, seamless workflows. I also provide CRM Integration services and leverage my knowledge to create comprehensive solutions that fit your exact needs. Moreover, I focus on AI Automation/Integration, ensuring your workflows can harness the power of artificial intelligence to gain deeper insights and further streamline your processes. 
 
-📌 [View My Upwork Profile](your Upwork profile link)
+I work on Upwork helping clients optimize their digital marketing workflows.
+
+📌 [View My Upwork Profile](https://www.upwork.com/freelancers/~019b07d8b6eefca9ad?mp_source=share)
 
 ## 🏅 Certifications
 - [Certification Name 1](link to the certification)

@@ -29,5 +29,5 @@ I work on Upwork helping clients optimize their digital marketing workflows.
   - Technologies used: Make.com, Airtable, Zapier, etc.
 
 ## 📫 Contact Me
-- [Email:](viktorautomationm@gmail.com)
-- [LinkedIn:](www.linkedin.com/in/viktor-trandafir)
+- Email: viktorautomationm@gmail.com
+- LinkedIn: www.linkedin.com/in/viktor-trandafir

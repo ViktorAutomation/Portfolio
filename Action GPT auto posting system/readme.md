@@ -29,4 +29,20 @@ The goal was to automate the manual process of finding relevant news articles, c
 - Improved record-keeping and analytics through integration with Airtable.
 
 ## 📸 Screenshots
-*(Add relevant screenshots or diagrams here.)*
+- **Make.com scenario**
+  ![Make.com scenario](https://github.com/ViktorAutomation/Portfolio-Automation/blob/main/Action%20GPT%20auto%20posting%20system/1%20-%20Make%20scenario.png)
+
+- **Custom GPT main screen**
+   ![Custom GPT main screen](https://github.com/ViktorAutomation/Portfolio-Automation/blob/main/Action%20GPT%20auto%20posting%20system/2%20-%20Custom%20GPT%20main%20screen.png)
+
+- **Fetch articles**
+   ![Fetch articles](https://github.com/ViktorAutomation/Portfolio-Automation/blob/main/Action%20GPT%20auto%20posting%20system/3%20-%20Fetch%20articles.png)
+
+- **Post prep**
+  ![Post prep](https://github.com/ViktorAutomation/Portfolio-Automation/blob/main/Action%20GPT%20auto%20posting%20system/4%20-%20Post%20prep.png)
+
+- **Post creation**
+  ![Post creation](https://github.com/ViktorAutomation/Portfolio-Automation/blob/main/Action%20GPT%20auto%20posting%20system/5%20-%20Post%20creation.png)
+
+- **Image and make a post**
+  ![Image and make a post](https://github.com/ViktorAutomation/Portfolio-Automation/blob/main/Action%20GPT%20auto%20posting%20system/6%20-%20Image%20and%20make%20a%20post.png)

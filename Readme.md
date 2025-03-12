@@ -23,7 +23,7 @@ I work on Upwork helping clients optimize their workflows.
 - [Zapier - Troubleshooting your Zaps](http://verify.skilljar.com/c/7h3w2ci2zmtz)
 
 ## 🚀 Projects & Case Studies
-- [Project Title](link to project or detailed description)
+- [FB & LinkedIn Auto-posting System Using Custom GPT Action](https://github.com/ViktorAutomation/Portfolio-Automation/blob/8517553cfc776eecf18aa34fdfe1ea46db59ebf9/Action%20GPT%20auto%20posting%20system/readme.md)
   - Brief summary of the project
   - Technologies used: Make.com, Airtable, Zapier, etc.
 

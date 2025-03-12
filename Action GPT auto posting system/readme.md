@@ -30,7 +30,3 @@ The goal was to automate the manual process of finding relevant news articles, c
 
 ## 📸 Screenshots
 *(Add relevant screenshots or diagrams here.)*
-
-## 💬 Client Testimonial
-> *(Optionally add client feedback here.)*
-

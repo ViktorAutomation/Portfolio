@@ -24,8 +24,7 @@ I work on Upwork helping clients optimize their workflows.
 
 ## 🚀 Projects & Case Studies
 - [FB & LinkedIn Auto-posting System Using Custom GPT Action](https://viktorautomation.github.io/Portfolio-Automation/Action%20GPT%20auto%20posting%20system/)
-  - Brief summary of the project
-  - Technologies used: Make.com, Airtable, Zapier, etc.
+  
 
 ## 📫 Contact Me
 - Email: [viktorautomationm@gmail.com](mailto:viktorautomationm@gmail.com)

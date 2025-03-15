@@ -24,6 +24,7 @@ I work on Upwork helping clients optimize their workflows.
 
 ## 🚀 Projects & Case Studies
 - [FB & LinkedIn Auto-posting System Using Custom GPT Action](https://viktorautomation.github.io/Portfolio-Automation/Action%20GPT%20auto%20posting%20system/)
+- [Airplaine tickets data scrapping](https://viktorautomation.github.io/Portfolio-Automation/Airplane%20tickets%20data%20extraction/)
   
 
 ## 📫 Contact Me

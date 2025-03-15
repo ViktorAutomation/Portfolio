@@ -33,7 +33,8 @@ The client needed real-time monitoring and data extraction for new discounted ai
 - Enabled immediate data access and analysis within Google Sheets, enhancing decision-making processes.
 
 ## 📸 Screenshots
-
+- **Make.com scenario**
+  ![Make.com scenario](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Airplane%20tickets%20data%20extraction/Airplane%20tickets.png)
 
 
 

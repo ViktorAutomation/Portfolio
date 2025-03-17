@@ -32,5 +32,6 @@ The client required automated monitoring of specific website news, content summa
 
 ## 📸 Screenshots
 
-
+- **RSS to telegram bot for approval**
+![RSS to telegram bot for approval](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automatic%20Post%20Creation%20System/1%20-%20RSS%20to%20telegram%20bot%20for%20approval.png)
 

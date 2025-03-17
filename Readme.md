@@ -23,9 +23,9 @@ I work on Upwork helping clients optimize their workflows.
 - [Zapier - Troubleshooting your Zaps](http://verify.skilljar.com/c/7h3w2ci2zmtz)
 
 ## 🚀 Projects & Case Studies
-- [FB & LinkedIn Auto-posting System Using Custom GPT Action](https://viktorautomation.github.io/Portfolio-Automation/Action%20GPT%20auto%20posting%20system/)
-- [Airplaine tickets data scrapping](https://viktorautomation.github.io/Portfolio-Automation/Airplane%20tickets%20data%20extraction/)
-- [Automatic Post Creation System](https://viktorautomation.github.io/Portfolio-Automation/Automatic%20Post%20Creation%20System/)
+- [FB & LinkedIn Auto-posting System Using Custom GPT Action](https://viktorautomation.github.io/Portfolio/Action%20GPT%20auto%20posting%20system/)
+- [Airplaine tickets data scrapping](https://viktorautomation.github.io/Portfolio/Airplane%20tickets%20data%20extraction/)
+- [Automatic Post Creation System](https://viktorautomation.github.io/Portfolio/Automatic%20Post%20Creation%20System/)
   
 ## 📫 Contact Me
 - Email: [viktorautomationm@gmail.com](mailto:viktorautomationm@gmail.com)

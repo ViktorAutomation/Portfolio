@@ -17,7 +17,7 @@ I work on Upwork helping clients optimize their workflows.
 - [Zapier - Build workflows with Zapier Tables](http://verify.skilljar.com/c/pgh3bdz4cqgm)
 - [Zapier - Filters and Paths by Zapier](http://verify.skilljar.com/c/bss2wst52saz)
 - [Zapier - Formatter by Zapier](http://verify.skilljar.com/c/zinwwdcue73i)
-- [Zapier - Generate blog images using AI](http://verify.skilljar.com/c/zinwwdcue73i)
+- [Zapier - Generate blog images using AI](https://verify.skilljar.com/c/d2bhhq37963g)
 - [Zapier - Increase productivity usig AI](http://verify.skilljar.com/c/w5kdihmnfus5)
 - [Zapier - Triggering zap with Webhook](http://verify.skilljar.com/c/7xa5x8bsnvwy)
 - [Zapier - Troubleshooting your Zaps](http://verify.skilljar.com/c/7h3w2ci2zmtz)

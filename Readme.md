@@ -28,6 +28,5 @@ I work on Upwork helping clients optimize their workflows.
 - [Automatic Post Creation System](https://viktorautomation.github.io/Portfolio/Automatic%20Post%20Creation%20System/)
   
 ## 📫 Contact Me
-- Email: [viktorautomationm@gmail.com](mailto:viktorautomationm@gmail.com)
-- LinkedIn: [Viktor Trandafir](https://www.linkedin.com/in/viktor-trandafir)
 
+📌 [View My Upwork Profile](https://www.upwork.com/freelancers/~019b07d8b6eefca9ad?mp_source=share)

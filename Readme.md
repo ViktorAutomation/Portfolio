@@ -13,7 +13,7 @@ I work on Upwork helping clients optimize their workflows.
 - [Make Foundation](https://www.credly.com/badges/f9b91b23-b887-4763-8478-710911b50a1a/public_url)
 - [Airtable Builder](http://verify.skilljar.com/c/6ppqipat87y3)
 - [Zapier - Automate your work](http://verify.skilljar.com/c/xdk5i4pi986a)
-- [Zapier - Automatng lead generation](http://verify.skilljar.com/c/jf9bw7woofg8)
+- [Zapier - Automating lead generation](http://verify.skilljar.com/c/jf9bw7woofg8)
 - [Zapier - Build workflows with Zapier Tables](http://verify.skilljar.com/c/pgh3bdz4cqgm)
 - [Zapier - Filters and Paths by Zapier](http://verify.skilljar.com/c/bss2wst52saz)
 - [Zapier - Formatter by Zapier](http://verify.skilljar.com/c/zinwwdcue73i)

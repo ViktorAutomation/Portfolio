@@ -34,4 +34,23 @@ The client needed an efficient workflow to create and manage Google Documents fr
 
 ## 📸 Screenshots
 
+- **Airtable Main table**
+![Airtable Main table](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/AT%20base%20Main.png)
 
+- **Google doc template**
+![Google doc template](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Doc%20template%202.jpg)
+
+- **Make.com - create Google doc**
+![Make.com - create Google doc](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Create%20doc.png)
+
+- **Catch webhook - send to Airtable**
+![Catch webhook - send to Airtable](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Webhook-to%20AT.png)
+
+- **Google Apps Script - Add new block**
+![Google Apps Script - Add new block](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Script-add%20new%20block)
+
+- **Google Apps Script - Send approved block to Make.com**
+![Google Apps Script - Send approved block to Make.com](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Script-Send%20Approved.png)
+
+- **Airtable Approved table**
+![Airtable Approved table](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/AT%20base%20Approved.png)

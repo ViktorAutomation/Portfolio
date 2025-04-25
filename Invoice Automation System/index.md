@@ -52,3 +52,30 @@ All scenarios include advanced error handling and return clear status messages (
 ---
 
 📸 **Screenshots**   
+
+- **Monday - Invoice Management System**
+![Invoice Management System](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/6.png)
+
+- **Monday - Item Management**
+![Item Management](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/7.png)
+
+- **Monday - Supplier Management**
+![Supplier Management](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/8.png)
+
+- **Monday - Xero Bills**
+![Xero Bills](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/9.png)
+
+- **Make.com scenarios**
+![Make.com scenarios](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/1.png)
+
+- **Email parse - Monday invoices board**
+![Email parse - Monday invoices board](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/2.png)
+
+- **Monday items approved - Create item in Xero**
+![Monday items approved - Create item in Xero](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/3.png)
+
+- **Monday Approved Suppliers - to Xero Check/Create**
+![Monday Approved Suppliers - to Xero Check/Create](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/4.png)
+
+- **Monday - Create bill in Xero**
+![Monday - Create bill in Xero](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/5.png)

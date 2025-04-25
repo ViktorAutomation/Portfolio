@@ -23,6 +23,7 @@ I work on Upwork helping clients optimize their workflows.
 - [Zapier - Troubleshooting your Zaps](http://verify.skilljar.com/c/7h3w2ci2zmtz)
 
 ## 🚀 Projects & Case Studies
+- [Invoice Management and Automation System](https://viktorautomation.github.io/Portfolio/Invoice%20Automation%20System/)
 - [Automatic Google Doc creation and parcing system](https://viktorautomation.github.io/Portfolio/Automation%20Doc%20creation%20system/)
 - [FB & LinkedIn Auto-posting System Using Custom GPT Action](https://viktorautomation.github.io/Portfolio/Action%20GPT%20auto%20posting%20system/)
 - [Airplaine tickets data scrapping](https://viktorautomation.github.io/Portfolio/Airplane%20tickets%20data%20extraction/)

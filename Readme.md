@@ -21,6 +21,8 @@ I work on Upwork helping clients optimize their workflows.
 - [Zapier - Increase productivity usig AI](http://verify.skilljar.com/c/w5kdihmnfus5)
 - [Zapier - Triggering zap with Webhook](http://verify.skilljar.com/c/7xa5x8bsnvwy)
 - [Zapier - Troubleshooting your Zaps](http://verify.skilljar.com/c/7h3w2ci2zmtz)
+- [n8n Course Level 1](https://internal.users.n8n.cloud/webhook/course-level-1/verify?id=922124e9fbea3e694d254654c3082cf1&submit=Submit)
+
 
 ## 🚀 Projects & Case Studies
 - [Invoice Management and Automation System](https://viktorautomation.github.io/Portfolio/Invoice%20Automation%20System/)

@@ -1,8 +1,34 @@
-# Summary
-## 👋 About Me
-Hi! I'm Viktor, an expert in no-code Business Process Automation 🔧, helping businesses streamline operations and boost productivity through Workflow Optimization🚀. With a deep understanding of Make.com (formerly Integromat), Zapier, Airtable, Mailchimp, ActiveCampaign. I specialize in building customized, seamless workflows, provide CRM Integration services and leverage my knowledge to create comprehensive solutions that fit your exact needs. Moreover, I focus on AI Automation/Integration, ensuring your workflows can harness the power of artificial intelligence to gain deeper insights and further streamline your processes. 
+# 👋 Hi there, I'm an Automation Expert!
 
-I work on Upwork helping clients optimize their workflows.
+I help businesses streamline operations, eliminate manual tasks, and supercharge productivity through **no-code/low-code automation** and **AI integrations**.
+
+## 🔧 Tech I Work With:
+- **Automation Tools:** Make.com (Integromat), Zapier, Google Apps Script
+- **Database Management:** Airtable, Google Sheets
+- **CRM & Workflow Systems:** Monday.com, ActiveCampaign, Mailchimp
+- **AI Integration:** Custom GPT Actions, AI Automation & Parsing
+- **APIs & Custom Integrations:** REST APIs, Webhooks, Parsing & Scraping
+
+## 🛠️ What I Build:
+- Invoice management systems (e.g., Monday.com + Xero + Make.com)
+- Automated document creation and parsing (e.g., Google Docs + Airtable)
+- AI-driven content curation and auto-posting (LinkedIn, Facebook, Telegram)
+- Real-time web monitoring and data extraction
+- CRM integrations and dynamic database solutions
+- Monday.com system setups, automations, and optimizations
+- Airtable system setups, automations, and optimizations
+
+## 🚀 About My Approach:
+- **Custom Solutions:** No cookie-cutter workflows. Every automation is built for your exact needs.
+- **Reliable & Scalable:** I focus on stable, tested, and future-proof automation.
+- **Client-Centric:** Clear communication, fast iterations, and reliable delivery.
+
+---
+
+**Let's automate the boring stuff and focus on growth!** 🚀  
+Feel free to connect or check out some of my work.
+
+---
 
 📌 [View My Upwork Profile](https://www.upwork.com/freelancers/~019b07d8b6eefca9ad?mp_source=share)
 

@@ -50,7 +50,7 @@ Feel free to connect or check out some of my work.
 - [n8n Course Level 1](https://internal.users.n8n.cloud/webhook/course-level-1/verify?id=922124e9fbea3e694d254654c3082cf1&submit=Submit)
 
 
-## 🚀 Projects & Case Studies
+## 🚀 Projects
 - [Invoice Management and Automation System](https://viktorautomation.github.io/Portfolio/Invoice%20Automation%20System/)
 - [Automatic Google Doc creation and parcing system](https://viktorautomation.github.io/Portfolio/Automation%20Doc%20creation%20system/)
 - [FB & LinkedIn Auto-posting System Using Custom GPT Action](https://viktorautomation.github.io/Portfolio/Action%20GPT%20auto%20posting%20system/)

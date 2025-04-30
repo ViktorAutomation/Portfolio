@@ -48,6 +48,7 @@ Feel free to connect or check out some of my work.
 - [Zapier - Triggering zap with Webhook](http://verify.skilljar.com/c/7xa5x8bsnvwy)
 - [Zapier - Troubleshooting your Zaps](http://verify.skilljar.com/c/7h3w2ci2zmtz)
 - [n8n Course Level 1](https://internal.users.n8n.cloud/webhook/course-level-1/verify?id=922124e9fbea3e694d254654c3082cf1&submit=Submit)
+- [n8n Course Level 2](https://internal.users.n8n.cloud/webhook/course-level-2/verify?id=9862701e84f4fe30604a066365be8a2e&submit=Submit)
 
 
 ## 🚀 Projects

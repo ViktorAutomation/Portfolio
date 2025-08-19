@@ -3,7 +3,7 @@
 I help businesses streamline operations, eliminate manual tasks, and supercharge productivity through **no-code/low-code automation** and **AI integrations**.
 
 ## 🔧 Tech I Work With:
-- **Automation Tools:** Make.com (Integromat), Zapier, Google Apps Script
+- **Automation Tools:** Make.com (Integromat), n8n, Zapier, Google Apps Script
 - **Database Management:** Airtable, Google Sheets
 - **CRM & Workflow Systems:** Monday.com, ActiveCampaign, Mailchimp
 - **AI Integration:** Custom GPT Actions, AI Automation & Parsing

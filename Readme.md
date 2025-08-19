@@ -6,7 +6,7 @@ I help businesses streamline operations, eliminate manual tasks, and supercharge
 - **Automation Tools:** Make.com (Integromat), n8n, Zapier, Google Apps Script
 - **Database Management:** Airtable, Google Sheets
 - **CRM & Workflow Systems:** Monday.com, ActiveCampaign, Mailchimp
-- **AI Integration:** Custom GPT Actions, AI Automation & Parsing
+- **AI Integration:** Custom GPT Actions, AI Automation & Parsing, AI Agents, RAG Agents
 - **APIs & Custom Integrations:** REST APIs, Webhooks, Parsing & Scraping
 
 ## 🛠️ What I Build:

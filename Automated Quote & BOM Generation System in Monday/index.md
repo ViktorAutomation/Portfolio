@@ -11,7 +11,7 @@ The goal was to automate quote creation, ensure accurate tax/total calculations,
 ## 🛠️ Solution & Implementation
 - **Inter-linked Boards**: Deals, Quote Generation, Item Management, BOM, and Customer boards are fully connected.
 - **Quote Automation**: Moving a deal to the **Create Quote** group auto-creates a linked item in the Quote Generation board.
-- **One-Click Quote Creation**: Users add required items as subitems and click **Create Quote** to instantly generate a PDF from a predefined template.  
+- **One-Click Quote Creation**: Users add required items as subitems and click **Create Quote** to instantly generate a Quote file from a predefined template.  
   - Automatic total and tax calculations  
   - File saved to OneDrive and attached in monday.com
 - **BOM Generation**: Item Management board connects to BOM board; a **Create BOM** button generates a complete BOM file within seconds, mirroring all necessary fields.
@@ -27,7 +27,6 @@ The goal was to automate quote creation, ensure accurate tax/total calculations,
 - **Scalability**: Supports any volume of quotes or items with minimal user input.
 
 ## 📸 Screenshots
-_Add your screenshots here, for example:_
 
 - **Quote Generation Board**  
 

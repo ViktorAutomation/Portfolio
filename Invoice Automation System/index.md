@@ -2,13 +2,12 @@
 **Monday.com + Xero + Make.com**
 
 ---
-
-📌 **Project Overview**  
+**Project Overview**  
 This project delivered a fully automated invoice and bill management workflow using Monday.com as the central hub, Make.com for automation, and Xero for accounting. It streamlined the handling of invoices, suppliers, items, and bill creation, while ensuring data accuracy and transparency across all systems.
 
 ---
 
-🎯 **Problem & Goals**  
+**Problem & Goals**  
 The client needed an end-to-end system to manage vendor invoices, line items, and supplier records with minimal manual input. Goals included:
 - Automating PDF invoice extraction and structured data entry.
 - Ensuring Xero and Monday.com remain in sync for suppliers, items, and bills.
@@ -17,7 +16,7 @@ The client needed an end-to-end system to manage vendor invoices, line items, an
 
 ---
 
-🛠️ **Solution & Implementation**  
+**Solution & Implementation**  
 Created five structured boards in Monday.com:
 - **Invoice Management** – central board for invoice details and Xero bill initiation.  
 - **Item Management** – stores invoice line items with links to respective invoices and suppliers.  
@@ -35,7 +34,7 @@ All scenarios include advanced error handling and return clear status messages (
 
 ---
 
-⚙️ **Tools & Technologies Used**  
+**Tools & Technologies Used**  
 - Monday.com  
 - Make.com  
 - Xero  
@@ -43,7 +42,7 @@ All scenarios include advanced error handling and return clear status messages (
 
 ---
 
-📈 **Results & Outcomes**  
+**Results & Outcomes**  
 - Reduced manual data entry and duplicate entries through smart automation.  
 - Improved processing time and data consistency between systems.  
 - Enhanced operational transparency with detailed error reporting and traceable workflows.  
@@ -51,7 +50,7 @@ All scenarios include advanced error handling and return clear status messages (
 
 ---
 
-📸 **Screenshots**   
+**Screenshots**   
 
 - **Monday - Invoice Management System**
 ![Invoice Management System](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/6.png)

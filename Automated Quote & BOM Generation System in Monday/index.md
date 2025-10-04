@@ -43,5 +43,5 @@ The goal was to automate quote creation, ensure accurate tax/total calculations,
 - **BOM Generation Board**  
 ![BOM Generation Board](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/BOM%20Board.png)
 
-- **Quote Parcing Scenario**  
+- **Supplier Quote Parcing Scenario**  
 ![Quote Parcing Scenario](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote%20Scenario.png)

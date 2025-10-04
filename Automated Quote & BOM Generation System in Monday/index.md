@@ -28,11 +28,20 @@ The goal was to automate quote creation, ensure accurate tax/total calculations,
 
 ##  Screenshots
 
-- **Quote Scenario**  
-![Quote Scenario](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote%20Scenario.png)
+- **Quote Generation Scenario**  
+![Quote Generation Scenario](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote%20Generation.png)
 
-- **Create Quote Automation**  
+- **Quote File**
+![Quote](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote.png)
 
+- **BOM Scenario**  
+![BOM Scenario](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/BOM%20Scenario.png)
 
-- **BOM Management Board**  
+- **Quote Generation Board**  
+![Quote Generation Board](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote%20Board.png)
 
+- **BOM Generation Board**  
+![BOM Generation Board](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/BOM%20Board.png)
+
+- **Quote Parcing Scenario**  
+![Quote Parcing Scenario](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote%20Scenario.png)

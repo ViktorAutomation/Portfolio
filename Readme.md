@@ -52,7 +52,7 @@ Feel free to connect or check out some of my work.
 
 
 ## Projects
-- [Automated Quote & BOM Generation System in monday.com](https://viktorautomation.github.io/Portfolio/Automated%20Quote%20&%20BOM%20Generation%20system%20in%20Monday/)
+- [Automated Quote & BOM Generation System in monday.com](https://viktorautomation.github.io/Portfolio/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/)
 - [Invoice Management and Automation System](https://viktorautomation.github.io/Portfolio/Invoice%20Automation%20System/)
 - [Automatic Google Doc creation and parcing system](https://viktorautomation.github.io/Portfolio/Automation%20Doc%20creation%20system/)
 - [FB & LinkedIn Auto-posting System Using Custom GPT Action](https://viktorautomation.github.io/Portfolio/Action%20GPT%20auto%20posting%20system/)

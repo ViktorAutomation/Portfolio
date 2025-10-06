@@ -52,6 +52,7 @@ Feel free to connect or check out some of my work.
 
 
 ## Projects
+- [Private and Automated Sales Commission Tracker](https://viktorautomation.github.io/Portfolio/Automated%20Sales%20Commission%20Tracker/)
 - [Automated Quote & BOM Generation System in monday.com](https://viktorautomation.github.io/Portfolio/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/)
 - [Invoice Management and Automation System](https://viktorautomation.github.io/Portfolio/Invoice%20Automation%20System/)
 - [Automatic Google Doc creation and parcing system](https://viktorautomation.github.io/Portfolio/Automation%20Doc%20creation%20system/)

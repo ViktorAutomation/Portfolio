@@ -9,9 +9,11 @@ I help businesses streamline operations, eliminate manual tasks, and supercharge
 - **AI Integration:** Custom GPT Actions, AI Automation & Parsing, AI Agents, RAG Agents
 - **APIs & Custom Integrations:** REST APIs, Webhooks, Parsing & Scraping
 
-## What I Build:
-- Invoice management systems (e.g., Monday.com + Xero + Make.com)
-- Automated document creation and parsing (e.g., Google Docs + Airtable)
+## Some of my builds:
+- Private and Automated Sales Commission Tracker (Make.com + Monday.com)
+- Automated Quote & BOM Generation System in monday.com (Make.com + Monday.com)
+- Invoice management systems (Monday.com + Xero + Make.com)
+- Automated document creation and parsing (Google Docs + Airtable)
 - AI-driven content curation and auto-posting (LinkedIn, Facebook, Telegram)
 - Real-time web monitoring and data extraction
 - CRM integrations and dynamic database solutions

@@ -1,4 +1,4 @@
-# Automated Sales Commission Tracker in monday.com
+# Automated Sales Commission Tracker in Monday.com
 
 ## Project Overview
 This project delivers a fully automated commission tracking system in monday.com, powered by Make.com.  

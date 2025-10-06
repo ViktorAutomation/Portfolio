@@ -27,14 +27,10 @@ The goal was to automate commission calculations, provide leadership with a clea
 - **Visibility:** Sales leadership has full oversight in one central board.  
 
 ## Screenshots
-_Add your screenshots here, for example:_  
 
-- **Main Commission Tracker Board**  
-![Main Commission Tracker](path/to/main-board.png)
+- **Create new deal in Personal board**  
+![Create new deal in Personal board](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Sales%20Commission%20Tracker/create%20deal%20in%20personal%20board.png)
 
-- **Individual Salesperson Board**  
-![Salesperson Board](path/to/sales-board.png)
-
-- **Automation Flow**  
-![Automation Flow](path/to/automation.png)
+- **Update commission in personal board**  
+![Update commission in personal board](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Sales%20Commission%20Tracker/Update%20commission%20in%20personal%20board.png)
 

@@ -5,7 +5,7 @@ This project delivers a fully automated commission tracking system in monday.com
 It calculates commissions for each salesperson automatically, manages all payment dates, and ensures privacy by providing individual boards for each salesperson alongside a central management board for leadership.
 
 ## Problem & Goals
-Manual commission calculation was time-consuming, error-prone, and lacked privacy between sales team members.  
+Manual commission calculation was time-consuming, error-prone, and unabled for sales team members to check their commissions on daily basis.  
 The goal was to automate commission calculations, provide leadership with a clear overview, and give each salesperson private access to only their own commissions.
 
 ## Solution & Implementation

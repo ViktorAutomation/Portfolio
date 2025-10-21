@@ -35,6 +35,7 @@ Feel free to connect or check out some of my work.
  [View My Upwork Profile](https://www.upwork.com/freelancers/~019b07d8b6eefca9ad?mp_source=share)
 
 ## Certifications
+- [Monday CRM Pro certificate](https://drive.google.com/file/d/1xqnYS0IcgvozzzlNT_SdU6CQl2HNF24i/view?usp=drive_link)
 - [Make Advance](https://www.credly.com/badges/92872e93-adff-4cd9-9c92-387ddd4401a4/public_url)
 - [Make Intermediate](https://www.credly.com/badges/549656b2-f45d-45aa-a12a-8fc8b84a1bb7/public_url)
 - [Make Basics](https://www.credly.com/badges/f5d36a82-73d3-4076-ad6f-0c547e8de5db/public_url)

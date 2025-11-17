@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Viktor T — Automation & AI Integration Expert</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --card-bg: #ffffff;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --border: #e5e7eb;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e5f0ff, #f5f5f7 55%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 16px 48px;
+    }
+
+    header {
+      margin-bottom: 32px;
+    }
+
+    .hero {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .hero-top-label {
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(1.9rem, 3vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 580px;
+    }
+
+    .hero-main {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .hero-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #1d4ed8;
+      border: 1px solid rgba(37, 99, 235, 0.15);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease,
+        background-color 0.12s ease, border-color 0.12s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 14px 30px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-secondary {
+      background: #f9fafb;
+      color: var(--text-main);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #eef2ff;
+    }
+
+    .btn span {
+      margin-left: 6px;
+      font-size: 1.05rem;
+    }
+
+    .sections {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title span {
+      font-size: 1.1rem;
+    }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px 18px;
+      margin-top: 8px;
+    }
+
+    .stack-block-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .stack-block-items {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+
+    ul li {
+      padding-left: 18px;
+      position: relative;
+      margin-bottom: 4px;
+      color: var(--text-muted);
+    }
+
+    ul li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      top: 0;
+      color: #4f46e5;
+    }
+
+    .pill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .pill-card {
+      background: #f9fafb;
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(209, 213, 219, 0.8);
+    }
+
+    .pill-card-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .pill-card-text {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .projects-list li {
+      border-radius: var(--radius-md);
+      padding: 10px 10px;
+      margin-bottom: 6px;
+      transition: background-color 0.1s ease, transform 0.1s ease;
+    }
+
+    .projects-list li:hover {
+      background: #f3f4ff;
+      transform: translateY(-1px);
+    }
+
+    .project-title {
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 2px;
+      font-size: 0.94rem;
+    }
+
+    .project-title a {
+      text-decoration: none;
+    }
+
+    .project-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px 18px;
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .cert-section-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(148, 163, 184, 0.3);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    footer span strong {
+      color: var(--text-main);
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 22px 18px 18px;
+      }
+
+      .hero-footer {
+        margin-top: 12px;
+      }
+
+      .page {
+        padding-inline: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="hero">
+        <div class="hero-main">
+          <div>
+            <div class="hero-top-label">Automation • Monday.com • Make.com</div>
+            <h1 class="hero-title">Viktor T — Automation & AI Integration Expert</h1>
+            <p class="hero-subtitle">
+              I help businesses streamline operations, eliminate manual tasks, and
+              supercharge productivity through no-code/low-code automation, Monday.com
+              systems, and AI integrations.
+            </p>
+          </div>
+
+          <div class="hero-footer">
+            <div class="pill-row">
+              <div class="pill">Monday.com Workspaces</div>
+              <div class="pill">Make.com Scenarios</div>
+              <div class="pill">AI-Powered Automation</div>
+            </div>
+
+            <div class="button-row">
+              <a
+                href="https://www.upwork.com/freelancers/~019b07d8b6eefca9ad?mp_source=share"
+                class="btn btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View My Upwork Profile <span>↗</span>
+              </a>
+              <a href="#projects" class="btn btn-secondary">
+                View Projects
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+      <!-- Tech Stack -->
+      <section class="card">
+        <h2 class="card-title">
+          <span>🔧</span> Tech I Work With
+        </h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">Automation Tools</div>
+            <div class="stack-block-items">
+              Make.com (Integromat), n8n, Zapier, Google Apps Script
+            </div>
+          </div>
+          <div>
+            <div class="stack-block-title">Database Management</div>
+            <div class="stack-block-items">
+              Airtable, Google Sheets
+            </div>
+          </div>
+          <div>
+            <div class="stack-block-title">CRM & Workflow Systems</div>
+            <div class="stack-block-items">
+              Monday.com, ActiveCampaign, Mailchimp
+            </div>
+          </div>
+          <div>
+            <div class="stack-block-title">AI Integration</div>
+            <div class="stack-block-items">
+              Custom GPT Actions, AI automation & parsing, AI agents, RAG agents
+            </div>
+          </div>
+          <div>
+            <div class="stack-block-title">APIs & Custom Integrations</div>
+            <div class="stack-block-items">
+              REST APIs, Webhooks, parsing & scraping
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- What I Do & Example Solutions -->
+      <section class="card">
+        <h2 class="card-title">
+          <span>🚀</span> What I Do
+        </h2>
+        <ul>
+          <li>Design and implement Monday.com workspaces (CRM, ops, projects, internal requests).</li>
+          <li>Build robust Make.com scenarios and multi-step automations.</li>
+          <li>Integrate CRMs, marketing tools, and databases into one cohesive workflow.</li>
+          <li>Use AI (GPT, agents, RAG) to parse data, generate content, and automate decisions.</li>
+          <li>Replace messy spreadsheets and copy-paste tasks with clean, automated pipelines.</li>
+        </ul>
+        <h3 class="card-title" style="margin-top:14px; font-size:0.98rem;">
+          <span>🧩</span> Example Solutions I Build
+        </h3>
+        <ul>
+          <li>Private and automated sales commission trackers (Make.com + Monday.com).</li>
+          <li>Quote &amp; BOM generation systems directly inside Monday.com.</li>
+          <li>Invoice management systems (Monday.com + Xero + Make.com).</li>
+          <li>Automated document creation and parsing (Google Docs + Airtable).</li>
+          <li>AI-driven content curation and auto-posting (LinkedIn, Facebook, Telegram).</li>
+          <li>Real-time web monitoring and data extraction.</li>
+          <li>CRM integrations and dynamic database solutions.</li>
+          <li>Monday.com system setups, automations, and optimizations.</li>
+          <li>Airtable system setups, automations, and optimizations.</li>
+        </ul>
+      </section>
+
+      <!-- How I Work -->
+      <section class="card">
+        <h2 class="card-title">
+          <span>🧠</span> How I Work
+        </h2>
+        <div class="pill-grid">
+          <div class="pill-card">
+            <div class="pill-card-title">Custom Solutions</div>
+            <div class="pill-card-text">
+              No cookie-cutter workflows. Every automation is built for your exact needs
+              and processes.
+            </div>
+          </div>
+          <div class="pill-card">
+            <div class="pill-card-title">Reliable &amp; Scalable</div>
+            <div class="pill-card-text">
+              Stable, tested, and future-proof automations that grow with your business.
+            </div>
+          </div>
+          <div class="pill-card">
+            <div class="pill-card-title">Client-Centric</div>
+            <div class="pill-card-text">
+              Clear communication, fast iterations, and reliable delivery with documentation
+              and Loom walkthroughs when needed.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section class="card" id="projects">
+        <h2 class="card-title">
+          <span>📂</span> Projects (with details)
+        </h2>
+        <ul class="projects-list">
+          <li>
+            <div class="project-title">
+              <a href="https://viktorautomation.github.io/Portfolio/Automated%20Sales%20Commission%20Tracker/" target="_blank" rel="noopener noreferrer">
+                Private and Automated Sales Commission Tracker
+              </a>
+            </div>
+            <div class="project-desc">
+              A fully automated commission tracking system where sales data flows into Monday.com,
+              is processed via Make.com, and commissions are calculated and summarized for finance
+              and leadership. Eliminates manual spreadsheets and gives clear visibility per deal,
+              rep, and period.
+            </div>
+          </li>
+
+          <li>
+            <div class="project-title">
+              <a href="https://viktorautomation.github.io/Portfolio/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/" target="_blank" rel="noopener noreferrer">
+                Automated Quote &amp; BOM Generation System in Monday.com
+              </a>
+            </div>
+            <div class="project-desc">
+              A structured quoting and bill-of-materials process built on Monday.com, powered by
+              Make.com automations. Standardizes quotes, compiles BOM items automatically, and
+              reduces errors in the sales-to-operations handoff.
+            </div>
+          </li>
+
+          <li>
+            <div class="project-title">
+              <a href="https://viktorautomation.github.io/Portfolio/Invoice%20Automation%20System/" target="_blank" rel="noopener noreferrer">
+                Invoice Management and Automation System
+              </a>
+            </div>
+            <div class="project-desc">
+              An automation layer between Monday.com, Make.com, and Xero to keep invoicing
+              accurate and up-to-date. Triggers invoices from stages in Monday.com and syncs
+              statuses between tools, reducing manual follow-up and data entry.
+            </div>
+          </li>
+
+          <li>
+            <div class="project-title">
+              <a href="https://viktorautomation.github.io/Portfolio/Automation%20Doc%20creation%20system/" target="_blank" rel="noopener noreferrer">
+                Automatic Google Doc Creation and Parsing System
+              </a>
+            </div>
+            <div class="project-desc">
+              Automatically generates, updates, and parses Google Docs, storing structured data in
+              Airtable. Ideal for proposals, reports, or standardized documents, with templates
+              filled from form inputs or CRM data.
+            </div>
+          </li>
+
+          <li>
+            <div class="project-title">
+              <a href="https://viktorautomation.github.io/Portfolio/Action%20GPT%20auto%20posting%20system/" target="_blank" rel="noopener noreferrer">
+                FB &amp; LinkedIn Auto-Posting System Using Custom GPT Action
+              </a>
+            </div>
+            <div class="project-desc">
+              An AI-powered content pipeline that creates and schedules posts for social
+              platforms. Uses Custom GPT Actions + Make.com to generate content and auto-post to
+              Facebook and LinkedIn from one central flow.
+            </div>
+          </li>
+
+          <li>
+            <div class="project-title">
+              <a href="https://viktorautomation.github.io/Portfolio/Airplane%20tickets%20data%20extraction/" target="_blank" rel="noopener noreferrer">
+                Airplane Tickets Data Scraping
+              </a>
+            </div>
+            <div class="project-desc">
+              A data extraction and monitoring solution for flight tickets, pushing structured
+              data to Sheets or databases. Supports tracking price and route trends over time.
+            </div>
+          </li>
+
+          <li>
+            <div class="project-title">
+              <a href="https://viktorautomation.github.io/Portfolio/Automatic%20Post%20Creation%20System/" target="_blank" rel="noopener noreferrer">
+                Automatic Post Creation System
+              </a>
+            </div>
+            <div class="project-desc">
+              Generates and prepares content for publishing based on predefined rules and AI
+              prompts. Ideal for blogs, updates, or recurring content formats powered by AI +
+              no-code tools.
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Certifications -->
+      <section class="card">
+        <h2 class="card-title">
+          <span>🧾</span> Certifications &amp; Training
+        </h2>
+        <div class="cert-grid">
+          <div>
+            <div class="cert-section-title">Monday.com &amp; Make</div>
+            <ul>
+              <li><a href="https://drive.google.com/file/d/1xqnYS0IcgvozzzlNT_SdU6CQl2HNF24i/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Monday CRM Pro certificate</a></li>
+              <li><a href="https://www.credly.com/badges/92872e93-adff-4cd9-9c92-387ddd4401a4/public_url" target="_blank" rel="noopener noreferrer">Make Advance</a></li>
+              <li><a href="https://www.credly.com/badges/549656b2-f45d-45aa-a12a-8fc8b84a1bb7/public_url" target="_blank" rel="noopener noreferrer">Make Intermediate</a></li>
+              <li><a href="https://www.credly.com/badges/f5d36a82-73d3-4076-ad6f-0c547e8de5db/public_url" target="_blank" rel="noopener noreferrer">Make Basics</a></li>
+              <li><a href="https://www.credly.com/badges/f9b91b23-b887-4763-8478-710911b50a1a/public_url" target="_blank" rel="noopener noreferrer">Make Foundation</a></li>
+            </ul>
+
+            <div class="cert-section-title" style="margin-top:10px;">Airtable</div>
+            <ul>
+              <li><a href="http://verify.skilljar.com/c/6ppqipat87y3" target="_blank" rel="noopener noreferrer">Airtable Builder</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="cert-section-title">Zapier</div>
+            <ul>
+              <li><a href="http://verify.skilljar.com/c/xdk5i4pi986a" target="_blank" rel="noopener noreferrer">Zapier - Automate your work</a></li>
+              <li><a href="http://verify.skilljar.com/c/jf9bw7woofg8" target="_blank" rel="noopener noreferrer">Zapier - Automating lead generation</a></li>
+              <li><a href="http://verify.skilljar.com/c/pgh3bdz4cqgm" target="_blank" rel="noopener noreferrer">Zapier - Build workflows with Zapier Tables</a></li>
+              <li><a href="http://verify.skilljar.com/c/bss2wst52saz" target="_blank" rel="noopener noreferrer">Zapier - Filters and Paths by Zapier</a></li>
+              <li><a href="http://verify.skilljar.com/c/zinwwdcue73i" target="_blank" rel="noopener noreferrer">Zapier - Formatter by Zapier</a></li>
+              <li><a href="https://verify.skilljar.com/c/d2bhhq37963g" target="_blank" rel="noopener noreferrer">Zapier - Generate blog images using AI</a></li>
+              <li><a href="http://verify.skilljar.com/c/w5kdihmnfus5" target="_blank" rel="noopener noreferrer">Zapier - Increase productivity using AI</a></li>
+              <li><a href="http://verify.skilljar.com/c/7xa5x8bsnvwy" target="_blank" rel="noopener noreferrer">Zapier - Triggering zap with Webhook</a></li>
+              <li><a href="http://verify.skilljar.com/c/7h3w2ci2zmtz" target="_blank" rel="noopener noreferrer">Zapier - Troubleshooting your Zaps</a></li>
+            </ul>
+
+            <div class="cert-section-title" style="margin-top:10px;">n8n</div>
+            <ul>
+              <li><a href="https://internal.users.n8n.cloud/webhook/course-level-1/verify?id=922124e9fbea3e694d254654c3082cf1&submit=Submit" target="_blank" rel="noopener noreferrer">n8n Course Level 1</a></li>
+              <li><a href="https://internal.users.n8n.cloud/webhook/course-level-2/verify?id=9862701e84f4fe30604a066365be8a2e&submit=Submit" target="_blank" rel="noopener noreferrer">n8n Course Level 2</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>
+        Built by <strong>Viktor T</strong> — Automation &amp; AI Integration Expert
+      </span>
+      <span>Let’s automate the boring stuff and focus on growth. 🚀</span>
+    </footer>
+  </div>
+</body>
+</html>

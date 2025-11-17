@@ -6,16 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #f5f5f7;
-      --card-bg: #ffffff;
-      --text-main: #111827;
-      --text-muted: #6b7280;
-      --accent: #2563eb;
-      --accent-soft: #dbeafe;
-      --border: #e5e7eb;
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card-bg: #020617;
+      --hero-bg: rgba(15, 23, 42, 0.9);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --accent-strong: #0ea5e9;
+      --border: #1e293b;
       --radius-lg: 18px;
       --radius-md: 12px;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 22px 60px rgba(15, 23, 42, 0.7);
     }
 
     * {
@@ -27,7 +30,9 @@
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #e5f0ff, #f5f5f7 55%);
+      background:
+        radial-gradient(circle at top left, #0b1120, #020617 55%),
+        radial-gradient(circle at bottom right, #020617, #000000 70%);
       color: var(--text-main);
       line-height: 1.6;
     }
@@ -48,17 +53,17 @@
     }
 
     .hero {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(14px);
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
       border-radius: 24px;
       padding: 28px 24px 24px;
       box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(148, 163, 184, 0.25);
+      border: 1px solid rgba(148, 163, 184, 0.35);
     }
 
     .hero-top-label {
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 8px;
@@ -68,13 +73,36 @@
     .hero-title {
       font-size: clamp(1.9rem, 3vw, 2.4rem);
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .hero-subtitle {
       font-size: 0.98rem;
       color: var(--text-muted);
-      max-width: 580px;
+      max-width: 620px;
+    }
+
+    .hero-badge {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .hero-badge span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(22, 101, 52, 0.22);
+      border: 1px solid rgba(34, 197, 94, 0.65);
+      font-size: 0.82rem;
+    }
+
+    .hero-badge span::before {
+      content: "★";
+      font-size: 0.86rem;
+      color: #4ade80;
     }
 
     .hero-main {
@@ -102,8 +130,8 @@
       background: var(--accent-soft);
       font-size: 0.8rem;
       font-weight: 500;
-      color: #1d4ed8;
-      border: 1px solid rgba(37, 99, 235, 0.15);
+      color: var(--accent-strong);
+      border: 1px solid rgba(56, 189, 248, 0.35);
     }
 
     .button-row {
@@ -122,29 +150,33 @@
       font-weight: 600;
       border: 1px solid transparent;
       cursor: pointer;
-      transition: transform 0.12s ease, box-shadow 0.12s ease,
-        background-color 0.12s ease, border-color 0.12s ease;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        background-color 0.12s ease,
+        border-color 0.12s ease;
     }
 
     .btn-primary {
-      background: var(--accent);
-      color: #ffffff;
-      box-shadow: 0 14px 30px rgba(37, 99, 235, 0.35);
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      color: #0b1120;
+      box-shadow: 0 16px 40px rgba(34, 197, 94, 0.3);
     }
 
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.4);
+      box-shadow: 0 20px 50px rgba(34, 197, 94, 0.45);
     }
 
     .btn-secondary {
-      background: #f9fafb;
+      background: #020617;
       color: var(--text-main);
-      border-color: var(--border);
+      border-color: #1e293b;
     }
 
     .btn-secondary:hover {
-      background: #eef2ff;
+      background: #020617;
+      border-color: var(--accent);
     }
 
     .btn span {
@@ -160,11 +192,11 @@
     }
 
     .card {
-      background: var(--card-bg);
+      background: rgba(15, 23, 42, 0.96);
       border-radius: var(--radius-lg);
       padding: 20px 18px;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 0 12px 38px rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(51, 65, 85, 0.9);
     }
 
     .card-title {
@@ -174,6 +206,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      color: #e5e7eb;
     }
 
     .card-title span {
@@ -191,6 +224,7 @@
       font-size: 0.9rem;
       font-weight: 600;
       margin-bottom: 3px;
+      color: #e5e7eb;
     }
 
     .stack-block-items {
@@ -216,7 +250,7 @@
       position: absolute;
       left: 4px;
       top: 0;
-      color: #4f46e5;
+      color: var(--accent);
     }
 
     .pill-grid {
@@ -227,16 +261,17 @@
     }
 
     .pill-card {
-      background: #f9fafb;
+      background: #020617;
       border-radius: var(--radius-md);
       padding: 10px 12px;
       font-size: 0.9rem;
-      border: 1px solid rgba(209, 213, 219, 0.8);
+      border: 1px solid #1f2937;
     }
 
     .pill-card-title {
       font-weight: 600;
       margin-bottom: 2px;
+      color: #e5e7eb;
     }
 
     .pill-card-text {
@@ -252,19 +287,24 @@
     }
 
     .projects-list li:hover {
-      background: #f3f4ff;
+      background: #020617;
       transform: translateY(-1px);
     }
 
     .project-title {
       font-weight: 600;
-      color: #111827;
+      color: #e5e7eb;
       margin-bottom: 2px;
       font-size: 0.94rem;
     }
 
     .project-title a {
       text-decoration: none;
+      border-bottom: 1px dashed rgba(56, 189, 248, 0.5);
+    }
+
+    .project-title a:hover {
+      border-bottom-style: solid;
     }
 
     .project-desc {
@@ -284,13 +324,22 @@
     .cert-section-title {
       font-weight: 600;
       margin-bottom: 4px;
-      color: var(--text-main);
+      color: #e5e7eb;
+    }
+
+    .cert-grid a {
+      color: var(--accent-strong);
+      text-decoration: none;
+    }
+
+    .cert-grid a:hover {
+      text-decoration: underline;
     }
 
     footer {
       margin-top: 32px;
       padding-top: 16px;
-      border-top: 1px solid rgba(148, 163, 184, 0.3);
+      border-top: 1px solid #1e293b;
       font-size: 0.85rem;
       color: var(--text-muted);
       display: flex;
@@ -300,7 +349,7 @@
     }
 
     footer span strong {
-      color: var(--text-main);
+      color: #e5e7eb;
     }
 
     @media (max-width: 640px) {
@@ -324,12 +373,17 @@
       <div class="hero">
         <div class="hero-main">
           <div>
-            <div class="hero-top-label">Automation • Monday.com • Make.com</div>
-            <h1 class="hero-title">Viktor T — Automation & AI Integration Expert</h1>
+            <div class="hero-top-label">
+              Upwork Top Rated Plus · Automation · Monday.com · Make.com
+            </div>
+            <h1 class="hero-title">Viktor T — Automation &amp; AI Integration Expert</h1>
             <p class="hero-subtitle">
               I help businesses streamline operations, eliminate manual tasks, and
               supercharge productivity through no-code/low-code automation, Monday.com
               systems, and AI integrations.
+            </p>
+            <p class="hero-badge">
+              <span>Upwork Top Rated Plus&nbsp;•&nbsp;100% Job Success</span>
             </p>
           </div>
 
@@ -378,7 +432,7 @@
             </div>
           </div>
           <div>
-            <div class="stack-block-title">CRM & Workflow Systems</div>
+            <div class="stack-block-title">CRM &amp; Workflow Systems</div>
             <div class="stack-block-items">
               Monday.com, ActiveCampaign, Mailchimp
             </div>
@@ -386,13 +440,13 @@
           <div>
             <div class="stack-block-title">AI Integration</div>
             <div class="stack-block-items">
-              Custom GPT Actions, AI automation & parsing, AI agents, RAG agents
+              Custom GPT Actions, AI automation &amp; parsing, AI agents, RAG agents
             </div>
           </div>
           <div>
-            <div class="stack-block-title">APIs & Custom Integrations</div>
+            <div class="stack-block-title">APIs &amp; Custom Integrations</div>
             <div class="stack-block-items">
-              REST APIs, Webhooks, parsing & scraping
+              REST APIs, Webhooks, parsing &amp; scraping
             </div>
           </div>
         </div>
@@ -602,7 +656,7 @@
 
     <footer>
       <span>
-        Built by <strong>Viktor T</strong> — Automation &amp; AI Integration Expert
+        Built by <strong>Viktor T</strong> — Upwork Top Rated Plus Automation Expert
       </span>
       <span>Let’s automate the boring stuff and focus on growth. 🚀</span>
     </footer>

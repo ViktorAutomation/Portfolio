@@ -156,16 +156,20 @@ Design highlights:
 
 ## 🖼 Screenshots
 
-> (Add your screenshots in this format once ready, for example:)
+**Initial Excel Table**  
+![Initial Excel Table](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/1%20-%20initial%20Table.png)
 
-**Main Project Board – Role Assignments**  
-![Main Project Board](LINK-TO-IMAGE)
+**Main Projects board**  
+![Main Projects board](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/2%20-%20Main%20Projects%20board.png)
 
-**Project Template Board – Responsibility Matrix (600+ Tasks)**  
-![Project Template Board](LINK-TO-IMAGE)
+**Main Projects board - Subitems**  
+![Main Projects board - Subitems](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/3%20-%20Main%20Projects%20board%20-%20subitems.png)
 
-**Make.com Scenario – Project Creation & Role Distribution**  
-![Project Creation Scenario](LINK-TO-IMAGE)
+**New Project board**  
+![New Project board](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/4%20-%20New%20Project%20board_1.png)
 
-**Make.com Scenario – Owner Reassignment Across the Project**  
-![Owner Reassignment Scenario](LINK-TO-IMAGE)
+**New Project board**  
+![New Project board](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/5%20-%20New%20Project%20board_2.png)
+
+**Make - Create New Project and Assign Task Owners**  
+![Make - Create New Project and Assign Task Owners](https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/6%20-%20Make%20-%20Create%20New%20Project%20and%20assign%20people.png)

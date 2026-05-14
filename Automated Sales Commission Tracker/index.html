@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Automated Sales Commission Tracker in Monday.com — Viktor T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-soft: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      transition: color 0.15s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-bright);
+    }
+
+    header {
+      margin-bottom: 24px;
+    }
+
+    .hero {
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(161, 161, 170, 0.3);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .sections {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(19, 19, 22, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ededed;
+    }
+
+    .card-title span {
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .goal-line {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      color: #ededed;
+    }
+
+    .goal-line strong {
+      color: var(--accent-bright);
+    }
+
+    .goal-line ul {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .goal-line ul li {
+      padding-left: 16px;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .goal-line ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-bright);
+    }
+
+    /* Numbered step cards for workflow */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 14px;
+      align-items: start;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .step-num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1;
+      padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-body {
+      min-width: 0;
+    }
+
+    .step-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #ededed;
+      margin-bottom: 4px;
+    }
+
+    .step-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .step-text ul {
+      margin-top: 6px;
+      list-style: none;
+    }
+
+    .step-text ul li {
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .step-text ul li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      top: 0;
+      color: var(--accent);
+    }
+
+    .step-text strong {
+      color: #ededed;
+      font-weight: 600;
+    }
+
+    /* Permissions matrix — side-by-side comparison of who sees what */
+    .permissions-matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .perm-col {
+      background: #131316;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+
+    .perm-col-leadership {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.01));
+    }
+
+    .perm-header {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .perm-list {
+      list-style: none;
+    }
+
+    .perm-list li {
+      padding-left: 18px;
+      position: relative;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .perm-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+
+    @media (max-width: 560px) {
+      .permissions-matrix {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Stack grid for tools */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px 18px;
+      margin-top: 6px;
+    }
+
+    .stack-block-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: #ededed;
+    }
+
+    .stack-block-items {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Results bullets */
+    .results-list {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .results-list li {
+      padding-left: 22px;
+      position: relative;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    .results-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+
+    .results-list li strong {
+      color: #ededed;
+    }
+
+    /* Screenshot grid */
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .shot {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .shot:hover {
+      transform: translateY(-2px);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .shot-caption {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #27272a;
+      background: #0d0d10;
+    }
+
+    /* CTA card */
+    .cta-card {
+      text-align: center;
+      padding: 24px 20px;
+    }
+
+    .cta-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ededed;
+      margin-bottom: 6px;
+    }
+
+    .cta-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        background-color 0.12s ease,
+        border-color 0.12s ease,
+        color 0.12s ease;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-secondary {
+      background: #0a0a0c;
+      color: var(--text-main);
+      border-color: #27272a;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+
+    footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #27272a;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    footer span strong {
+      color: #ededed;
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 22px 18px 18px;
+      }
+      .page {
+        padding-inline: 14px;
+      }
+      .step {
+        grid-template-columns: 44px 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+      }
+      .step-num {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <a href="../" class="back-link">&larr; Back to Portfolio</a>
+
+    <header>
+      <div class="hero">
+        <div class="hero-eyebrow">Project · Financial Reconciliation &amp; Workflow Automation</div>
+        <h1 class="hero-title">Automated Sales Commission Tracker in Monday.com</h1>
+        <p class="hero-subtitle">
+          A fully automated sales commission tracking system built in Monday.com and powered by
+          Make.com. Calculates commissions per salesperson, manages payment dates, and keeps
+          data secure with separate views for leadership and individual reps.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Monday.com</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">Financial Automation</span>
+          <span class="tag">Permissions &amp; Privacy</span>
+          <span class="tag">Sales Operations</span>
+          <span class="tag">Commission Calculations</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+
+      <!-- The Challenge -->
+      <section class="card">
+        <h2 class="card-title"><span>🎯</span> The Challenge</h2>
+        <p>
+          Before this system, commissions were calculated manually &mdash; slow, error-prone, and
+          opaque. Sales reps had no easy way to see their current or upcoming commissions, and
+          leadership had no real-time, centralized overview of what was owed to whom.
+        </p>
+        <div class="goal-line">
+          <strong>Goals:</strong>
+          <ul>
+            <li>Automate commission creation and calculation when deals are completed</li>
+            <li>Give leadership a clear, real-time overview of all commissions</li>
+            <li>Provide each salesperson a private, self-service view of only their own commissions</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="card">
+        <h2 class="card-title"><span>🧩</span> The Solution</h2>
+        <p>
+          A central Commission Tracker board for leadership, paired with per-salesperson private
+          boards, all wired together with Monday.com automations and Make.com handling the actual
+          commission math. Reps see only their own data; leadership sees the full portfolio.
+        </p>
+
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <div class="step-title">Central Commission Tracker (Leadership View)</div>
+              <div class="step-text">
+                A main Commission Tracker board accessible only to sales management &mdash; contains
+                every deal, every commission amount, every payment date, and the key deal
+                attributes needed for oversight and reporting.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <div class="step-title">Individual Salesperson Boards (Private Views)</div>
+              <div class="step-text">
+                Each salesperson has their own dedicated, permission-controlled board where they
+                can:
+                <ul>
+                  <li>Create and track their own deals</li>
+                  <li>See calculated commissions for only their own records</li>
+                </ul>
+                No salesperson can see another salesperson's deals or earnings.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <div class="step-title">Automated record creation</div>
+              <div class="step-text">
+                When a deal in a salesperson's board moves to <strong>Completed</strong>, an
+                automation creates a linked item in the central Commission Tracker. Core deal
+                data &mdash; value, margin, salesperson, dates &mdash; is synced or mirrored automatically.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <div class="step-title">Automatic commission calculations</div>
+              <div class="step-text">
+                Make.com handles the custom logic:
+                <ul>
+                  <li>Commission percentages per deal type or rep tier</li>
+                  <li>Amounts based on deal value or margin</li>
+                  <li>Payment dates (end of month, after client payment, etc.)</li>
+                </ul>
+                Results are written back to the Commission Tracker <em>and</em> to the
+                salesperson's private board, keeping both views in sync.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">05</div>
+            <div class="step-body">
+              <div class="step-title">Privacy &amp; permissions architecture</div>
+              <div class="step-text">
+                Permissions are enforced at the board level, not by hiding columns. Each side
+                sees a fundamentally different surface:
+              </div>
+              <div class="permissions-matrix">
+                <div class="perm-col perm-col-leadership">
+                  <div class="perm-header">Leadership sees</div>
+                  <ul class="perm-list">
+                    <li>Full portfolio of commissions</li>
+                    <li>Every deal, every rep</li>
+                    <li>All payment dates &amp; statuses</li>
+                    <li>Aggregate reporting</li>
+                  </ul>
+                </div>
+                <div class="perm-col">
+                  <div class="perm-header">Each salesperson sees</div>
+                  <ul class="perm-list">
+                    <li>Only their own deals</li>
+                    <li>Only their own commission lines</li>
+                    <li>Only their own payment statuses</li>
+                    <li>No visibility into other reps</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools & Stack -->
+      <section class="card">
+        <h2 class="card-title"><span>🛠</span> Tools &amp; Stack</h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">Workflow &amp; permissions</div>
+            <div class="stack-block-items">Monday.com &mdash; boards, automations, mirrored/linked columns, granular permissions</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Commission logic &amp; sync</div>
+            <div class="stack-block-items">Make.com (Integromat) &mdash; calculation rules, data syncing, multi-board orchestration</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Impact -->
+      <section class="card">
+        <h2 class="card-title"><span>📈</span> Results &amp; Impact</h2>
+        <ul class="results-list">
+          <li><strong>Fully automated</strong> &mdash; commission records and calculations run themselves once a deal is marked Completed. No manual work.</li>
+          <li><strong>Errors eliminated</strong> &mdash; standardized formulas and automation replace manual math. The same deal, calculated the same way, every time.</li>
+          <li><strong>Self-service for reps</strong> &mdash; salespeople can check their commissions anytime in their private boards without bothering finance or management.</li>
+          <li><strong>Real-time oversight for leadership</strong> &mdash; full portfolio view in one central board, with all commissions, statuses, and payment dates in one place.</li>
+          <li><strong>Scales without breaking</strong> &mdash; new reps, new commission rules, or new data points can be added without re-architecting the system.</li>
+        </ul>
+      </section>
+
+      <!-- Screenshots -->
+      <section class="card">
+        <h2 class="card-title"><span>🖼</span> Screenshots</h2>
+        <div class="shot-grid">
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Sales%20Commission%20Tracker/create%20deal%20in%20personal%20board.png" alt="Creating a new deal in a salesperson's private board" />
+            <div class="shot-caption">Creating a new deal in a salesperson's private board</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Sales%20Commission%20Tracker/Update%20commission%20in%20personal%20board.png" alt="Commission updates flowing into the personal board view" />
+            <div class="shot-caption">Commission updates flowing into the personal board view</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="card cta-card">
+        <div class="cta-title">Need automated commissions, payouts, or revenue splits?</div>
+        <div class="cta-sub">
+          The same pattern applies to insurance producer payouts, partner commissions, affiliate
+          revenue splits, or any multi-party financial reconciliation where each person needs to
+          see only their own numbers and leadership needs the full view.
+        </div>
+        <div class="cta-row">
+          <a href="../" class="btn btn-secondary">View More Projects</a>
+          <a href="mailto:viktorautomationm@gmail.com" class="btn btn-primary">Book a Discovery Call</a>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <span>Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist</span>
+      <span><a href="../" style="color: var(--accent-bright);">&larr; Back to Portfolio</a></span>
+    </footer>
+
+  </div>
+</body>
+</html>

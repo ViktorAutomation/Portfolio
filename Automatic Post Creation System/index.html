@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Automatic Post Creation System — Telegram &amp; Facebook — Viktor T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-soft: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      transition: color 0.15s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-bright);
+    }
+
+    header {
+      margin-bottom: 24px;
+    }
+
+    .hero {
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(161, 161, 170, 0.3);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .sections {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(19, 19, 22, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ededed;
+    }
+
+    .card-title span {
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .goal-line {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      color: #ededed;
+    }
+
+    .goal-line strong {
+      color: var(--accent-bright);
+    }
+
+    .goal-line ul {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .goal-line ul li {
+      padding-left: 16px;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .goal-line ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-bright);
+    }
+
+    /* Numbered step cards for workflow */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 14px;
+      align-items: start;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .step-optional {
+      border-style: dashed;
+      border-color: rgba(63, 63, 70, 0.9);
+    }
+
+    .step-num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1;
+      padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-body {
+      min-width: 0;
+    }
+
+    .step-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #ededed;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .step-pill {
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: #18181b;
+      border: 1px solid #3f3f46;
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .step-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .step-text ul {
+      margin-top: 6px;
+      list-style: none;
+    }
+
+    .step-text ul li {
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .step-text ul li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      top: 0;
+      color: var(--accent);
+    }
+
+    .step-text strong {
+      color: #ededed;
+      font-weight: 600;
+    }
+
+    /* Stack grid for tools */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px 18px;
+      margin-top: 6px;
+    }
+
+    .stack-block-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: #ededed;
+    }
+
+    .stack-block-items {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Results bullets */
+    .results-list {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .results-list li {
+      padding-left: 22px;
+      position: relative;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    .results-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+
+    .results-list li strong {
+      color: #ededed;
+    }
+
+    /* Screenshot grid */
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .shot {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .shot:hover {
+      transform: translateY(-2px);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .shot-caption {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #27272a;
+      background: #0d0d10;
+    }
+
+    /* CTA card */
+    .cta-card {
+      text-align: center;
+      padding: 24px 20px;
+    }
+
+    .cta-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ededed;
+      margin-bottom: 6px;
+    }
+
+    .cta-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        background-color 0.12s ease,
+        border-color 0.12s ease,
+        color 0.12s ease;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-secondary {
+      background: #0a0a0c;
+      color: var(--text-main);
+      border-color: #27272a;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+
+    footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #27272a;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    footer span strong {
+      color: #ededed;
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 22px 18px 18px;
+      }
+      .page {
+        padding-inline: 14px;
+      }
+      .step {
+        grid-template-columns: 44px 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+      }
+      .step-num {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <a href="../" class="back-link">&larr; Back to Portfolio</a>
+
+    <header>
+      <div class="hero">
+        <div class="hero-eyebrow">Project · AI Content Automation · Human-in-the-Loop</div>
+        <h1 class="hero-title">Automatic Post Creation System &mdash; Web Page to Telegram &amp; Facebook</h1>
+        <p class="hero-subtitle">
+          An automated pipeline that turns news articles from a website into ready-to-publish
+          posts for Telegram and Facebook &mdash; with human approval and content validation steps
+          built in. Humans approve; automations do everything else.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Make.com</span>
+          <span class="tag">OpenAI API</span>
+          <span class="tag">Telegram Bot</span>
+          <span class="tag">Facebook API</span>
+          <span class="tag">Google Sheets</span>
+          <span class="tag">Human-in-the-Loop</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+
+      <!-- The Challenge -->
+      <section class="card">
+        <h2 class="card-title"><span>🎯</span> The Challenge</h2>
+        <p>
+          The client wanted to publish curated news content to Telegram and Facebook
+          consistently, without burning hours each day on monitoring, summarizing, and
+          formatting. But they also weren't comfortable with fully autonomous AI posting &mdash;
+          they wanted a human check before anything went live, with all of it tracked in one
+          place.
+        </p>
+        <div class="goal-line">
+          <strong>Goals:</strong>
+          <ul>
+            <li>Automated monitoring of specific news sources</li>
+            <li>Automatic summarization and post creation from new articles</li>
+            <li>A convenient approve/reject interface for the human reviewer (Telegram)</li>
+            <li>Structured publishing to Telegram and Facebook once approved</li>
+            <li>Central tracking of all posts and statuses in Google Sheets</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="card">
+        <h2 class="card-title"><span>🧩</span> The Solution</h2>
+        <p>
+          A pipeline of Make.com scenarios that watches a source, drafts a post with OpenAI,
+          routes it through a Telegram approval bot, validates the approved content, and then
+          publishes to both Telegram and Facebook &mdash; with every step logged in Google Sheets.
+        </p>
+
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <div class="step-title">From website to Telegram &mdash; drafts &amp; summaries</div>
+              <div class="step-text">
+                Scenario 1 monitors a website or RSS feed for new articles. When a new one
+                appears, it:
+                <ul>
+                  <li>Fetches the article content</li>
+                  <li>Summarizes it via the OpenAI API</li>
+                  <li>Generates a preliminary post (text, link, optional hashtags)</li>
+                </ul>
+                The draft post is sent to a Telegram bot for the human reviewer to approve or
+                reject &mdash; right from their phone.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <div class="step-title">Validation &amp; post preparation</div>
+              <div class="step-text">
+                Scenario 2 triggers when the reviewer interacts with the Telegram bot. On
+                approval, the system:
+                <ul>
+                  <li>Flags the article as <strong>selected</strong> in Google Sheets</li>
+                  <li>Runs additional validation checks (e.g., cross-referencing other sources, Prepl-style content checks)</li>
+                  <li>Generates the final post text and stores it in Google Sheets, ready to publish</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <div class="step-title">Approval tracking &amp; publishing</div>
+              <div class="step-text">
+                Scenario 3 regularly checks Google Sheets for posts marked <strong>approved</strong>
+                and publishes them automatically to:
+                <ul>
+                  <li>Telegram (channel or group)</li>
+                  <li>Facebook (page)</li>
+                </ul>
+                Publishing timestamps and statuses are logged back to Google Sheets, so the
+                entire history is visible at a glance.
+              </div>
+            </div>
+          </div>
+
+          <div class="step step-optional">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <div class="step-title">
+                Streamlined two-scenario variant
+                <span class="step-pill">Optional</span>
+              </div>
+              <div class="step-text">
+                Depending on the client's needs and Make.com operation budget, the three-scenario
+                flow can be consolidated into two:
+                <ul>
+                  <li>One scenario for monitoring + drafting + approval</li>
+                  <li>One scenario for validation + publishing</li>
+                </ul>
+                Same outcome, fewer moving parts, slightly cheaper to run.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools & Stack -->
+      <section class="card">
+        <h2 class="card-title"><span>🛠</span> Tools &amp; Stack</h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">Orchestration</div>
+            <div class="stack-block-items">Make.com (Integromat) &mdash; all flows, API calls, and routing</div>
+          </div>
+          <div>
+            <div class="stack-block-title">AI &amp; generation</div>
+            <div class="stack-block-items">OpenAI API &mdash; summarization and post text generation</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Approval interface</div>
+            <div class="stack-block-items">Telegram bot &mdash; for one-tap human approval from a phone</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Publishing</div>
+            <div class="stack-block-items">Telegram channel/group API, Facebook Pages API</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Tracking &amp; storage</div>
+            <div class="stack-block-items">Google Sheets &mdash; status tracking, content storage, lightweight analytics</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Impact -->
+      <section class="card">
+        <h2 class="card-title"><span>📈</span> Results &amp; Impact</h2>
+        <ul class="results-list">
+          <li><strong>End-to-end automation</strong> &mdash; from article detection to published post, the pipeline handles every repetitive step.</li>
+          <li><strong>Manual workload drastically reduced</strong> &mdash; no more monitoring sites, copy-pasting articles, or rewriting summaries by hand.</li>
+          <li><strong>Quality stays high</strong> &mdash; structured approval and validation steps mean nothing publishes without a human sign-off.</li>
+          <li><strong>Full visibility</strong> &mdash; the Google Sheets log makes it easy to see what was posted, where, when, and with what content.</li>
+        </ul>
+      </section>
+
+      <!-- Screenshots -->
+      <section class="card">
+        <h2 class="card-title"><span>🖼</span> Screenshots</h2>
+        <div class="shot-grid">
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automatic%20Post%20Creation%20System/RSS%20to%20telgram%20bot%20for%20approval.png" alt="RSS to Telegram bot scenario in Make.com" />
+            <div class="shot-caption">Scenario 1 &mdash; RSS to Telegram bot for human approval</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automatic%20Post%20Creation%20System/Checks%20by%20Prepl%20and%20generate%20posts%20-%20save%20to%20GS.png" alt="Prepl validation and post generation scenario" />
+            <div class="shot-caption">Scenario 2 &mdash; validation checks and saving final posts to Google Sheets</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automatic%20Post%20Creation%20System/make%20a%20Posts.png" alt="Publishing scenario in Make.com" />
+            <div class="shot-caption">Scenario 3 &mdash; publishing approved posts to Telegram &amp; Facebook</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="card cta-card">
+        <div class="cta-title">Want AI doing the work while you stay in control?</div>
+        <div class="cta-sub">
+          Human-in-the-loop content pipelines, OpenAI-powered drafting, and approval workflows
+          via Telegram or any other channel &mdash; built so automations handle the volume and humans
+          handle the judgment.
+        </div>
+        <div class="cta-row">
+          <a href="../" class="btn btn-secondary">View More Projects</a>
+          <a href="mailto:viktorautomationm@gmail.com" class="btn btn-primary">Book a Discovery Call</a>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <span>Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist</span>
+      <span><a href="../" style="color: var(--accent-bright);">&larr; Back to Portfolio</a></span>
+    </footer>
+
+  </div>
+</body>
+</html>

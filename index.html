@@ -1,24 +1,26 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Viktor T — Automation & AI Integration Expert</title>
+  <title>Viktor T — Monday.com Operating Systems for Insurance Companies</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #020617;
-      --bg-soft: #020617;
-      --card-bg: #020617;
-      --hero-bg: rgba(15, 23, 42, 0.9);
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.12);
-      --accent-strong: #0ea5e9;
-      --border: #1e293b;
+      --bg: #0a0a0c;
+      --bg-soft: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
       --radius-lg: 18px;
       --radius-md: 12px;
-      --shadow-soft: 0 22px 60px rgba(15, 23, 42, 0.7);
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
     }
 
     * {
@@ -31,8 +33,8 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, #0b1120, #020617 55%),
-        radial-gradient(circle at bottom right, #020617, #000000 70%);
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
       color: var(--text-main);
       line-height: 1.6;
     }
@@ -58,7 +60,7 @@
       border-radius: 24px;
       padding: 28px 24px 24px;
       box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(148, 163, 184, 0.35);
+      border: 1px solid rgba(161, 161, 170, 0.3);
     }
 
     .hero-top-label {
@@ -85,7 +87,7 @@
     .hero-badge {
       margin-top: 6px;
       font-size: 0.9rem;
-      color: #e5e7eb;
+      color: #ededed;
     }
 
     .hero-badge span {
@@ -94,15 +96,15 @@
       gap: 6px;
       padding: 3px 9px;
       border-radius: 999px;
-      background: rgba(22, 101, 52, 0.22);
-      border: 1px solid rgba(34, 197, 94, 0.65);
+      background: rgba(6, 95, 70, 0.25);
+      border: 1px solid rgba(16, 185, 129, 0.55);
       font-size: 0.82rem;
     }
 
     .hero-badge span::before {
       content: "★";
       font-size: 0.86rem;
-      color: #4ade80;
+      color: var(--accent-bright);
     }
 
     .hero-main {
@@ -147,43 +149,41 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #0ea5e9, #22c55e);
-      color: #0b1120;
-      box-shadow: 0 16px 40px rgba(34, 197, 94, 0.3);
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
     }
 
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 20px 50px rgba(34, 197, 94, 0.45);
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45);
     }
 
-    /* Projects button – blue outline / subtle fill */
     .btn-accent {
-      background: rgba(15, 23, 42, 0.96);
-      color: var(--accent-strong);
-      border-color: rgba(56, 189, 248, 0.7);
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35);
+      background: rgba(19, 19, 22, 0.96);
+      color: var(--accent);
+      border-color: rgba(16, 185, 129, 0.7);
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.35);
     }
 
     .btn-accent:hover {
       transform: translateY(-1px);
-      background: rgba(15, 23, 42, 1);
-      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.35);
+      background: rgba(19, 19, 22, 1);
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35);
     }
 
-    /* Certificates button – neutral outline with soft accent on hover */
     .btn-secondary {
-      background: #020617;
+      background: #0a0a0c;
       color: var(--text-main);
-      border-color: #1f2937;
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.6);
+      border-color: #27272a;
+      box-shadow: 0 0 0 1px rgba(10, 10, 12, 0.6);
     }
 
     .btn-secondary:hover {
-      background: #020617;
+      background: #0a0a0c;
       border-color: var(--accent);
-      color: #e5e7eb;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.9);
+      color: #ededed;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.9);
     }
 
     .btn span {
@@ -199,11 +199,102 @@
     }
 
     .card {
-      background: rgba(15, 23, 42, 0.96);
+      background: rgba(19, 19, 22, 0.96);
       border-radius: var(--radius-lg);
       padding: 20px 18px;
-      box-shadow: 0 12px 38px rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(51, 65, 85, 0.9);
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    .card-featured {
+      border: 1px solid rgba(16, 185, 129, 0.55);
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8),
+                  0 0 0 1px rgba(16, 185, 129, 0.18) inset;
+    }
+
+    .featured-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .featured-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ededed;
+      margin-bottom: 10px;
+    }
+
+    .featured-body p {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stat-card {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+    }
+
+    .stat-num {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .app-callout {
+      margin-top: 16px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.10), rgba(16, 185, 129, 0.02));
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .app-callout-label {
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .app-callout-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #ededed;
+      margin-bottom: 8px;
+    }
+
+    .app-callout-body {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .featured-note {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-style: italic;
     }
 
     .card-title {
@@ -213,7 +304,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #e5e7eb;
+      color: #ededed;
     }
 
     .card-title span {
@@ -231,7 +322,7 @@
       font-size: 0.9rem;
       font-weight: 600;
       margin-bottom: 3px;
-      color: #e5e7eb;
+      color: #ededed;
     }
 
     .stack-block-items {
@@ -268,17 +359,17 @@
     }
 
     .pill-card {
-      background: #020617;
+      background: #0a0a0c;
       border-radius: var(--radius-md);
       padding: 10px 12px;
       font-size: 0.9rem;
-      border: 1px solid #1f2937;
+      border: 1px solid #27272a;
     }
 
     .pill-card-title {
       font-weight: 600;
       margin-bottom: 2px;
-      color: #e5e7eb;
+      color: #ededed;
     }
 
     .pill-card-text {
@@ -294,20 +385,20 @@
     }
 
     .projects-list li:hover {
-      background: #020617;
+      background: #0a0a0c;
       transform: translateY(-1px);
     }
 
     .project-title {
       font-weight: 600;
-      color: #e5e7eb;
+      color: #ededed;
       margin-bottom: 2px;
       font-size: 0.94rem;
     }
 
     .project-title a {
       text-decoration: none;
-      border-bottom: 1px dashed rgba(56, 189, 248, 0.5);
+      border-bottom: 1px dashed rgba(16, 185, 129, 0.5);
     }
 
     .project-title a:hover {
@@ -317,6 +408,35 @@
     .project-desc {
       font-size: 0.86rem;
       color: var(--text-muted);
+    }
+
+    .project-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 1px 8px;
+      border-radius: 999px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .subsection-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ededed;
+      margin: 14px 0 6px;
+      padding-top: 10px;
+      border-top: 1px solid #27272a;
+    }
+
+    .subsection-title:first-of-type {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
     }
 
     .cert-grid {
@@ -331,11 +451,11 @@
     .cert-section-title {
       font-weight: 600;
       margin-bottom: 4px;
-      color: #e5e7eb;
+      color: #ededed;
     }
 
     .cert-grid a {
-      color: var(--accent-strong);
+      color: var(--accent-bright);
       text-decoration: none;
     }
 
@@ -343,10 +463,17 @@
       text-decoration: underline;
     }
 
+    .cert-additional {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
     footer {
       margin-top: 32px;
       padding-top: 16px;
-      border-top: 1px solid #1e293b;
+      border-top: 1px solid #27272a;
       font-size: 0.85rem;
       color: var(--text-muted);
       display: flex;
@@ -356,7 +483,7 @@
     }
 
     footer span strong {
-      color: #e5e7eb;
+      color: #ededed;
     }
 
     @media (max-width: 640px) {
@@ -381,13 +508,15 @@
         <div class="hero-main">
           <div>
             <div class="hero-top-label">
-              Upwork Top Rated Plus · Automation · Monday.com · Make.com
+              Monday.com + Make Specialist · Insurance &amp; Financial Services
             </div>
-            <h1 class="hero-title">Viktor T — Automation &amp; AI Integration Expert</h1>
+            <h1 class="hero-title">Monday.com operating systems for insurance agencies and carriers</h1>
             <p class="hero-subtitle">
-              Still relying on spreadsheets and manual updates? 
-              I build Monday.com and Make.com systems that turn complex, 
-              messy workflows into streamlined, automated operations your team can rely on.
+              Most insurance teams run on a patchwork of spreadsheets, email threads,
+              and disconnected tools. I build complete Monday.com + Make systems &mdash; including
+              custom Monday apps &mdash; that unify your policy lifecycle, customer portal, billing,
+              and document trails into one source of truth, connected to the tools you already
+              use (Hubflo, QuickBooks, Box, and the rest).
             </p>
             <p class="hero-badge">
               <span>Upwork Top Rated Plus&nbsp;•&nbsp;100% Job Success</span>
@@ -397,18 +526,19 @@
           <div class="hero-footer">
             <div class="button-row">
               <a href="#projects" class="btn btn-accent">
-                Projects
-              </a>
-              <a href="#certificates" class="btn btn-secondary">
-                My Certificates
+                Featured Builds
               </a>
               <a
                 href="https://www.upwork.com/freelancers/~019b07d8b6eefca9ad?mp_source=share"
-                class="btn btn-primary"
+                class="btn btn-secondary"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 View My Upwork Profile <span>↗</span>
+              </a>
+              <!-- TODO: replace mailto with your real email or Calendly link before publishing -->
+              <a href="mailto:REPLACE_WITH_YOUR_EMAIL@example.com" class="btn btn-primary">
+                Book a Discovery Call
               </a>
             </div>
           </div>
@@ -417,6 +547,71 @@
     </header>
 
     <main class="sections">
+
+      <!-- FEATURED BUILD: Insurance hero case -->
+      <section class="card card-featured">
+        <div class="featured-eyebrow">Featured Build · Insurance</div>
+        <h2 class="featured-title">Operating System for a US Property Insurance Company</h2>
+        <div class="featured-body">
+          <p>
+            A US property insurance company was running daily operations across spreadsheets,
+            manual email reminders, separate signing tools, and disconnected billing &mdash; with no
+            single place to see where a customer stood across the policy lifecycle.
+          </p>
+          <p>
+            I designed and built a complete Monday.com operating system that unifies the entire
+            lifecycle &mdash; new customer onboarding, applications, inspections, smart home equipment
+            activation, mortgagee changes, billing, claims, renewals, and cancellations &mdash; connected
+            through Make to Hubflo (customer portal + Smartdocs e-signature), QuickBooks Online
+            (billing), Box (signed document repository), and Slack (escalation alerts).
+          </p>
+          <p>
+            Monday is the system of record; the Monday Customer Item ID acts as the immutable
+            identifier across every connected platform, so when emails, addresses, or policy
+            numbers change, every record stays linked end-to-end. Reminder cadences, escalation
+            logic, red-flag detection, and audit-ready document trails are owned by Monday &mdash; not
+            buried in inboxes.
+          </p>
+
+          <div class="stat-row">
+            <div class="stat-card">
+              <div class="stat-num">41</div>
+              <div class="stat-label">Make scenarios orchestrating it all</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">9</div>
+              <div class="stat-label">Connected Monday boards</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">11</div>
+              <div class="stat-label">Automated workflow areas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">5</div>
+              <div class="stat-label">Integrated platforms</div>
+            </div>
+          </div>
+
+          <div class="app-callout">
+            <div class="app-callout-label">✨ Custom Monday App · Built with Monday Vibe</div>
+            <div class="app-callout-title">Single-Entry Customer &amp; Policy Onboarding</div>
+            <div class="app-callout-body">
+              On top of the boards, I built a custom Monday app that consolidates customer
+              and policy onboarding into one interface. The team enters new customer data and
+              uploads all insurance documents in a single place &mdash; the app automatically
+              distributes records across the Customers, Policies, Applications, Inspections,
+              and Smart Home boards and creates every cross-board connection in the background.
+              No board-hopping. No manual linking. One entry, everything wired up.
+            </div>
+          </div>
+
+          <p class="featured-note">
+            Detailed case study with screenshots, architecture diagrams, and a Loom walkthrough
+            coming soon. Full scope and architecture documentation available on request.
+          </p>
+        </div>
+      </section>
+
       <!-- Tech Stack -->
       <section class="card">
         <h2 class="card-title">
@@ -424,33 +619,51 @@
         </h2>
         <div class="stack-grid">
           <div>
-            <div class="stack-block-title">Automation Tools</div>
+            <div class="stack-block-title">Core platforms</div>
             <div class="stack-block-items">
-              Make.com (Integromat), n8n, Zapier, Google Apps Script
+              Monday.com (CRM, ops, dashboards, automations), Make.com (orchestration layer)
             </div>
           </div>
           <div>
-            <div class="stack-block-title">Database Management</div>
+            <div class="stack-block-title">Custom Monday apps</div>
             <div class="stack-block-items">
-              Airtable, Google Sheets
+              Monday Vibe, Monday Code &mdash; custom apps that extend boards with tailored interfaces
             </div>
           </div>
           <div>
-            <div class="stack-block-title">CRM &amp; Workflow Systems</div>
+            <div class="stack-block-title">Customer portals &amp; e-signature</div>
             <div class="stack-block-items">
-              Monday.com, ActiveCampaign, Mailchimp
+              Hubflo, Hubflo Smartdocs, custom client portals
             </div>
           </div>
           <div>
-            <div class="stack-block-title">AI Integration</div>
+            <div class="stack-block-title">Billing &amp; accounting</div>
             <div class="stack-block-items">
-              Custom GPT Actions, AI automation &amp; parsing, AI agents, RAG agents
+              QuickBooks Online, Xero, payment-status syncing &amp; aging dashboards
             </div>
           </div>
           <div>
-            <div class="stack-block-title">APIs &amp; Custom Integrations</div>
+            <div class="stack-block-title">Document management</div>
             <div class="stack-block-items">
-              REST APIs, Webhooks, parsing &amp; scraping
+              Box, Google Drive, Google Docs templating &amp; parsing
+            </div>
+          </div>
+          <div>
+            <div class="stack-block-title">Communication &amp; escalation</div>
+            <div class="stack-block-items">
+              Slack, Outlook (O365), Gmail, structured escalation alerts
+            </div>
+          </div>
+          <div>
+            <div class="stack-block-title">AI layer</div>
+            <div class="stack-block-items">
+              Custom GPT Actions, RAG agents, application parsing, decision automation
+            </div>
+          </div>
+          <div>
+            <div class="stack-block-title">Also supported</div>
+            <div class="stack-block-items">
+              n8n, Zapier, Airtable, Google Sheets, REST APIs, Webhooks, scraping
             </div>
           </div>
         </div>
@@ -462,26 +675,30 @@
           <span>🚀</span> What I Do
         </h2>
         <ul>
-          <li>Design and implement Monday.com workspaces (CRM, ops, projects, internal requests).</li>
-          <li>Build robust Make.com scenarios and multi-step automations.</li>
-          <li>Integrate CRMs, marketing tools, and databases into one cohesive workflow.</li>
-          <li>Use AI (GPT, agents, RAG) to parse data, generate content, and automate decisions.</li>
-          <li>Replace messy spreadsheets and copy-paste tasks with clean, automated pipelines.</li>
+          <li>Build complete Monday.com operating systems for insurance agencies, carriers, and MGAs covering the full policy lifecycle.</li>
+          <li>Develop <strong style="color:#ededed;">custom Monday apps (Monday Vibe / Monday Code)</strong> for single-entry workflows, custom dashboards, and tailored interfaces that go beyond what stock Monday offers.</li>
+          <li>Connect policy management with customer portals (Hubflo, custom) for self-service applications, e-signature, and document collection.</li>
+          <li>Integrate QuickBooks Online with Monday to sync payments, surface aging balances, and reconcile billing on operational dashboards.</li>
+          <li>Automate inspection ordering, smart home equipment delivery, registration tracking, and reminder cadences (R1 &rarr; R2 &rarr; Escalate).</li>
+          <li>Build Slack escalation workflows for exception events &mdash; failed inspections, payment delinquencies, claim red flags, mortgagee changes.</li>
+          <li>Track loss ratios, claim aging, and customer satisfaction in unified Monday dashboards with red-flag criteria.</li>
+          <li>Use AI (GPT Actions, RAG agents) to parse applications, summarize claims notes, and automate routine decisions.</li>
         </ul>
         <h3 class="card-title" style="margin-top:14px; font-size:0.98rem;">
           <span>🧩</span> Example Solutions I Build
         </h3>
         <ul>
-          <li>Construction Project Management System (Make.com + Monday.com).</li>
-          <li>Private and automated sales commission trackers (Make.com + Monday.com).</li>
-          <li>Quote &amp; BOM generation systems directly inside Monday.com.</li>
-          <li>Invoice management systems (Monday.com + Xero + Make.com).</li>
-          <li>Automated document creation and parsing (Google Docs + Airtable).</li>
-          <li>AI-driven content curation and auto-posting (LinkedIn, Facebook, Telegram).</li>
-          <li>Real-time web monitoring and data extraction.</li>
-          <li>CRM integrations and dynamic database solutions.</li>
-          <li>Monday.com system setups, automations, and optimizations.</li>
-          <li>Airtable system setups, automations, and optimizations.</li>
+          <li>Custom Monday apps with Monday Vibe for single-entry data capture that fans out to multiple boards with automatic connections.</li>
+          <li>Policy lifecycle systems: creation &rarr; application &rarr; inspection &rarr; activation &rarr; renewal/cancellation.</li>
+          <li>Customer portal integration with Hubflo Smartdocs for application signing and document collection.</li>
+          <li>Document signing + Box repository workflows with full audit trails.</li>
+          <li>Billing sync (QuickBooks &harr; Monday) with aging-balance dashboards and delinquency flags.</li>
+          <li>Mortgagee change tracking and policy-update request workflows.</li>
+          <li>Claims/losses dashboards with red-flag criteria (e.g., Total Incurred &ge; $20K, days open &ge; 45, low CSAT).</li>
+          <li>Renewal review workflows with non-renewal notice automation.</li>
+          <li>Equipment shipping coordination (ShipStation integration patterns).</li>
+          <li>Compliance reminder engines with R1 / R2 / Escalate cadences owned by Monday + Make.</li>
+          <li>Also: construction operations, sales/commission tracking, quote &amp; BOM generation, invoice automation &mdash; transferable patterns from related industries (see Related Builds below).</li>
         </ul>
       </section>
 
@@ -492,23 +709,24 @@
         </h2>
         <div class="pill-grid">
           <div class="pill-card">
-            <div class="pill-card-title">Custom Solutions</div>
+            <div class="pill-card-title">Tailored to your operations</div>
             <div class="pill-card-text">
-              No cookie-cutter workflows. Every automation is built for your exact needs
-              and processes.
+              No cookie-cutter workflows. Every system is built around how your team actually
+              works &mdash; your roles, your cadences, your exception cases.
             </div>
           </div>
           <div class="pill-card">
-            <div class="pill-card-title">Reliable &amp; Scalable</div>
+            <div class="pill-card-title">Audit-ready &amp; scalable</div>
             <div class="pill-card-text">
-              Stable, tested, and future-proof automations that grow with your business.
+              Stable, tested, and built with the audit trails, document retention, and immutable
+              identifiers that regulated industries require.
             </div>
           </div>
           <div class="pill-card">
-            <div class="pill-card-title">Client-Centric</div>
+            <div class="pill-card-title">Documented end-to-end</div>
             <div class="pill-card-text">
-              Clear communication, fast iterations, and reliable delivery with documentation
-              and Loom walkthroughs when needed.
+              Loom walkthroughs, architecture docs, and SOPs for every system I build, so your
+              team owns it from day one.
             </div>
           </div>
         </div>
@@ -517,85 +735,110 @@
       <!-- Projects -->
       <section class="card" id="projects">
         <h2 class="card-title">
-          <span>📂</span> Projects (with details)
+          <span>📂</span> Projects
         </h2>
+
+        <div class="subsection-title">Featured Build</div>
         <ul class="projects-list">
-<li>
+          <li>
             <div class="project-title">
-              <a href="https://viktorautomation.github.io/Portfolio/Construction%20Project%20Management/" target="_blank" rel="noopener noreferrer">
-                Construction Project Management System
-              </a>
+              US Property Insurance &mdash; Full Operational System + Custom Monday App <span class="project-tag">Insurance</span>
             </div>
             <div class="project-desc">
-              A role‑based project responsibility system built in Monday.com with Make automations that generates 
-              full 600+‑task project boards from a template based on 10–12 role assignments, and automatically updates 
-              all task owners whenever role assignments change in the main project board.
+              Complete Monday.com operating system covering the full policy lifecycle, plus a custom
+              Monday app (built with Monday Vibe) for single-entry customer &amp; policy onboarding
+              that auto-distributes records across boards. Integrated with Hubflo, QuickBooks
+              Online, Box, and Slack via Make. <strong style="color:#ededed;">41 Make scenarios</strong>,
+              9 connected boards, 11 automated workflow areas. Detailed case study coming soon.
             </div>
           </li>
-          
+        </ul>
+
+        <div class="subsection-title">Related Builds &mdash; Transferable Patterns</div>
+        <ul class="projects-list">
+          <li>
+            <div class="project-title">
+              <a href="https://viktorautomation.github.io/Portfolio/Invoice%20Automation%20System/" target="_blank" rel="noopener noreferrer">
+                Invoice Management &amp; Automation System
+              </a>
+              <span class="project-tag">Billing</span>
+            </div>
+            <div class="project-desc">
+              Automation layer between Monday.com, Make.com, and Xero &mdash; triggers invoices from
+              workflow stages and syncs statuses both ways. Same pattern that powers insurance
+              premium billing and QuickBooks &harr; Monday reconciliation.
+            </div>
+          </li>
+
+          <li>
+            <div class="project-title">
+              <a href="https://viktorautomation.github.io/Portfolio/Construction%20Project%20Management/" target="_blank" rel="noopener noreferrer">
+                Role-Based Project Management System
+              </a>
+              <span class="project-tag">Workflow Architecture</span>
+            </div>
+            <div class="project-desc">
+              Monday.com + Make system that generates 600+-task project boards from 10&ndash;12 role
+              assignments and automatically reassigns ownership when roles change. The same
+              pattern underpins underwriting flows, inspection-team assignments, and any
+              workflow where ownership shifts with role changes.
+            </div>
+          </li>
+
           <li>
             <div class="project-title">
               <a href="https://viktorautomation.github.io/Portfolio/Automated%20Sales%20Commission%20Tracker/" target="_blank" rel="noopener noreferrer">
-                Private and Automated Sales Commission Tracker
+                Private &amp; Automated Sales Commission Tracker
               </a>
+              <span class="project-tag">Financial Reconciliation</span>
             </div>
             <div class="project-desc">
-              A fully automated commission tracking system where sales data flows into Monday.com,
-              is processed via Make.com, and commissions are calculated and summarized for finance
-              and leadership. Eliminates manual spreadsheets and gives clear visibility per deal,
-              rep, and period.
+              Sales data flows into Monday.com, is processed via Make.com, and commissions are
+              calculated and summarized per deal, rep, and period. Same pattern as insurance
+              producer payouts and multi-party commission reconciliation.
             </div>
           </li>
 
           <li>
             <div class="project-title">
               <a href="https://viktorautomation.github.io/Portfolio/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/" target="_blank" rel="noopener noreferrer">
-                Automated Quote &amp; BOM Generation System in Monday.com
+                Automated Quote &amp; BOM Generation System
               </a>
+              <span class="project-tag">Document Generation</span>
             </div>
             <div class="project-desc">
-              A structured quoting and bill-of-materials process built on Monday.com, powered by
-              Make.com automations. Standardizes quotes, compiles BOM items automatically, and
-              reduces errors in the sales-to-operations handoff.
-            </div>
-          </li>
-
-          <li>
-            <div class="project-title">
-              <a href="https://viktorautomation.github.io/Portfolio/Invoice%20Automation%20System/" target="_blank" rel="noopener noreferrer">
-                Invoice Management and Automation System
-              </a>
-            </div>
-            <div class="project-desc">
-              An automation layer between Monday.com, Make.com, and Xero to keep invoicing
-              accurate and up-to-date. Triggers invoices from stages in Monday.com and syncs
-              statuses between tools, reducing manual follow-up and data entry.
+              Structured quoting and bill-of-materials process built on Monday.com, powered by
+              Make.com. Standardizes documents and reduces handoff errors &mdash; the same approach
+              that produces policy declarations, certificates of insurance, and renewal docs.
             </div>
           </li>
 
           <li>
             <div class="project-title">
               <a href="https://viktorautomation.github.io/Portfolio/Automation%20Doc%20creation%20system/" target="_blank" rel="noopener noreferrer">
-                Automatic Google Doc Creation and Parsing System
+                Automatic Google Doc Creation &amp; Parsing
               </a>
+              <span class="project-tag">Forms &amp; Documents</span>
             </div>
             <div class="project-desc">
-              Automatically generates, updates, and parses Google Docs, storing structured data in
-              Airtable. Ideal for proposals, reports, or standardized documents, with templates
-              filled from form inputs or CRM data.
+              Generates, updates, and parses Google Docs into structured Airtable records.
+              Pattern directly applicable to processing applications, claims forms, and any
+              templated paperwork that flows back into structured data.
             </div>
           </li>
+        </ul>
 
+        <div class="subsection-title">Additional Work</div>
+        <ul class="projects-list">
           <li>
             <div class="project-title">
               <a href="https://viktorautomation.github.io/Portfolio/Action%20GPT%20auto%20posting%20system/" target="_blank" rel="noopener noreferrer">
-                FB &amp; LinkedIn Auto-Posting System Using Custom GPT Action
+                FB &amp; LinkedIn Auto-Posting via Custom GPT Action
               </a>
             </div>
             <div class="project-desc">
-              An AI-powered content pipeline that creates and schedules posts for social
-              platforms. Uses Custom GPT Actions + Make.com to generate content and auto-post to
-              Facebook and LinkedIn from one central flow.
+              AI content pipeline using Custom GPT Actions + Make.com to generate and auto-post
+              to Facebook and LinkedIn from a single flow.
             </div>
           </li>
 
@@ -606,8 +849,8 @@
               </a>
             </div>
             <div class="project-desc">
-              A data extraction and monitoring solution for flight tickets, pushing structured
-              data to Sheets or databases. Supports tracking price and route trends over time.
+              Data extraction and monitoring solution for flight tickets, pushing structured
+              data to Sheets or databases for price and route trend tracking.
             </div>
           </li>
 
@@ -618,9 +861,8 @@
               </a>
             </div>
             <div class="project-desc">
-              Generates and prepares content for publishing based on predefined rules and AI
-              prompts. Ideal for blogs, updates, or recurring content formats powered by AI +
-              no-code tools.
+              AI-powered content generation pipeline for blogs, updates, and recurring content
+              formats using no-code tools.
             </div>
           </li>
         </ul>
@@ -633,40 +875,22 @@
         </h2>
         <div class="cert-grid">
           <div>
-            <div class="cert-section-title">Monday.com &amp; Make</div>
+            <div class="cert-section-title">Core credentials</div>
             <ul>
-              <li><a href="https://drive.google.com/file/d/1xqnYS0IcgvozzzlNT_SdU6CQl2HNF24i/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Monday CRM Pro certificate</a></li>
-              <li><a href="https://www.credly.com/badges/92872e93-adff-4cd9-9c92-387ddd4401a4/public_url" target="_blank" rel="noopener noreferrer">Make Advance</a></li>
-              <li><a href="https://www.credly.com/badges/549656b2-f45d-45aa-a12a-8fc8b84a1bb7/public_url" target="_blank" rel="noopener noreferrer">Make Intermediate</a></li>
-              <li><a href="https://www.credly.com/badges/f5d36a82-73d3-4076-ad6f-0c547e8de5db/public_url" target="_blank" rel="noopener noreferrer">Make Basics</a></li>
-              <li><a href="https://www.credly.com/badges/f9b91b23-b887-4763-8478-710911b50a1a/public_url" target="_blank" rel="noopener noreferrer">Make Foundation</a></li>
-            </ul>
-
-            <div class="cert-section-title" style="margin-top:10px;">Airtable</div>
-            <ul>
+              <li><a href="https://drive.google.com/file/d/1xqnYS0IcgvozzzlNT_SdU6CQl2HNF24i/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Monday CRM Pro</a></li>
+              <li><a href="https://www.credly.com/badges/92872e93-adff-4cd9-9c92-387ddd4401a4/public_url" target="_blank" rel="noopener noreferrer">Make Advanced</a></li>
               <li><a href="http://verify.skilljar.com/c/6ppqipat87y3" target="_blank" rel="noopener noreferrer">Airtable Builder</a></li>
             </ul>
           </div>
 
           <div>
-            <div class="cert-section-title">Zapier</div>
-            <ul>
-              <li><a href="http://verify.skilljar.com/c/xdk5i4pi986a" target="_blank" rel="noopener noreferrer">Zapier - Automate your work</a></li>
-              <li><a href="http://verify.skilljar.com/c/jf9bw7woofg8" target="_blank" rel="noopener noreferrer">Zapier - Automating lead generation</a></li>
-              <li><a href="http://verify.skilljar.com/c/pgh3bdz4cqgm" target="_blank" rel="noopener noreferrer">Zapier - Build workflows with Zapier Tables</a></li>
-              <li><a href="http://verify.skilljar.com/c/bss2wst52saz" target="_blank" rel="noopener noreferrer">Zapier - Filters and Paths by Zapier</a></li>
-              <li><a href="http://verify.skilljar.com/c/zinwwdcue73i" target="_blank" rel="noopener noreferrer">Zapier - Formatter by Zapier</a></li>
-              <li><a href="https://verify.skilljar.com/c/d2bhhq37963g" target="_blank" rel="noopener noreferrer">Zapier - Generate blog images using AI</a></li>
-              <li><a href="http://verify.skilljar.com/c/w5kdihmnfus5" target="_blank" rel="noopener noreferrer">Zapier - Increase productivity using AI</a></li>
-              <li><a href="http://verify.skilljar.com/c/7xa5x8bsnvwy" target="_blank" rel="noopener noreferrer">Zapier - Triggering zap with Webhook</a></li>
-              <li><a href="http://verify.skilljar.com/c/7h3w2ci2zmtz" target="_blank" rel="noopener noreferrer">Zapier - Troubleshooting your Zaps</a></li>
-            </ul>
-
-            <div class="cert-section-title" style="margin-top:10px;">n8n</div>
-            <ul>
-              <li><a href="https://internal.users.n8n.cloud/webhook/course-level-1/verify?id=922124e9fbea3e694d254654c3082cf1&submit=Submit" target="_blank" rel="noopener noreferrer">n8n Course Level 1</a></li>
-              <li><a href="https://internal.users.n8n.cloud/webhook/course-level-2/verify?id=9862701e84f4fe30604a066365be8a2e&submit=Submit" target="_blank" rel="noopener noreferrer">n8n Course Level 2</a></li>
-            </ul>
+            <div class="cert-section-title">Additional training</div>
+            <div class="cert-additional">
+              Also certified across the full Make track (Foundation, Basics, Intermediate),
+              n8n Course Levels 1 &amp; 2, Marketing Automation School &mdash; Marketing Automation certificate,
+              and 9 Zapier Platform modules covering Webhooks, Filters &amp; Paths,
+              Formatter, Zapier Tables, AI workflows, and troubleshooting. Full list available on request.
+            </div>
           </div>
         </div>
       </section>
@@ -674,9 +898,9 @@
 
     <footer>
       <span>
-        Built by <strong>Viktor T</strong> — Upwork Top Rated Plus Automation Expert
+        Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist · Insurance &amp; Financial Services
       </span>
-      <span>Let’s automate the boring stuff and focus on growth. 🚀</span>
+      <span>Let's turn your policy lifecycle into one connected system. 🚀</span>
     </footer>
   </div>
 </body>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Automated Google Doc Creation &amp; Parsing System — Viktor T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-soft: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page { max-width: 1080px; margin: 0 auto; padding: 24px 16px 48px; }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.88rem; color: var(--text-muted);
+      margin-bottom: 18px;
+      transition: color 0.15s ease;
+    }
+    .back-link:hover { color: var(--accent-bright); }
+
+    header { margin-bottom: 24px; }
+
+    .hero {
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(161, 161, 170, 0.3);
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 8px; font-weight: 600;
+    }
+    .hero-title {
+      font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+      font-weight: 700; margin-bottom: 10px; line-height: 1.25;
+    }
+    .hero-subtitle {
+      font-size: 0.98rem; color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .tag {
+      display: inline-block;
+      font-size: 0.74rem; letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 10px; border-radius: 999px;
+    }
+
+    .sections { margin-top: 24px; display: flex; flex-direction: column; gap: 22px; }
+
+    .card {
+      background: rgba(19, 19, 22, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    .card-title {
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+      color: #ededed;
+    }
+    .card-title span { font-size: 1.1rem; }
+
+    .card p {
+      font-size: 0.94rem; color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .card p:last-child { margin-bottom: 0; }
+
+    .goal-line {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      color: #ededed;
+    }
+    .goal-line strong { color: var(--accent-bright); }
+    .goal-line ul { list-style: none; margin-top: 6px; }
+    .goal-line ul li {
+      padding-left: 16px; position: relative;
+      font-size: 0.9rem; color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+    .goal-line ul li::before {
+      content: "→"; position: absolute; left: 0; top: 0;
+      color: var(--accent-bright);
+    }
+
+    /* Closed-loop flow diagram */
+    .flow-wrapper {
+      margin: 14px 0 6px;
+      padding: 18px 16px 14px;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+    }
+    .flow-row {
+      display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: center;
+      gap: 10px;
+    }
+    .flow-node {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ededed;
+      white-space: nowrap;
+    }
+    .flow-arrow {
+      color: var(--accent-bright);
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .flow-note {
+      margin-top: 12px;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-style: italic;
+    }
+    .flow-note strong {
+      color: var(--accent-bright);
+      font-style: normal;
+    }
+
+    /* Numbered step cards */
+    .step-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+    .step {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 14px; align-items: start;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+    .step-highlight {
+      border-color: rgba(16, 185, 129, 0.45);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.04), #0a0a0c);
+    }
+    .step-num {
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1; padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .step-body { min-width: 0; }
+    .step-title {
+      font-size: 0.98rem; font-weight: 600;
+      color: #ededed; margin-bottom: 4px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .step-pill {
+      font-size: 0.66rem; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 1px 8px; border-radius: 999px;
+      font-weight: 700;
+    }
+    .step-text { font-size: 0.9rem; color: var(--text-muted); }
+    .step-text ul { margin-top: 6px; list-style: none; }
+    .step-text ul li {
+      padding-left: 16px; position: relative;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+    .step-text ul li::before {
+      content: "•"; position: absolute;
+      left: 2px; top: 0;
+      color: var(--accent);
+    }
+    .step-text strong { color: #ededed; font-weight: 600; }
+
+    .sub-feature {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: #131316;
+      border: 1px solid #27272a;
+      border-radius: 8px;
+    }
+    .sub-feature-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #ededed;
+      margin-bottom: 4px;
+    }
+    .sub-feature-text {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    /* Stack grid for tools */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px 18px; margin-top: 6px;
+    }
+    .stack-block-title {
+      font-size: 0.9rem; font-weight: 600;
+      margin-bottom: 3px; color: #ededed;
+    }
+    .stack-block-items {
+      font-size: 0.9rem; color: var(--text-muted);
+    }
+
+    /* Results checkmark list */
+    .results-list { list-style: none; margin-top: 6px; }
+    .results-list li {
+      padding-left: 22px; position: relative;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+    .results-list li::before {
+      content: "✓"; position: absolute;
+      left: 0; top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+    .results-list li strong { color: #ededed; }
+
+    /* Screenshot grid */
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px; margin-top: 6px;
+    }
+    .shot {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .shot:hover {
+      transform: translateY(-2px);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot-caption {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #27272a;
+      background: #0d0d10;
+    }
+
+    /* CTA */
+    .cta-card { text-align: center; padding: 24px 20px; }
+    .cta-title {
+      font-size: 1.1rem; font-weight: 700;
+      color: #ededed; margin-bottom: 6px;
+    }
+    .cta-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .cta-row {
+      display: flex; flex-wrap: wrap;
+      gap: 10px; justify-content: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      padding: 10px 18px; border-radius: 999px;
+      font-size: 0.9rem; font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+      min-width: 180px;
+      text-align: center;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45);
+    }
+    .btn-secondary {
+      background: #0a0a0c;
+      color: var(--text-main);
+      border-color: #27272a;
+    }
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    footer {
+      margin-top: 32px; padding-top: 16px;
+      border-top: 1px solid #27272a;
+      font-size: 0.85rem; color: var(--text-muted);
+      display: flex; justify-content: space-between;
+      gap: 8px; flex-wrap: wrap;
+    }
+    footer span strong { color: #ededed; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 22px 18px 18px; }
+      .page { padding-inline: 14px; }
+      .step { grid-template-columns: 44px 1fr; gap: 10px; padding: 12px 14px; }
+      .step-num { font-size: 1.3rem; }
+      .flow-arrow { font-size: 1rem; }
+      .flow-node { font-size: 0.78rem; padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <a href="../" class="back-link">&larr; Back to Portfolio</a>
+
+    <header>
+      <div class="hero">
+        <div class="hero-eyebrow">Project · Document Workflows + Custom Scripting</div>
+        <h1 class="hero-title">Automated Google Doc Creation &amp; Parsing System</h1>
+        <p class="hero-subtitle">
+          An end-to-end system that turns Airtable into the single source of truth for document
+          generation, approval, and structured content storage. Make.com handles the orchestration,
+          custom Google Apps Script powers approval workflows inside the Doc, and approved content
+          flows back to Airtable &mdash; closing the loop.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Make.com</span>
+          <span class="tag">Google Apps Script</span>
+          <span class="tag">Airtable</span>
+          <span class="tag">Google Docs</span>
+          <span class="tag">Slack</span>
+          <span class="tag">Webhook Integration</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+
+      <!-- The Challenge -->
+      <section class="card">
+        <h2 class="card-title"><span>🎯</span> The Challenge</h2>
+        <p>
+          The client was caught in a familiar trap: structured data lived in Airtable, but every
+          document had to be hand-built in Google Docs, manually shared with the team, manually
+          approved, then manually copied back into Airtable for tracking. Lots of copy-paste,
+          lots of stale records, lots of "wait, which version is approved?"
+        </p>
+        <div class="goal-line">
+          <strong>Goals:</strong>
+          <ul>
+            <li>Create Google Docs directly from structured Airtable records</li>
+            <li>Notify the team in Slack with direct links to new documents</li>
+            <li>Manage content approval inside Google Docs itself</li>
+            <li>Automatically parse approved content and sync it back to Airtable</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="card">
+        <h2 class="card-title"><span>🧩</span> The Solution</h2>
+        <p>
+          A closed-loop architecture where data flows out from Airtable into a Google Doc, gets
+          shaped and approved there, then flows back into Airtable as structured records &mdash; with
+          Slack notifications keeping the team aligned along the way.
+        </p>
+
+        <div class="flow-wrapper">
+          <div class="flow-row">
+            <span class="flow-node">Airtable Main</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-node">Google Doc</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-node">Approval in Doc</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-node">Airtable Approved</span>
+          </div>
+          <div class="flow-note">
+            <strong>&#x21bb;</strong> Approved records link back to the Main record &mdash; closing the loop.
+          </div>
+        </div>
+
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <div class="step-title">Airtable as the central database</div>
+              <div class="step-text">
+                The client's existing Google Sheet was migrated into a structured Airtable base
+                with two linked tables:
+                <ul>
+                  <li><strong>Main table</strong> &mdash; source records and document generation triggers</li>
+                  <li><strong>Approved table</strong> &mdash; final, approved content blocks linked back to their source</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <div class="step-title">Template-based Google Doc creation</div>
+              <div class="step-text">
+                A Google Doc template was created and stored in a designated folder. In Airtable,
+                a user ticks a checkbox to request a new document, which triggers a Make.com
+                scenario that:
+                <ul>
+                  <li>Creates a new Google Doc from the template</li>
+                  <li>Inserts the relevant data from the Airtable record</li>
+                  <li>Updates the Airtable record with the new document's link</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <div class="step-title">Slack notifications for team visibility</div>
+              <div class="step-text">
+                The same automation sends a Slack message with the new Doc's link to a designated
+                channel. The team is informed instantly and can start reviewing without anyone
+                having to remember to share anything.
+              </div>
+            </div>
+          </div>
+
+          <div class="step step-highlight">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <div class="step-title">
+                Custom Google Apps Script &mdash; document actions
+                <span class="step-pill">Custom code</span>
+              </div>
+              <div class="step-text">
+                Two custom scripts were added to the Google Doc template, extending Docs beyond
+                what no-code tools can do:
+              </div>
+              <div class="sub-feature">
+                <div class="sub-feature-title">Custom menu &mdash; "Add block template"</div>
+                <div class="sub-feature-text">
+                  Adds a custom action menu to the Google Docs UI, letting users insert
+                  predefined text blocks into the document with one click. Ensures consistent
+                  structure and wording across every doc.
+                </div>
+              </div>
+              <div class="sub-feature">
+                <div class="sub-feature-title">Parse &amp; send approved blocks</div>
+                <div class="sub-feature-text">
+                  Scans the document for content blocks marked with <strong>"Approved: Yes"</strong>,
+                  packages only those sections, and sends them via webhook to Make.com for the
+                  next stage.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">05</div>
+            <div class="step-body">
+              <div class="step-title">Make.com webhook &amp; Airtable sync &mdash; closing the loop</div>
+              <div class="step-text">
+                Make.com receives the parsed content via webhook and:
+                <ul>
+                  <li>Creates a new record in the <strong>Approved</strong> Airtable table</li>
+                  <li>Links it back to the source record in the <strong>Main</strong> table</li>
+                </ul>
+                Airtable always reflects the current, approved content &mdash; no manual updates, no
+                drift between systems.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools & Stack -->
+      <section class="card">
+        <h2 class="card-title"><span>🛠</span> Tools &amp; Stack</h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">Orchestration</div>
+            <div class="stack-block-items">Make.com (Integromat) &mdash; document creation, webhook handling, Airtable sync</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Custom scripting</div>
+            <div class="stack-block-items">Google Apps Script &mdash; custom Docs menu, block insertion, parsing logic</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Database</div>
+            <div class="stack-block-items">Airtable &mdash; Main + Approved linked tables as the source of truth</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Document workspace</div>
+            <div class="stack-block-items">Google Docs &mdash; template-based creation, in-Doc approval workflow</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Team visibility</div>
+            <div class="stack-block-items">Slack &mdash; new-document notifications with direct links</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Impact -->
+      <section class="card">
+        <h2 class="card-title"><span>📈</span> Results &amp; Impact</h2>
+        <ul class="results-list">
+          <li><strong>Automated document creation</strong> from Airtable &mdash; manual effort and copy-paste errors significantly reduced.</li>
+          <li><strong>Better team communication</strong> &mdash; Slack notifications put the right Doc in front of the right people instantly.</li>
+          <li><strong>Structured approval workflow</strong> &mdash; only content explicitly marked approved gets pushed back into Airtable.</li>
+          <li><strong>Data integrity preserved</strong> &mdash; Airtable always reflects the current approved content, no manual reconciliation needed.</li>
+          <li><strong>Extensible by design</strong> &mdash; the custom Apps Script foundation can be expanded with new menu actions, validation rules, or parsing logic without rebuilding the pipeline.</li>
+        </ul>
+      </section>
+
+      <!-- Screenshots -->
+      <section class="card">
+        <h2 class="card-title"><span>🖼</span> Screenshots</h2>
+        <div class="shot-grid">
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/AT%20base%20Main.png" alt="Airtable Main table" />
+            <div class="shot-caption">Airtable Main table &mdash; source records with the "create doc" trigger</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Doc%20template%202.jpg" alt="Google Doc template" />
+            <div class="shot-caption">The Google Doc template that every new document is built from</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Create%20doc.png" alt="Make.com scenario for Google Doc creation" />
+            <div class="shot-caption">Make.com scenario &mdash; creates the Doc, links it back to Airtable, notifies Slack</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Webhook-to%20AT.png" alt="Webhook to Airtable scenario" />
+            <div class="shot-caption">Catch webhook &mdash; receives parsed approved blocks and syncs to Airtable</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Script-add%20new%20block.png" alt="Google Apps Script - Add new block" />
+            <div class="shot-caption">Google Apps Script &mdash; custom menu for inserting predefined content blocks</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/Script-Send%20Approved.png" alt="Google Apps Script - Send approved blocks" />
+            <div class="shot-caption">Google Apps Script &mdash; parses approved blocks and posts to Make.com</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automation%20Doc%20creation%20system/AT%20base%20Approved.png" alt="Airtable Approved table" />
+            <div class="shot-caption">Airtable Approved table &mdash; the loop closes back to structured records</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="card cta-card">
+        <div class="cta-title">Need data &harr; documents &harr; data flowing automatically?</div>
+        <div class="cta-sub">
+          The same closed-loop pattern applies to insurance application processing, claims forms,
+          underwriting documents, and any structured paperwork that needs to flow out of a database,
+          get reviewed, then flow back as approved data &mdash; with custom scripting where no-code falls short.
+        </div>
+        <div class="cta-row">
+          <a href="../" class="btn btn-secondary">View More Projects</a>
+          <a href="mailto:viktorautomationm@gmail.com" class="btn btn-primary">Book a Discovery Call</a>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <span>Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist</span>
+      <span><a href="../" style="color: var(--accent-bright);">&larr; Back to Portfolio</a></span>
+    </footer>
+
+  </div>
+</body>
+</html>

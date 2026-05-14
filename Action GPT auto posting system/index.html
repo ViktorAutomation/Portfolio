@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FB &amp; LinkedIn Auto-Posting via Custom GPT Action — Viktor T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-soft: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      transition: color 0.15s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-bright);
+    }
+
+    header {
+      margin-bottom: 24px;
+    }
+
+    .hero {
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(161, 161, 170, 0.3);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .sections {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(19, 19, 22, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ededed;
+    }
+
+    .card-title span {
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .goal-line {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      color: #ededed;
+    }
+
+    .goal-line strong {
+      color: var(--accent-bright);
+    }
+
+    /* Numbered step cards for workflow */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 14px;
+      align-items: start;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .step-num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1;
+      padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-body {
+      min-width: 0;
+    }
+
+    .step-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #ededed;
+      margin-bottom: 4px;
+    }
+
+    .step-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .step-text ul {
+      margin-top: 6px;
+      list-style: none;
+    }
+
+    .step-text ul li {
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .step-text ul li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      top: 0;
+      color: var(--accent);
+    }
+
+    /* Stack grid for tools */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px 18px;
+      margin-top: 6px;
+    }
+
+    .stack-block-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: #ededed;
+    }
+
+    .stack-block-items {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Results bullets */
+    .results-list {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .results-list li {
+      padding-left: 22px;
+      position: relative;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    .results-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+
+    .results-list li strong {
+      color: #ededed;
+    }
+
+    /* Screenshot grid */
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .shot {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .shot:hover {
+      transform: translateY(-2px);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .shot-caption {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #27272a;
+      background: #0d0d10;
+    }
+
+    /* CTA card */
+    .cta-card {
+      text-align: center;
+      padding: 24px 20px;
+    }
+
+    .cta-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ededed;
+      margin-bottom: 6px;
+    }
+
+    .cta-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        background-color 0.12s ease,
+        border-color 0.12s ease,
+        color 0.12s ease;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-secondary {
+      background: #0a0a0c;
+      color: var(--text-main);
+      border-color: #27272a;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+
+    footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #27272a;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    footer span strong {
+      color: #ededed;
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 22px 18px 18px;
+      }
+      .page {
+        padding-inline: 14px;
+      }
+      .step {
+        grid-template-columns: 44px 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+      }
+      .step-num {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <a href="../" class="back-link">&larr; Back to Portfolio</a>
+
+    <header>
+      <div class="hero">
+        <div class="hero-eyebrow">Project · AI Content Automation</div>
+        <h1 class="hero-title">FB &amp; LinkedIn Auto-Posting via Custom GPT Action</h1>
+        <p class="hero-subtitle">
+          An AI-powered content pipeline that turns news articles into ready-to-publish posts
+          for Facebook and LinkedIn &mdash; all controlled from a single Custom GPT conversation
+          and automated end-to-end with Make.com.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Custom GPT Actions</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">Facebook API</span>
+          <span class="tag">LinkedIn API</span>
+          <span class="tag">DALL·E 3</span>
+          <span class="tag">Airtable</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+
+      <!-- The Challenge -->
+      <section class="card">
+        <h2 class="card-title"><span>🎯</span> The Challenge</h2>
+        <p>
+          The client was tired of manually searching for articles, copy-pasting links between
+          tools, and rewriting content for each platform. They wanted a consistent, repeatable
+          posting flow across Facebook and LinkedIn &mdash; and a way to track what got published, when,
+          and where, without jumping between five different tabs to do it.
+        </p>
+        <div class="goal-line">
+          <strong>Goal:</strong> a single-conversation workflow that could search, curate, create,
+          publish, and track social posts with minimal manual effort.
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="card">
+        <h2 class="card-title"><span>🧩</span> The Solution</h2>
+        <p>
+          Custom GPT Actions become the control center where the user chats naturally; Make.com
+          scenarios handle the heavy lifting in the background. The user never leaves the GPT
+          conversation.
+        </p>
+
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <div class="step-title">Custom GPT Actions as the control center</div>
+              <div class="step-text">
+                GPT acts as the front-end where the user chats naturally. Actions call Make.com
+                scenarios with the user's choices &mdash; topics, platforms, edits.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <div class="step-title">News discovery &amp; content curation</div>
+              <div class="step-text">
+                Make.com scenarios parse predefined news sources and websites. Curated article
+                options (title, link, summary) are passed back into the GPT conversation for the
+                user to choose from.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <div class="step-title">Content selection &amp; editing inside GPT</div>
+              <div class="step-text">
+                The user selects an article and refines the post copy directly in the conversation.
+                GPT generates platform-ready text tailored to LinkedIn and/or Facebook tone.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <div class="step-title">Image handling &mdash; original or AI-generated</div>
+              <div class="step-text">
+                If available, the article's original image is reused. Alternatively, GPT triggers
+                OpenAI DALL·E 3 via Make.com to generate a new, on-brand image.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">05</div>
+            <div class="step-body">
+              <div class="step-title">Automated posting to social platforms</div>
+              <div class="step-text">
+                Final content (text + image) is pushed through Make.com to:
+                <ul>
+                  <li>Facebook Pages via API</li>
+                  <li>LinkedIn pages/profiles via API</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">06</div>
+            <div class="step-body">
+              <div class="step-title">Tracking &amp; logging in Airtable</div>
+              <div class="step-text">
+                Every successful post is recorded in Airtable (article URL, platforms, timestamps,
+                copy used), creating an analytics-ready dataset for review and reporting.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools & Stack -->
+      <section class="card">
+        <h2 class="card-title"><span>🛠</span> Tools &amp; Stack</h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">AI &amp; generation</div>
+            <div class="stack-block-items">Custom GPT Actions, OpenAI DALL·E 3</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Orchestration</div>
+            <div class="stack-block-items">Make.com (Integromat) &mdash; every step, every API call</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Social APIs</div>
+            <div class="stack-block-items">Facebook Pages API, LinkedIn API</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Data &amp; logging</div>
+            <div class="stack-block-items">Airtable &mdash; post log, tracking, lightweight analytics</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Impact -->
+      <section class="card">
+        <h2 class="card-title"><span>📈</span> Results &amp; Impact</h2>
+        <ul class="results-list">
+          <li><strong>End-to-end workflow in a single GPT chat</strong> &mdash; content sourcing, creation, posting, and tracking all run from one conversation.</li>
+          <li><strong>Time saved</strong> &mdash; manual multi-tool workflow reduced to a few clicks and short prompts.</li>
+          <li><strong>Better consistency</strong> &mdash; regular posting schedule with a consistent structure and brand voice across both platforms.</li>
+          <li><strong>Improved content quality</strong> &mdash; AI-assisted copy and images raise the baseline of every post.</li>
+          <li><strong>Clean analytics dataset</strong> &mdash; Airtable log of every post enables quick review of what shipped, where, and when.</li>
+        </ul>
+      </section>
+
+      <!-- Screenshots -->
+      <section class="card">
+        <h2 class="card-title"><span>🖼</span> Screenshots</h2>
+        <div class="shot-grid">
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Action%20GPT%20auto%20posting%20system/1%20-%20Make%20scenario.png" alt="Make.com scenario" />
+            <div class="shot-caption">Make.com scenario &mdash; the orchestration backbone</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Action%20GPT%20auto%20posting%20system/2%20-%20Custom%20GPT%20main%20screen.png" alt="Custom GPT main screen" />
+            <div class="shot-caption">Custom GPT main screen &mdash; the user's entry point</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Action%20GPT%20auto%20posting%20system/3%20-%20Fetch%20articles.png" alt="Fetch articles" />
+            <div class="shot-caption">Fetch articles &mdash; curated options surfaced in chat</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Action%20GPT%20auto%20posting%20system/4%20-%20Post%20prep.png" alt="Post prep" />
+            <div class="shot-caption">Post prep &mdash; refining copy in the conversation</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Action%20GPT%20auto%20posting%20system/5%20-%20Post%20creation.png" alt="Post creation" />
+            <div class="shot-caption">Post creation &mdash; platform-ready text generated</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Action%20GPT%20auto%20posting%20system/6%20-%20Image%20and%20make%20a%20post.png" alt="Image and make a post" />
+            <div class="shot-caption">Image generation and publish &mdash; final step</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="card cta-card">
+        <div class="cta-title">Want something like this for your team?</div>
+        <div class="cta-sub">
+          AI-driven content pipelines, Custom GPT Actions, and Make.com automation &mdash; built around how your team actually works.
+        </div>
+        <div class="cta-row">
+          <a href="../" class="btn btn-secondary">View More Projects</a>
+          <!-- TODO: replace mailto with your real email or Calendly link before publishing -->
+          <a href="mailto:REPLACE_WITH_YOUR_EMAIL@example.com" class="btn btn-primary">Book a Discovery Call</a>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <span>Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist</span>
+      <span><a href="../" style="color: var(--accent-bright);">&larr; Back to Portfolio</a></span>
+    </footer>
+
+  </div>
+</body>
+</html>

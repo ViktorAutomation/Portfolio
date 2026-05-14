@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Automated Quote &amp; BOM Generation System in Monday.com — Viktor T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-soft: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      transition: color 0.15s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-bright);
+    }
+
+    header {
+      margin-bottom: 24px;
+    }
+
+    .hero {
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(161, 161, 170, 0.3);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .sections {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(19, 19, 22, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ededed;
+    }
+
+    .card-title span {
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .goal-line {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      color: #ededed;
+    }
+
+    .goal-line strong {
+      color: var(--accent-bright);
+    }
+
+    .goal-line ul {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .goal-line ul li {
+      padding-left: 16px;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .goal-line ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-bright);
+    }
+
+    /* Numbered step cards for workflow */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 14px;
+      align-items: start;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .step-optional {
+      border-style: dashed;
+      border-color: rgba(63, 63, 70, 0.9);
+    }
+
+    .step-num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1;
+      padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-body {
+      min-width: 0;
+    }
+
+    .step-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #ededed;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .step-pill {
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: #18181b;
+      border: 1px solid #3f3f46;
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .step-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .step-text ul {
+      margin-top: 6px;
+      list-style: none;
+    }
+
+    .step-text ul li {
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .step-text ul li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      top: 0;
+      color: var(--accent);
+    }
+
+    .step-text strong {
+      color: #ededed;
+      font-weight: 600;
+    }
+
+    /* Stack grid for tools */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px 18px;
+      margin-top: 6px;
+    }
+
+    .stack-block-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: #ededed;
+    }
+
+    .stack-block-items {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Results bullets */
+    .results-list {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .results-list li {
+      padding-left: 22px;
+      position: relative;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    .results-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+
+    .results-list li strong {
+      color: #ededed;
+    }
+
+    /* Screenshot grid */
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .shot {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .shot:hover {
+      transform: translateY(-2px);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .shot-caption {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #27272a;
+      background: #0d0d10;
+    }
+
+    /* CTA card */
+    .cta-card {
+      text-align: center;
+      padding: 24px 20px;
+    }
+
+    .cta-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ededed;
+      margin-bottom: 6px;
+    }
+
+    .cta-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        background-color 0.12s ease,
+        border-color 0.12s ease,
+        color 0.12s ease;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-secondary {
+      background: #0a0a0c;
+      color: var(--text-main);
+      border-color: #27272a;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+
+    footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #27272a;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    footer span strong {
+      color: #ededed;
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 22px 18px 18px;
+      }
+      .page {
+        padding-inline: 14px;
+      }
+      .step {
+        grid-template-columns: 44px 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+      }
+      .step-num {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <a href="../" class="back-link">&larr; Back to Portfolio</a>
+
+    <header>
+      <div class="hero">
+        <div class="hero-eyebrow">Project · Document Generation &amp; Workflow Automation</div>
+        <h1 class="hero-title">Automated Quote &amp; BOM Generation System in Monday.com</h1>
+        <p class="hero-subtitle">
+          A fully automated quoting and bill-of-materials (BOM) system built inside Monday.com,
+          powered by Make.com and a network of connected boards. Takes a deal from
+          &ldquo;ready to quote&rdquo; to a generated quote file and BOM in just a few clicks.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Monday.com</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">Document Generation</span>
+          <span class="tag">OneDrive</span>
+          <span class="tag">Sales Operations</span>
+          <span class="tag">5 Connected Boards</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+
+      <!-- The Challenge -->
+      <section class="card">
+        <h2 class="card-title"><span>🎯</span> The Challenge</h2>
+        <p>
+          Before this system, quotes and BOMs were being built manually in documents and
+          spreadsheets. Copy-paste across tools caused errors and ate up hours. Data drifted
+          between deals, items, and customer records &mdash; and nobody had a clean view of which
+          quote belonged to which deal, or whether the totals were right.
+        </p>
+        <div class="goal-line">
+          <strong>Goals:</strong>
+          <ul>
+            <li>Automate quote creation directly from the Deals pipeline</li>
+            <li>Ensure accurate tax and total calculations every single time</li>
+            <li>Generate BOM files in seconds, on demand</li>
+            <li>Keep all data synchronized across multiple Monday.com boards</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="card">
+        <h2 class="card-title"><span>🧩</span> The Solution</h2>
+        <p>
+          Five interlinked Monday.com boards &mdash; Deals, Quote Generation, Item Management,
+          BOM, and Customer &mdash; tied together with relations and mirror columns so every
+          quote and BOM stays connected to the right deal and customer. Make.com handles the
+          document generation, calculations, and OneDrive integration in the background.
+        </p>
+
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <div class="step-title">Interlinked Monday.com boards</div>
+              <div class="step-text">
+                Five boards working as one system:
+                <ul>
+                  <li><strong>Deals / Opportunities</strong> &mdash; the pipeline</li>
+                  <li><strong>Quote Generation</strong> &mdash; where each quote is built</li>
+                  <li><strong>Item Management</strong> &mdash; the product/service catalog</li>
+                  <li><strong>BOM</strong> &mdash; the bill-of-materials records</li>
+                  <li><strong>Customer</strong> &mdash; the buyer record everything ties back to</li>
+                </ul>
+                Relations and mirror columns connect them so every quote and BOM stays linked
+                to its deal and customer automatically.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <div class="step-title">Quote automation from the Deals board</div>
+              <div class="step-text">
+                When a deal is moved to a specific group (e.g. <strong>Create Quote</strong>), a
+                Monday automation creates a linked item in the Quote Generation board and pulls
+                in all relevant deal and customer data &mdash; no manual setup required.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <div class="step-title">One-click quote creation</div>
+              <div class="step-text">
+                In the Quote Generation board, users add line items as subitems (pulled from
+                Item Management). A <strong>Create Quote</strong> button triggers a Make.com
+                scenario that:
+                <ul>
+                  <li>Fills a predefined quote template</li>
+                  <li>Calculates line totals, subtotals, tax, and grand total</li>
+                  <li>Generates the quote file (PDF/Doc)</li>
+                  <li>Saves to OneDrive and attaches the file back to the Monday.com item</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <div class="step-title">Automated BOM generation</div>
+              <div class="step-text">
+                The Item Management board is connected to the BOM board. A
+                <strong>Create BOM</strong> button triggers a separate Make.com scenario that
+                collects all required item data, builds a structured BOM file with every needed
+                field, stores it on OneDrive, and links it back to the relevant deal and quote.
+              </div>
+            </div>
+          </div>
+
+          <div class="step step-optional">
+            <div class="step-num">05</div>
+            <div class="step-body">
+              <div class="step-title">
+                Supplier quote parsing
+                <span class="step-pill">Optional</span>
+              </div>
+              <div class="step-text">
+                A separate Make.com scenario parses incoming supplier quotes and maps them into
+                the system, enabling side-by-side comparison of internal quotes vs supplier
+                pricing and automatic BOM updates when supplier data changes.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools & Stack -->
+      <section class="card">
+        <h2 class="card-title"><span>🛠</span> Tools &amp; Stack</h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">Workflow &amp; data</div>
+            <div class="stack-block-items">Monday.com &mdash; boards, relations, mirrors, automations, file columns</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Orchestration &amp; doc generation</div>
+            <div class="stack-block-items">Make.com (Integromat) &mdash; calculations, templating, file creation</div>
+          </div>
+          <div>
+            <div class="stack-block-title">File storage</div>
+            <div class="stack-block-items">OneDrive &mdash; secure storage for generated quotes &amp; BOMs, with links back to Monday</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Impact -->
+      <section class="card">
+        <h2 class="card-title"><span>📈</span> Results &amp; Impact</h2>
+        <ul class="results-list">
+          <li><strong>Quotes and BOMs in seconds</strong> &mdash; regardless of the number of line items, the document generates from a single click instead of hours of manual work.</li>
+          <li><strong>Calculation errors eliminated</strong> &mdash; built-in totals, subtotals, and tax math run consistently every time, no human arithmetic involved.</li>
+          <li><strong>Scales without effort</strong> &mdash; the system supports high deal volume and large catalogs with no additional setup per quote.</li>
+          <li><strong>Better visibility for sales &amp; ops</strong> &mdash; all quotes and BOMs remain linked to deals, items, and customers inside Monday.com, so anyone can see the full picture.</li>
+        </ul>
+      </section>
+
+      <!-- Screenshots -->
+      <section class="card">
+        <h2 class="card-title"><span>🖼</span> Screenshots</h2>
+        <div class="shot-grid">
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote%20Generation.png" alt="Quote Generation scenario in Make.com" />
+            <div class="shot-caption">Quote Generation scenario &mdash; the Make.com flow that builds each quote</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote.png" alt="Generated quote file" />
+            <div class="shot-caption">Generated quote file &mdash; line items, totals, and tax all auto-filled</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/BOM%20Scenario.png" alt="BOM Generation scenario in Make.com" />
+            <div class="shot-caption">BOM Generation scenario &mdash; Make.com flow for bill-of-materials files</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote%20Board.png" alt="Quote Generation board in Monday.com" />
+            <div class="shot-caption">Quote Generation board in Monday.com &mdash; quote items as subitems</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/BOM%20Board.png" alt="BOM Generation board in Monday.com" />
+            <div class="shot-caption">BOM Generation board &mdash; items linked back to deals and quotes</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Automated%20Quote%20&%20BOM%20Generation%20System%20in%20Monday/Quote%20Scenario.png" alt="Supplier quote parsing scenario" />
+            <div class="shot-caption">Supplier quote parsing scenario &mdash; mapping supplier data into the system</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="card cta-card">
+        <div class="cta-title">Need quotes, BOMs, or documents auto-generated from Monday.com?</div>
+        <div class="cta-sub">
+          The same pattern applies to policy declarations, certificates of insurance, proposals,
+          contracts, and any structured document your team generates repeatedly &mdash; built directly
+          on Monday.com with Make.com.
+        </div>
+        <div class="cta-row">
+          <a href="../" class="btn btn-secondary">View More Projects</a>
+          <a href="mailto:viktorautomationm@gmail.com" class="btn btn-primary">Book a Discovery Call</a>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <span>Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist</span>
+      <span><a href="../" style="color: var(--accent-bright);">&larr; Back to Portfolio</a></span>
+    </footer>
+
+  </div>
+</body>
+</html>

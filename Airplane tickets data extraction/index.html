@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Web Scraping &amp; Data Integration to Google Sheets — Viktor T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-soft: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      transition: color 0.15s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-bright);
+    }
+
+    header {
+      margin-bottom: 24px;
+    }
+
+    .hero {
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(161, 161, 170, 0.3);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .sections {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(19, 19, 22, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ededed;
+    }
+
+    .card-title span {
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .goal-line {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      color: #ededed;
+    }
+
+    .goal-line strong {
+      color: var(--accent-bright);
+    }
+
+    /* Numbered step cards for workflow */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 14px;
+      align-items: start;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .step-num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1;
+      padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-body {
+      min-width: 0;
+    }
+
+    .step-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #ededed;
+      margin-bottom: 4px;
+    }
+
+    .step-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .step-text ul {
+      margin-top: 6px;
+      list-style: none;
+    }
+
+    .step-text ul li {
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .step-text ul li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      top: 0;
+      color: var(--accent);
+    }
+
+    /* Stack grid for tools */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px 18px;
+      margin-top: 6px;
+    }
+
+    .stack-block-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: #ededed;
+    }
+
+    .stack-block-items {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Results bullets */
+    .results-list {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .results-list li {
+      padding-left: 22px;
+      position: relative;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    .results-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+
+    .results-list li strong {
+      color: #ededed;
+    }
+
+    /* Screenshot grid */
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .shot {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .shot:hover {
+      transform: translateY(-2px);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .shot-caption {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #27272a;
+      background: #0d0d10;
+    }
+
+    /* CTA card */
+    .cta-card {
+      text-align: center;
+      padding: 24px 20px;
+    }
+
+    .cta-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ededed;
+      margin-bottom: 6px;
+    }
+
+    .cta-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        background-color 0.12s ease,
+        border-color 0.12s ease,
+        color 0.12s ease;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-secondary {
+      background: #0a0a0c;
+      color: var(--text-main);
+      border-color: #27272a;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+
+    footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #27272a;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    footer span strong {
+      color: #ededed;
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 22px 18px 18px;
+      }
+      .page {
+        padding-inline: 14px;
+      }
+      .step {
+        grid-template-columns: 44px 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+      }
+      .step-num {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <a href="../" class="back-link">&larr; Back to Portfolio</a>
+
+    <header>
+      <div class="hero">
+        <div class="hero-eyebrow">Project · Web Scraping &amp; Data Integration</div>
+        <h1 class="hero-title">Web Scraping &amp; Data Integration to Google Sheets</h1>
+        <p class="hero-subtitle">
+          An automated pipeline that continuously monitors a discounted airline tickets website,
+          extracts key data from new listings, and pushes it directly into Google Sheets &mdash; ready
+          for tracking, filtering, and analysis.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Make.com</span>
+          <span class="tag">Web Scraping</span>
+          <span class="tag">HTML Parsing</span>
+          <span class="tag">Google Sheets</span>
+          <span class="tag">Data Extraction</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+
+      <!-- The Challenge -->
+      <section class="card">
+        <h2 class="card-title"><span>🎯</span> The Challenge</h2>
+        <p>
+          The client needed real-time visibility into new discounted airline ticket postings &mdash;
+          ticket price, airline, origin city, destination city, and trip type &mdash; without having
+          to constantly refresh the source website and copy-paste data into a spreadsheet.
+        </p>
+        <p>
+          The data had to land in a clean, structured format that supported quick review,
+          filtering, and downstream analysis.
+        </p>
+        <div class="goal-line">
+          <strong>Goal:</strong> eliminate manual website checking and data entry, replacing it
+          with a reliable, automated data feed straight into Google Sheets.
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="card">
+        <h2 class="card-title"><span>🧩</span> The Solution</h2>
+        <p>
+          A Make.com pipeline that watches the source site, scrapes new listings as they appear,
+          cleans and normalizes the data, and appends each offer as a structured row in Google
+          Sheets &mdash; running on a continuous schedule with no manual intervention.
+        </p>
+
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <div class="step-title">Website monitoring with Make.com</div>
+              <div class="step-text">
+                A Make.com scenario periodically checks the target page for new or updated
+                airline ticket offers. Deduplication logic ensures only fresh entries are
+                processed &mdash; no double-posting, no noise.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <div class="step-title">Web scraping &amp; data extraction</div>
+              <div class="step-text">
+                Relevant HTML elements are parsed to pull structured fields out of each listing:
+                <ul>
+                  <li>Airline company name</li>
+                  <li>Ticket price</li>
+                  <li>Origin city</li>
+                  <li>Destination city</li>
+                  <li>Trip type (round-trip, one-way, etc.)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <div class="step-title">Data cleaning &amp; formatting</div>
+              <div class="step-text">
+                Parsed values are cleaned and normalized &mdash; price formats unified, whitespace
+                trimmed, location strings standardized &mdash; then mapped into a structured schema
+                ready for the sheet.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <div class="step-title">Google Sheets integration</div>
+              <div class="step-text">
+                Using Make.com's Google Sheets modules and API calls, new records are appended
+                to a dedicated sheet. Each row represents a single ticket offer with timestamp
+                and all key attributes &mdash; ready for filtering, sorting, and reporting.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools & Stack -->
+      <section class="card">
+        <h2 class="card-title"><span>🛠</span> Tools &amp; Stack</h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">Orchestration</div>
+            <div class="stack-block-items">Make.com (Integromat) &mdash; scheduler, scraper, and data pipeline</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Data extraction</div>
+            <div class="stack-block-items">Web scraping &amp; HTML parsing for structured field extraction</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Data destination</div>
+            <div class="stack-block-items">Google Sheets via API &mdash; live, structured, analytics-ready</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Impact -->
+      <section class="card">
+        <h2 class="card-title"><span>📈</span> Results &amp; Impact</h2>
+        <ul class="results-list">
+          <li><strong>Real-time, automated capture</strong> of discounted airline ticket data &mdash; no more manual copying from the source site.</li>
+          <li><strong>Improved data accuracy</strong> through consistent parsing and normalization rules applied to every record.</li>
+          <li><strong>Time savings</strong> &mdash; the client stopped monitoring the website manually and got their hours back.</li>
+          <li><strong>Instant analysis</strong> &mdash; data lands directly in Google Sheets, ready for filtering, sorting, charting, and reporting.</li>
+        </ul>
+      </section>
+
+      <!-- Screenshots -->
+      <section class="card">
+        <h2 class="card-title"><span>🖼</span> Screenshots</h2>
+        <div class="shot-grid">
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Airplane%20tickets%20data%20extraction/Airplane%20tickets.png" alt="Make.com scenario for airline tickets scraping" />
+            <div class="shot-caption">Make.com scenario &mdash; the full scrape, clean, and load pipeline</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="card cta-card">
+        <div class="cta-title">Have a website you need to monitor?</div>
+        <div class="cta-sub">
+          Automated scraping, structured data pipelines, and live Google Sheets feeds &mdash; built to
+          run reliably without manual intervention.
+        </div>
+        <div class="cta-row">
+          <a href="../" class="btn btn-secondary">View More Projects</a>
+          <!-- TODO: replace mailto with your real email or Calendly link before publishing -->
+          <a href="mailto:REPLACE_WITH_YOUR_EMAIL@example.com" class="btn btn-primary">Book a Discovery Call</a>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <span>Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist</span>
+      <span><a href="../" style="color: var(--accent-bright);">&larr; Back to Portfolio</a></span>
+    </footer>
+
+  </div>
+</body>
+</html>

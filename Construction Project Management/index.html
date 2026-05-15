@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Construction Project Management System — Role-Based Workflow Engine — Viktor T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-soft: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page { max-width: 1080px; margin: 0 auto; padding: 24px 16px 48px; }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.88rem; color: var(--text-muted);
+      margin-bottom: 18px;
+      transition: color 0.15s ease;
+    }
+    .back-link:hover { color: var(--accent-bright); }
+
+    header { margin-bottom: 24px; }
+
+    .hero {
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(161, 161, 170, 0.3);
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 8px; font-weight: 600;
+    }
+    .hero-title {
+      font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+      font-weight: 700; margin-bottom: 10px; line-height: 1.25;
+    }
+    .hero-subtitle {
+      font-size: 0.98rem; color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .tag {
+      display: inline-block;
+      font-size: 0.74rem; letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 10px; border-radius: 999px;
+    }
+
+    .sections { margin-top: 24px; display: flex; flex-direction: column; gap: 22px; }
+
+    .card {
+      background: rgba(19, 19, 22, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    /* Stat row */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+    .stat-card {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+    .stat-num {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .card-title {
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+      color: #ededed;
+    }
+    .card-title span { font-size: 1.1rem; }
+
+    .card p {
+      font-size: 0.94rem; color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .card p:last-child { margin-bottom: 0; }
+
+    .goal-line {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      color: #ededed;
+    }
+    .goal-line strong { color: var(--accent-bright); }
+    .goal-line ul { list-style: none; margin-top: 6px; }
+    .goal-line ul li {
+      padding-left: 16px; position: relative;
+      font-size: 0.9rem; color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+    .goal-line ul li::before {
+      content: "→"; position: absolute; left: 0; top: 0;
+      color: var(--accent-bright);
+    }
+
+    /* Before vs After comparison */
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .ba-col {
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      border: 1px solid #27272a;
+    }
+    .ba-before { background: #0a0a0c; }
+    .ba-after {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.06), rgba(16, 185, 129, 0.01));
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+    .ba-header {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .ba-before .ba-header { color: #71717a; }
+    .ba-after .ba-header { color: var(--accent-bright); }
+    .ba-list { list-style: none; }
+    .ba-list li {
+      padding-left: 20px;
+      position: relative;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+    .ba-before .ba-list li::before {
+      content: "✗";
+      position: absolute; left: 0; top: 0;
+      color: #6b7280;
+      font-weight: 700;
+    }
+    .ba-after .ba-list li::before {
+      content: "✓";
+      position: absolute; left: 0; top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+    @media (max-width: 560px) {
+      .before-after { grid-template-columns: 1fr; }
+    }
+
+    /* Numbered step cards */
+    .step-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+    .step {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 14px; align-items: start;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+    .step-highlight {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.05), #0a0a0c);
+    }
+    .step-num {
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1; padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .step-body { min-width: 0; }
+    .step-title {
+      font-size: 0.98rem; font-weight: 600;
+      color: #ededed; margin-bottom: 4px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .step-pill {
+      font-size: 0.66rem; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 1px 8px; border-radius: 999px;
+      font-weight: 700;
+    }
+    .step-text { font-size: 0.9rem; color: var(--text-muted); }
+    .step-text ul { margin-top: 6px; list-style: none; }
+    .step-text ul li {
+      padding-left: 16px; position: relative;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+    .step-text ul li::before {
+      content: "•"; position: absolute;
+      left: 2px; top: 0;
+      color: var(--accent);
+    }
+    .step-text strong { color: #ededed; font-weight: 600; }
+
+    /* Numbered sub-list inside step */
+    .sub-steps {
+      list-style: none;
+      margin-top: 8px;
+      counter-reset: substep;
+    }
+    .sub-steps li {
+      counter-increment: substep;
+      padding-left: 30px;
+      position: relative;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .sub-steps li::before {
+      content: counter(substep);
+      position: absolute;
+      left: 0; top: 1px;
+      width: 22px; height: 22px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-bright);
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    /* P/C/R/W/I responsibility legend */
+    .resp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .resp-card {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      text-align: center;
+      transition: border-color 0.15s ease;
+    }
+    .resp-card:hover { border-color: rgba(16, 185, 129, 0.5); }
+    .resp-letter {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent-bright);
+      line-height: 1;
+      margin-bottom: 8px;
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    }
+    .resp-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #ededed;
+      margin-bottom: 2px;
+    }
+    .resp-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Stack grid for tools */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px 18px; margin-top: 6px;
+    }
+    .stack-block-title {
+      font-size: 0.9rem; font-weight: 600;
+      margin-bottom: 3px; color: #ededed;
+    }
+    .stack-block-items {
+      font-size: 0.9rem; color: var(--text-muted);
+    }
+
+    /* Results checkmark list */
+    .results-list { list-style: none; margin-top: 6px; }
+    .results-list li {
+      padding-left: 22px; position: relative;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+    .results-list li::before {
+      content: "✓"; position: absolute;
+      left: 0; top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+    .results-list li strong { color: #ededed; }
+
+    /* Screenshot grid */
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px; margin-top: 6px;
+    }
+    .shot {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .shot:hover {
+      transform: translateY(-2px);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot-caption {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #27272a;
+      background: #0d0d10;
+    }
+
+    /* CTA */
+    .cta-card { text-align: center; padding: 24px 20px; }
+    .cta-title {
+      font-size: 1.1rem; font-weight: 700;
+      color: #ededed; margin-bottom: 6px;
+    }
+    .cta-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .cta-row {
+      display: flex; flex-wrap: wrap;
+      gap: 10px; justify-content: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      padding: 10px 18px; border-radius: 999px;
+      font-size: 0.9rem; font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+      min-width: 180px;
+      text-align: center;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45);
+    }
+    .btn-secondary {
+      background: #0a0a0c;
+      color: var(--text-main);
+      border-color: #27272a;
+    }
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    footer {
+      margin-top: 32px; padding-top: 16px;
+      border-top: 1px solid #27272a;
+      font-size: 0.85rem; color: var(--text-muted);
+      display: flex; justify-content: space-between;
+      gap: 8px; flex-wrap: wrap;
+    }
+    footer span strong { color: #ededed; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 22px 18px 18px; }
+      .page { padding-inline: 14px; }
+      .step { grid-template-columns: 44px 1fr; gap: 10px; padding: 12px 14px; }
+      .step-num { font-size: 1.3rem; }
+      .resp-letter { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <a href="../" class="back-link">&larr; Back to Portfolio</a>
+
+    <header>
+      <div class="hero">
+        <div class="hero-eyebrow">Project · Workflow Architecture · Role-Based Automation</div>
+        <h1 class="hero-title">Construction Project Management System</h1>
+        <p class="hero-subtitle">
+          An end-to-end project responsibility management system built in Monday.com and powered
+          by Make.com. Replaces a 600+ row Excel responsibility matrix with a role-driven engine
+          &mdash; define roles once, and every task on every project board gets the right people
+          assigned automatically. Change one role, and the entire project updates itself.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Monday.com</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">Role-Based Workflow</span>
+          <span class="tag">Workflow Architecture</span>
+          <span class="tag">600+ Task Engine</span>
+          <span class="tag">P/C/R/W/I Matrix</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+
+      <!-- Stat row -->
+      <section class="card">
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-num">600+</div>
+            <div class="stat-label">Tasks per project, auto-populated</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">10&ndash;12</div>
+            <div class="stat-label">Roles defined once per project</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Responsibility types (P/C/R/W/I)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">2</div>
+            <div class="stat-label">Make scenarios power the engine</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Challenge -->
+      <section class="card">
+        <h2 class="card-title"><span>🎯</span> The Challenge</h2>
+        <p>
+          Responsibilities for 600+ tasks were managed in a static Excel matrix. Every time a
+          person changed role &mdash; new CX Provider, new Owner PM, new GC PM &mdash; the team had to touch
+          hundreds of cells, manually, across the entire matrix. The P/C/R/W/I responsibility
+          model (Primary, Coordinator, Reviewer, Witness/Monitor, Inspector) was preserved by
+          hand. There was no way to assign people at the <em>role</em> level and let the system
+          distribute them &mdash; everything was wired person-to-task, the hard way.
+        </p>
+        <div class="goal-line">
+          <strong>Goals:</strong>
+          <ul>
+            <li>Assign people to roles once, distribute them automatically to all related tasks</li>
+            <li>Reassign responsibilities across the entire project by changing a single role assignment</li>
+            <li>Preserve the auditable P/C/R/W/I responsibility model on every task</li>
+            <li>Build a scalable engine where responsibilities are driven by role definitions, not manual cell edits</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Before vs After -->
+      <section class="card">
+        <h2 class="card-title"><span>⚖️</span> Before vs After</h2>
+        <p>
+          The core architectural shift: decoupling <strong>roles</strong> from <strong>people</strong>.
+          Tasks reference roles. People are assigned to roles. The automation does the wiring.
+        </p>
+        <div class="before-after">
+          <div class="ba-col ba-before">
+            <div class="ba-header">Before &mdash; Excel matrix</div>
+            <ul class="ba-list">
+              <li>600+ rows in a static spreadsheet</li>
+              <li>People wired directly to tasks, cell by cell</li>
+              <li>Role change = hundreds of manual edits</li>
+              <li>No single source of truth for "who is in which role"</li>
+              <li>P/C/R/W/I maintained by hand on every task</li>
+              <li>High error rate, hours of work per change</li>
+            </ul>
+          </div>
+          <div class="ba-col ba-after">
+            <div class="ba-header">After &mdash; Monday + Make</div>
+            <ul class="ba-list">
+              <li>Roles defined once on the Main Project Board</li>
+              <li>People assigned to roles, not to tasks</li>
+              <li>Role change = one edit, cascades to all 600+ tasks</li>
+              <li>Main Project Board is the source of truth</li>
+              <li>P/C/R/W/I encoded in the template, applied automatically</li>
+              <li>Minutes instead of hours, no manual editing required</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="card">
+        <h2 class="card-title"><span>🧩</span> The Solution</h2>
+        <p>
+          Two Monday.com boards plus two Make.com scenarios form the entire engine: one board
+          defines roles per project, one board holds the task template, one scenario creates and
+          populates execution boards, and one scenario handles role reassignment across the
+          entire project.
+        </p>
+
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <div class="step-title">Main Project Board &mdash; the project hub</div>
+              <div class="step-text">
+                A central Monday board with one item per project. Each item has:
+                <ul>
+                  <li>A <strong>status column</strong> (e.g., <em>Create project</em>, <em>Reassign owners</em>) that drives automation</li>
+                  <li><strong>Subitems</strong> for the 10&ndash;12 key roles: Owner PM, Owner Inspectors, CX Provider, Architect, GC PM, various subcontractors and specialists</li>
+                  <li><strong>People/contact columns</strong> where one person is assigned per role for that project</li>
+                </ul>
+                This board is the <strong>source of truth</strong> for who fills which role on each project.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <div class="step-title">Project Template Board &mdash; the responsibility matrix</div>
+              <div class="step-text">
+                A preconfigured Monday board representing the full responsibility matrix &mdash; one
+                item per task, ~600 tasks total, original task IDs from the legacy Excel matrix
+                preserved. Role columns define which roles are involved per task and what
+                responsibility type each carries (P/C/R/W/I). Roles are stored in a normalized
+                structure so automations can process them efficiently.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <div class="step-title">Make.com &mdash; project creation &amp; role distribution</div>
+              <div class="step-text">
+                <strong>Trigger:</strong> Project status changes to <em>Create project</em> on the Main Board.
+                <ol class="sub-steps">
+                  <li>Creates a new project execution board from the template (all 600+ tasks included)</li>
+                  <li>Renames the new board to match the project name</li>
+                  <li>Reads role assignments from the project's subitems on the Main Board</li>
+                  <li>Iterates through every task and, for each role marked P/C/R/W/I, writes the right person into the corresponding owner column</li>
+                  <li>Completes with a fully prepared execution board where all 600+ tasks have the right people assigned, per responsibility type, with zero manual editing</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="step step-highlight">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <div class="step-title">
+                Make.com &mdash; owner reassignment across the project
+                <span class="step-pill">The killer feature</span>
+              </div>
+              <div class="step-text">
+                <strong>Trigger:</strong> Project status changes to <em>Reassign owners</em> on the Main Board.
+                <ol class="sub-steps">
+                  <li>Reads the updated role assignments on the Main Board (new Owner PM, new CX Provider, etc.)</li>
+                  <li>Locates the corresponding execution project board previously created from the template</li>
+                  <li>Scans all tasks and subitems where each role appears, in every P/C/R/W/I column</li>
+                  <li>Updates the people/owner columns to the new person for that role and responsibility type, everywhere it appears</li>
+                </ol>
+                One change on the Main Project Board now cascades through hundreds of records.
+                A new CX Provider gets reassigned to every Coordinator, Reviewer, Witness, or
+                Inspector responsibility they hold &mdash; instantly, without anyone touching the
+                execution board.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Responsibility Model -->
+      <section class="card">
+        <h2 class="card-title"><span>🧭</span> The P/C/R/W/I Responsibility Model</h2>
+        <p>
+          The original P/C/R/W/I legend from the legacy spreadsheet is preserved end-to-end, so
+          the team's existing language and audit model carry over without retraining.
+        </p>
+        <div class="resp-grid">
+          <div class="resp-card">
+            <div class="resp-letter">P</div>
+            <div class="resp-name">Primary</div>
+            <div class="resp-desc">Primary Responsibility</div>
+          </div>
+          <div class="resp-card">
+            <div class="resp-letter">C</div>
+            <div class="resp-name">Coordination</div>
+            <div class="resp-desc">Coordinates the work</div>
+          </div>
+          <div class="resp-card">
+            <div class="resp-letter">R</div>
+            <div class="resp-name">Review</div>
+            <div class="resp-desc">Reviews documentation</div>
+          </div>
+          <div class="resp-card">
+            <div class="resp-letter">W</div>
+            <div class="resp-name">Witness</div>
+            <div class="resp-desc">Witness / Monitor</div>
+          </div>
+          <div class="resp-card">
+            <div class="resp-letter">I</div>
+            <div class="resp-name">Inspect</div>
+            <div class="resp-desc">Performs inspection</div>
+          </div>
+        </div>
+        <p style="margin-top:14px;">
+          Because roles (Owner PM, CX Provider, etc.) are decoupled from people and linked via
+          automation, changing <em>who</em> occupies a role is fast and safe &mdash; the
+          responsibility model itself stays stable. Each task clearly displays who does what.
+          Progress can be aggregated by group or role for leadership-level reporting.
+        </p>
+      </section>
+
+      <!-- Tools & Stack -->
+      <section class="card">
+        <h2 class="card-title"><span>🛠</span> Tools &amp; Stack</h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">Workflow &amp; data</div>
+            <div class="stack-block-items">Monday.com &mdash; Main Project Board, Template Board, status-driven triggers, people columns, subitems</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Orchestration &amp; cascade logic</div>
+            <div class="stack-block-items">Make.com (Integromat) &mdash; board creation, role distribution, bulk reassignment</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Legacy source</div>
+            <div class="stack-block-items">Excel responsibility matrix &mdash; original task list, IDs, and P/C/R/W/I structure preserved</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Impact -->
+      <section class="card">
+        <h2 class="card-title"><span>📈</span> Results &amp; Impact</h2>
+        <ul class="results-list">
+          <li><strong>Massive time savings</strong> &mdash; a 600+ row manual spreadsheet replaced by a fully automated, role-driven engine.</li>
+          <li><strong>Manual errors eliminated</strong> &mdash; no more cell-by-cell edits when people change roles. The system does it.</li>
+          <li><strong>Define once, apply everywhere</strong> &mdash; one change in the Main Project Board updates responsibilities across the entire execution board.</li>
+          <li><strong>Transparent accountability</strong> &mdash; every task shows clear P/C/R/W/I assignments, improving communication and audit-readiness.</li>
+          <li><strong>Scalable architecture</strong> &mdash; new projects, new roles, or new stakeholders can be added without reworking the matrix.</li>
+        </ul>
+      </section>
+
+      <!-- Screenshots -->
+      <section class="card">
+        <h2 class="card-title"><span>🖼</span> Screenshots</h2>
+        <div class="shot-grid">
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/1%20-%20initial%20Table.png" alt="The original Excel responsibility matrix" />
+            <div class="shot-caption">The 600+ row Excel responsibility matrix the system replaced</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/2%20-%20Main%20Projects%20board.png" alt="Main Projects board in Monday.com" />
+            <div class="shot-caption">Main Project Board &mdash; the source of truth for roles per project</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/3%20-%20Main%20Projects%20board%20-%20subitems.png" alt="Main Projects board subitems showing role assignments" />
+            <div class="shot-caption">Role subitems &mdash; defining who fills each role on each project</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/4%20-%20New%20Project%20board_1.png" alt="Generated execution project board" />
+            <div class="shot-caption">Generated execution board &mdash; auto-populated from the template</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/5%20-%20New%20Project%20board_2.png" alt="Execution board with assigned owners across tasks" />
+            <div class="shot-caption">Execution board &mdash; tasks with auto-assigned P/C/R/W/I owners</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Construction%20Project%20Management/6%20-%20Make%20-%20Create%20New%20Project%20and%20assign%20people.png" alt="Make.com scenario creating and assigning the project" />
+            <div class="shot-caption">Make.com scenario &mdash; creates the board and distributes people across 600+ tasks</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="card cta-card">
+        <div class="cta-title">Have a process where role changes ripple through hundreds of records?</div>
+        <div class="cta-sub">
+          This pattern applies directly to insurance underwriting flows where roles change across
+          a book of business, inspection-team rosters where adjusters rotate, claims-handling
+          assignments, producer/agent transitions, and any workflow where ownership lives at the
+          role level &mdash; not in cell-by-cell edits.
+        </div>
+        <div class="cta-row">
+          <a href="../" class="btn btn-secondary">View More Projects</a>
+          <a href="mailto:viktorautomationm@gmail.com" class="btn btn-primary">Book a Discovery Call</a>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <span>Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist</span>
+      <span><a href="../" style="color: var(--accent-bright);">&larr; Back to Portfolio</a></span>
+    </footer>
+
+  </div>
+</body>
+</html>

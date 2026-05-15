@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Invoice Management System — Monday.com + Xero + Make.com — Viktor T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-soft: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page { max-width: 1080px; margin: 0 auto; padding: 24px 16px 48px; }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.88rem; color: var(--text-muted);
+      margin-bottom: 18px;
+      transition: color 0.15s ease;
+    }
+    .back-link:hover { color: var(--accent-bright); }
+
+    header { margin-bottom: 24px; }
+
+    .hero {
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(161, 161, 170, 0.3);
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 8px; font-weight: 600;
+    }
+    .hero-title {
+      font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+      font-weight: 700; margin-bottom: 10px; line-height: 1.25;
+    }
+    .hero-subtitle {
+      font-size: 0.98rem; color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .tag {
+      display: inline-block;
+      font-size: 0.74rem; letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 10px; border-radius: 999px;
+    }
+
+    .sections { margin-top: 24px; display: flex; flex-direction: column; gap: 22px; }
+
+    .card {
+      background: rgba(19, 19, 22, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    /* Stat row */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+    .stat-card {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+    .stat-num {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .card-title {
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+      color: #ededed;
+    }
+    .card-title span { font-size: 1.1rem; }
+
+    .card p {
+      font-size: 0.94rem; color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .card p:last-child { margin-bottom: 0; }
+
+    .goal-line {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      color: #ededed;
+    }
+    .goal-line strong { color: var(--accent-bright); }
+    .goal-line ul { list-style: none; margin-top: 6px; }
+    .goal-line ul li {
+      padding-left: 16px; position: relative;
+      font-size: 0.9rem; color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+    .goal-line ul li::before {
+      content: "→"; position: absolute; left: 0; top: 0;
+      color: var(--accent-bright);
+    }
+
+    /* Pipeline flow diagram (reused pattern) */
+    .flow-wrapper {
+      margin: 6px 0 16px;
+      padding: 18px 16px 14px;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+    }
+    .flow-row {
+      display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: center;
+      gap: 10px;
+    }
+    .flow-node {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ededed;
+      white-space: nowrap;
+    }
+    .flow-arrow {
+      color: var(--accent-bright);
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .flow-note {
+      margin-top: 12px;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-style: italic;
+    }
+    .flow-note strong {
+      color: var(--accent-bright);
+      font-style: normal;
+    }
+
+    /* 5-board architecture grid */
+    .boards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .board-card {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 14px;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .board-card:hover {
+      border-color: rgba(16, 185, 129, 0.5);
+      transform: translateY(-2px);
+    }
+    .board-card-label {
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .board-card-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ededed;
+      margin-bottom: 6px;
+    }
+    .board-card-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    /* Numbered step cards */
+    .step-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+    .step {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 14px; align-items: start;
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+    .step-highlight {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.05), #0a0a0c);
+    }
+    .step-num {
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--accent-bright);
+      line-height: 1; padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .step-body { min-width: 0; }
+    .step-title {
+      font-size: 0.98rem; font-weight: 600;
+      color: #ededed; margin-bottom: 4px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .step-pill {
+      font-size: 0.66rem; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 1px 8px; border-radius: 999px;
+      font-weight: 700;
+    }
+    .step-text { font-size: 0.9rem; color: var(--text-muted); }
+    .step-text ul { margin-top: 6px; list-style: none; }
+    .step-text ul li {
+      padding-left: 16px; position: relative;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+    .step-text ul li::before {
+      content: "•"; position: absolute;
+      left: 2px; top: 0;
+      color: var(--accent);
+    }
+    .step-text strong { color: #ededed; font-weight: 600; }
+    .step-text em {
+      color: #ededed;
+      background: rgba(16, 185, 129, 0.08);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-style: normal;
+      font-size: 0.86rem;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    /* Feature callout — dashed, for "and one more thing" highlights */
+    .feature-callout {
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: rgba(16, 185, 129, 0.05);
+      border: 1px dashed rgba(16, 185, 129, 0.45);
+      border-radius: var(--radius-md);
+    }
+    .feature-callout-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent-bright);
+      margin-bottom: 6px;
+    }
+    .feature-callout-body {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Stack grid for tools */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px 18px; margin-top: 6px;
+    }
+    .stack-block-title {
+      font-size: 0.9rem; font-weight: 600;
+      margin-bottom: 3px; color: #ededed;
+    }
+    .stack-block-items {
+      font-size: 0.9rem; color: var(--text-muted);
+    }
+
+    /* Results checkmark list */
+    .results-list { list-style: none; margin-top: 6px; }
+    .results-list li {
+      padding-left: 22px; position: relative;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+    .results-list li::before {
+      content: "✓"; position: absolute;
+      left: 0; top: 0;
+      color: var(--accent-bright);
+      font-weight: 700;
+    }
+    .results-list li strong { color: #ededed; }
+
+    /* Screenshot grid */
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px; margin-top: 6px;
+    }
+    .shot {
+      background: #0a0a0c;
+      border: 1px solid #27272a;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .shot:hover {
+      transform: translateY(-2px);
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot-caption {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #27272a;
+      background: #0d0d10;
+    }
+
+    /* CTA */
+    .cta-card { text-align: center; padding: 24px 20px; }
+    .cta-title {
+      font-size: 1.1rem; font-weight: 700;
+      color: #ededed; margin-bottom: 6px;
+    }
+    .cta-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .cta-row {
+      display: flex; flex-wrap: wrap;
+      gap: 10px; justify-content: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      padding: 10px 18px; border-radius: 999px;
+      font-size: 0.9rem; font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+      min-width: 180px;
+      text-align: center;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f;
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45);
+    }
+    .btn-secondary {
+      background: #0a0a0c;
+      color: var(--text-main);
+      border-color: #27272a;
+    }
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    footer {
+      margin-top: 32px; padding-top: 16px;
+      border-top: 1px solid #27272a;
+      font-size: 0.85rem; color: var(--text-muted);
+      display: flex; justify-content: space-between;
+      gap: 8px; flex-wrap: wrap;
+    }
+    footer span strong { color: #ededed; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 22px 18px 18px; }
+      .page { padding-inline: 14px; }
+      .step { grid-template-columns: 44px 1fr; gap: 10px; padding: 12px 14px; }
+      .step-num { font-size: 1.3rem; }
+      .flow-arrow { font-size: 1rem; }
+      .flow-node { font-size: 0.82rem; padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <a href="../" class="back-link">&larr; Back to Portfolio</a>
+
+    <header>
+      <div class="hero">
+        <div class="hero-eyebrow">Project · Billing Automation · Multi-System Integration</div>
+        <h1 class="hero-title">Invoice Management System &mdash; Monday.com + Xero + Make.com</h1>
+        <p class="hero-subtitle">
+          An end-to-end invoice and bill management system with Monday.com as the central hub,
+          Xero for accounting, and Make.com handling orchestration. PDF invoices land in an inbox;
+          AI extracts the data; draft bills appear in Xero. Five Monday boards and four Make
+          scenarios make it work, end to end.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Monday.com</span>
+          <span class="tag">Xero</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">OpenAI API</span>
+          <span class="tag">Billing Automation</span>
+          <span class="tag">Multi-System Sync</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+
+      <!-- Stat row -->
+      <section class="card">
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Connected Monday boards</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Orchestrating Make scenarios</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Integrated systems</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">1</div>
+            <div class="stat-label">Central hub of truth (Monday)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Challenge -->
+      <section class="card">
+        <h2 class="card-title"><span>🎯</span> The Challenge</h2>
+        <p>
+          The client needed to manage vendor invoices &mdash; line items, suppliers, GL accounts,
+          and bill creation in Xero &mdash; with minimal manual input. PDF invoices arrived by email
+          and had to be extracted, mapped, and pushed into Xero accurately, without duplicates
+          or rekeying. They also wanted clear visibility into what each automation was doing,
+          including errors and exceptions, so managers could intervene without digging into raw
+          logs.
+        </p>
+        <div class="goal-line">
+          <strong>Goals:</strong>
+          <ul>
+            <li>Manage vendor invoices, line items, suppliers, and GL accounts with minimal manual input</li>
+            <li>Extract structured data from PDF invoices and map it correctly</li>
+            <li>Keep Xero and Monday.com in sync for suppliers, items, and bills</li>
+            <li>Reduce duplicated data, manual errors, and back-and-forth between tools</li>
+            <li>Provide clear status feedback for every automation event &mdash; success, error, duplicate, etc.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- The Architecture -->
+      <section class="card">
+        <h2 class="card-title"><span>🏗</span> The Architecture</h2>
+        <p>
+          The full pipeline in three nodes: PDF invoices arrive via email, get parsed and
+          structured in Monday.com, then flow out as draft bills in Xero.
+        </p>
+
+        <div class="flow-wrapper">
+          <div class="flow-row">
+            <span class="flow-node">📧 Email Inbox</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-node">📋 Monday.com</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-node">💰 Xero</span>
+          </div>
+          <div class="flow-note">
+            <strong>AI parses PDFs &middot; 5 boards manage data &middot; 4 scenarios orchestrate the flow</strong>
+          </div>
+        </div>
+
+        <p style="margin-top:14px;">
+          Inside Monday.com, five purpose-built boards handle the structured data with clear
+          separation of concerns &mdash; one board per domain entity, all linked by relations.
+        </p>
+
+        <div class="boards-grid">
+          <div class="board-card">
+            <div class="board-card-label">Board 1</div>
+            <div class="board-card-name">📋 Invoice Management</div>
+            <div class="board-card-desc">
+              Central board for all invoice details. Used to initiate Xero bill creation and
+              track statuses end-to-end.
+            </div>
+          </div>
+          <div class="board-card">
+            <div class="board-card-label">Board 2</div>
+            <div class="board-card-name">📦 Item Management</div>
+            <div class="board-card-desc">
+              Stores invoice line items and links them to invoices and suppliers. Handles item
+              codes and descriptions.
+            </div>
+          </div>
+          <div class="board-card">
+            <div class="board-card-label">Board 3</div>
+            <div class="board-card-name">👤 Suppliers Directory</div>
+            <div class="board-card-desc">
+              Tracks all vendor records and their sync status with Xero. The source of truth
+              for "who we owe."
+            </div>
+          </div>
+          <div class="board-card">
+            <div class="board-card-label">Board 4</div>
+            <div class="board-card-name">💰 Xero Bills</div>
+            <div class="board-card-desc">
+              Logs draft bills created in Xero, including links back to Xero and to related
+              Monday items.
+            </div>
+          </div>
+          <div class="board-card">
+            <div class="board-card-label">Board 5</div>
+            <div class="board-card-name">🏷 GL Account Management</div>
+            <div class="board-card-desc">
+              Maintains Xero GL account codes to ensure correct coding for every item and bill.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Automation Pipeline -->
+      <section class="card">
+        <h2 class="card-title"><span>🧩</span> The Automation Pipeline</h2>
+        <p>
+          Four Make.com scenarios orchestrate the entire flow. Each one owns a single
+          responsibility &mdash; parse, sync suppliers, sync items, or create the bill &mdash; so the
+          system is easy to maintain and extend.
+        </p>
+
+        <div class="step-list">
+          <div class="step step-highlight">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <div class="step-title">
+                Email &rarr; Invoice Parser
+                <span class="step-pill">AI-powered</span>
+              </div>
+              <div class="step-text">
+                Scenario 1 listens to a dedicated email inbox for incoming PDF invoices. When
+                one arrives, it:
+                <ul>
+                  <li>Uses the <strong>OpenAI API</strong> to extract structured fields from the PDF (supplier, invoice number, date, totals, line items)</li>
+                  <li>Searches for matching suppliers and items in Monday.com</li>
+                  <li>Creates a new record in the <strong>Invoice Management</strong> board and related line items in <strong>Item Management</strong></li>
+                </ul>
+                A PDF that arrived as raw email attachment is now a structured Monday record,
+                ready for review.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <div class="step-title">Supplier Sync &mdash; Monday &harr; Xero</div>
+              <div class="step-text">
+                Scenario 2 triggers when a supplier is approved in Monday.com:
+                <ul>
+                  <li>Checks Xero to see if the supplier already exists</li>
+                  <li>Creates a new contact in Xero if not found</li>
+                  <li>Writes back the Xero IDs and statuses to the <strong>Suppliers Directory</strong> board</li>
+                </ul>
+                No more "which supplier record is the real one?" &mdash; Monday and Xero stay aligned automatically.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <div class="step-title">Item Sync &mdash; with duplicate detection</div>
+              <div class="step-text">
+                Scenario 3 handles the same logic for items:
+                <ul>
+                  <li>Validates whether an item code already exists in Xero</li>
+                  <li>Creates or updates items as needed</li>
+                  <li>Detects duplicate codes and surfaces clear errors back into Monday &mdash; e.g. <em>"Error &mdash; Item code already exists"</em></li>
+                </ul>
+                Managers fix issues from the Monday board, without ever leaving the interface.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <div class="step-title">Bill Creation &mdash; Monday button to Xero draft</div>
+              <div class="step-text">
+                Scenario 4 triggers from a <em>"Create Bill in Xero"</em> button on the Invoice
+                Management board. It:
+                <ul>
+                  <li>Gathers validated supplier, item, and GL data from all related boards</li>
+                  <li>Creates a draft bill in Xero with the correct lines, amounts, tax, and GL coding</li>
+                  <li>Logs the result in the <strong>Xero Bills</strong> board with a direct link back to the bill in Xero</li>
+                </ul>
+                One button click; one draft bill ready for review in Xero.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-callout">
+          <div class="feature-callout-title">🛡 Error handling &amp; transparency</div>
+          <div class="feature-callout-body">
+            Every scenario returns <strong style="color:#ededed;">human-readable status messages</strong>
+            back into Monday.com. Errors, duplicates, and missing data are surfaced clearly &mdash;
+            no digging through Make.com execution logs to find out why something failed.
+            Managers see what happened and what to fix, right where they're already working.
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools & Stack -->
+      <section class="card">
+        <h2 class="card-title"><span>🛠</span> Tools &amp; Stack</h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">Workflow &amp; data</div>
+            <div class="stack-block-items">Monday.com &mdash; 5 connected boards, automations, relations, permissions, buttons</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Orchestration</div>
+            <div class="stack-block-items">Make.com (Integromat) &mdash; 4 scenarios handling parse, sync, and bill creation</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Accounting system</div>
+            <div class="stack-block-items">Xero &mdash; suppliers, items, draft bills, GL accounts</div>
+          </div>
+          <div>
+            <div class="stack-block-title">AI extraction</div>
+            <div class="stack-block-items">OpenAI API &mdash; structured field extraction from PDF invoices</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Impact -->
+      <section class="card">
+        <h2 class="card-title"><span>📈</span> Results &amp; Impact</h2>
+        <ul class="results-list">
+          <li><strong>Manual data entry slashed</strong> &mdash; invoice parsing, item creation, and supplier checks all happen automatically.</li>
+          <li><strong>Errors &amp; duplicates prevented</strong> &mdash; smart validation logic and two-way Xero sync catch issues before they propagate.</li>
+          <li><strong>Faster processing times</strong> &mdash; invoices move from inbox to draft bill with minimal human effort.</li>
+          <li><strong>High transparency</strong> &mdash; every automation step is logged with clear status messages and traceable workflows.</li>
+          <li><strong>Manager-friendly control</strong> &mdash; approvals and exceptions are handled directly inside Monday.com, no Make.com expertise required.</li>
+        </ul>
+      </section>
+
+      <!-- Screenshots -->
+      <section class="card">
+        <h2 class="card-title"><span>🖼</span> Screenshots</h2>
+        <div class="shot-grid">
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/6.png" alt="Monday Invoice Management board" />
+            <div class="shot-caption">Monday &mdash; Invoice Management board (the central hub)</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/7.png" alt="Monday Item Management board" />
+            <div class="shot-caption">Monday &mdash; Item Management board</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/8.png" alt="Monday Supplier Management board" />
+            <div class="shot-caption">Monday &mdash; Supplier Directory (synced with Xero)</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/9.png" alt="Monday Xero Bills board" />
+            <div class="shot-caption">Monday &mdash; Xero Bills log with direct links to Xero</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/1.png" alt="Make.com scenarios overview" />
+            <div class="shot-caption">Make.com &mdash; all four orchestrating scenarios</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/2.png" alt="Email parse to Monday scenario" />
+            <div class="shot-caption">Scenario 1 &mdash; email parsing to Monday Invoices board</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/3.png" alt="Monday items to Xero sync scenario" />
+            <div class="shot-caption">Scenario 3 &mdash; approved items create or update in Xero</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/4.png" alt="Monday suppliers to Xero check/create scenario" />
+            <div class="shot-caption">Scenario 2 &mdash; approved suppliers check/create in Xero</div>
+          </div>
+          <div class="shot">
+            <img src="https://raw.githubusercontent.com/ViktorAutomation/Portfolio-Automation/main/Invoice%20Automation%20System/5.png" alt="Monday button creates bill in Xero scenario" />
+            <div class="shot-caption">Scenario 4 &mdash; create draft bill in Xero from Monday button</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="card cta-card">
+        <div class="cta-title">Need bills flowing from inbox to accounting, no rekeying?</div>
+        <div class="cta-sub">
+          The same pattern powers insurance premium billing, QuickBooks &harr; Monday
+          reconciliation, supplier invoice automation, and any system where bills need to flow
+          from email or operations into your accounting stack &mdash; with AI extraction, two-way
+          sync, and clear error visibility for the people managing it.
+        </div>
+        <div class="cta-row">
+          <a href="../" class="btn btn-secondary">View More Projects</a>
+          <a href="mailto:viktorautomationm@gmail.com" class="btn btn-primary">Book a Discovery Call</a>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <span>Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist</span>
+      <span><a href="../" style="color: var(--accent-bright);">&larr; Back to Portfolio</a></span>
+    </footer>
+
+  </div>
+</body>
+</html>

@@ -1,1 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Case Study — Operating System for a US Home Insurance Company — Viktor T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --card-bg: #131316;
+      --hero-bg: rgba(20, 20, 24, 0.9);
+      --text-main: #ededed;
+      --text-muted: #a1a1aa;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-strong: #059669;
+      --accent-bright: #34d399;
+      --border: #27272a;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a1f, #0a0a0c 55%),
+        radial-gradient(circle at bottom right, #0a0a0c, #000000 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page { max-width: 1080px; margin: 0 auto; padding: 24px 16px 48px; }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.88rem; color: var(--text-muted);
+      margin-bottom: 18px; transition: color 0.15s ease;
+    }
+    .back-link:hover { color: var(--accent-bright); }
+
+    header { margin-bottom: 24px; }
+
+    .hero {
+      background: var(--hero-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 30px 26px 26px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 8px; font-weight: 600;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700; margin-bottom: 12px; line-height: 1.22;
+    }
+    .hero-subtitle {
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 760px;
+    }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .tag {
+      display: inline-block;
+      font-size: 0.74rem; letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-soft);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 10px; border-radius: 999px;
+    }
+
+    .sections { margin-top: 24px; display: flex; flex-direction: column; gap: 22px; }
+
+    .card {
+      background: rgba(19, 19, 22, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 24px 22px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(63, 63, 70, 0.85);
+    }
+
+    .card-title {
+      font-size: 1.15rem; font-weight: 700;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px; color: #ededed;
+    }
+    .card-title span { font-size: 1.15rem; }
+
+    .card p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 12px; }
+    .card p:last-child { margin-bottom: 0; }
+    .card p strong { color: #ededed; }
+
+    /* Stat row */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+    .stat-card {
+      background: #0a0a0c; border: 1px solid #27272a;
+      border-radius: var(--radius-md); padding: 14px 16px;
+    }
+    .stat-num {
+      font-size: 1.9rem; font-weight: 700;
+      color: var(--accent-bright); line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* Goals callout */
+    .goal-line {
+      margin-top: 12px; padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px; font-size: 0.92rem; color: #ededed;
+    }
+    .goal-line strong { color: var(--accent-bright); }
+    .goal-line ul { list-style: none; margin-top: 6px; }
+    .goal-line ul li {
+      padding-left: 16px; position: relative;
+      font-size: 0.9rem; color: var(--text-muted); margin-bottom: 3px;
+    }
+    .goal-line ul li::before {
+      content: "→"; position: absolute; left: 0; top: 0; color: var(--accent-bright);
+    }
+
+    /* Before vs After */
+    .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }
+    .ba-col { border-radius: var(--radius-md); padding: 16px; border: 1px solid #27272a; }
+    .ba-before { background: #0a0a0c; }
+    .ba-after {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.06), rgba(16, 185, 129, 0.01));
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+    .ba-header {
+      font-size: 0.78rem; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 700; margin-bottom: 10px;
+    }
+    .ba-before .ba-header { color: #71717a; }
+    .ba-after .ba-header { color: var(--accent-bright); }
+    .ba-list { list-style: none; }
+    .ba-list li {
+      padding-left: 20px; position: relative;
+      font-size: 0.88rem; color: var(--text-muted); margin-bottom: 6px;
+    }
+    .ba-before .ba-list li::before { content: "✗"; position: absolute; left: 0; top: 0; color: #6b7280; font-weight: 700; }
+    .ba-after .ba-list li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--accent-bright); font-weight: 700; }
+    @media (max-width: 560px) { .before-after { grid-template-columns: 1fr; } }
+
+    /* Architecture visual */
+    .arch { margin-top: 6px; }
+    .arch-box {
+      border-radius: var(--radius-md);
+      padding: 14px 16px; text-align: center;
+      border: 1px solid #27272a; background: #0a0a0c;
+    }
+    .arch-input {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02));
+    }
+    .arch-hub {
+      border-color: rgba(16, 185, 129, 0.6);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.13), rgba(16, 185, 129, 0.03));
+      padding: 18px;
+    }
+    .arch-box-label {
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent-bright); font-weight: 700; margin-bottom: 4px;
+    }
+    .arch-box-name { font-size: 1.05rem; font-weight: 700; color: #ededed; }
+    .arch-hub .arch-box-name { font-size: 1.25rem; }
+    .arch-box-sub { font-size: 0.83rem; color: var(--text-muted); margin-top: 3px; }
+    .arch-connector { text-align: center; color: var(--accent-bright); font-size: 1.4rem; line-height: 1; margin: 8px 0; }
+    .arch-make-band {
+      text-align: center; font-size: 0.84rem; color: var(--text-muted);
+      margin: 10px 0; padding: 8px;
+      border-top: 1px dashed rgba(16,185,129,0.35);
+      border-bottom: 1px dashed rgba(16,185,129,0.35);
+    }
+    .arch-make-band strong { color: var(--accent-bright); }
+    .arch-systems {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px; margin-top: 10px;
+    }
+
+    /* Flow diagram (smart home lifecycle) */
+    .flow-wrapper {
+      margin: 6px 0; padding: 18px 16px 14px;
+      background: #0a0a0c; border: 1px solid #27272a; border-radius: var(--radius-md);
+    }
+    .flow-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
+    .flow-node {
+      display: inline-flex; align-items: center; padding: 8px 14px;
+      background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.45);
+      border-radius: 999px; font-size: 0.84rem; font-weight: 600; color: #ededed; white-space: nowrap;
+    }
+    .flow-arrow { color: var(--accent-bright); font-size: 1.1rem; font-weight: 700; }
+    .flow-note { margin-top: 12px; font-size: 0.83rem; color: var(--text-muted); text-align: center; font-style: italic; }
+    .flow-note strong { color: var(--accent-bright); font-style: normal; }
+
+    /* Feature blocks (key automations) */
+    .feature-block {
+      background: #0a0a0c; border: 1px solid #27272a;
+      border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 12px;
+    }
+    .feature-block:last-child { margin-bottom: 0; }
+    .feature-highlight {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.05), #0a0a0c);
+    }
+    .feature-block-title {
+      font-size: 1rem; font-weight: 700; color: #ededed; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .feature-pill {
+      font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent-bright); background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 8px;
+      border-radius: 999px; font-weight: 700;
+    }
+    .feature-block-body { font-size: 0.9rem; color: var(--text-muted); }
+    .feature-block-body strong { color: #ededed; }
+    .feature-block-body ul { list-style: none; margin-top: 6px; }
+    .feature-block-body ul li {
+      padding-left: 16px; position: relative; margin-bottom: 3px;
+      color: var(--text-muted); font-size: 0.88rem;
+    }
+    .feature-block-body ul li::before { content: "•"; position: absolute; left: 2px; top: 0; color: var(--accent); }
+
+    /* Stack grid */
+    .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 18px; margin-top: 6px; }
+    .stack-block-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 3px; color: #ededed; }
+    .stack-block-items { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* Results checkmark list */
+    .results-list { list-style: none; margin-top: 6px; }
+    .results-list li {
+      padding-left: 22px; position: relative; margin-bottom: 8px;
+      color: var(--text-muted); font-size: 0.94rem;
+    }
+    .results-list li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--accent-bright); font-weight: 700; }
+    .results-list li strong { color: #ededed; }
+
+    /* Screenshot grid + placeholders */
+    .shot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 6px; }
+    .shot {
+      background: #0a0a0c; border: 1px solid #27272a;
+      border-radius: var(--radius-md); overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .shot:hover { transform: translateY(-2px); border-color: rgba(16, 185, 129, 0.5); }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot-caption {
+      padding: 10px 12px; font-size: 0.85rem; color: var(--text-muted);
+      border-top: 1px solid #27272a; background: #0d0d10;
+    }
+    .shot-placeholder {
+      background: repeating-linear-gradient(45deg, #0d0d10, #0d0d10 12px, #0a0a0c 12px, #0a0a0c 24px);
+      border: 2px dashed rgba(16, 185, 129, 0.4);
+      border-radius: var(--radius-md);
+      min-height: 190px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center; padding: 20px;
+    }
+    .shot-placeholder-icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .shot-placeholder-label { font-size: 0.9rem; color: var(--accent-bright); font-weight: 700; }
+    .shot-placeholder-hint { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* Inline single placeholder (wider) */
+    .shot-placeholder-wide { min-height: 260px; margin-top: 6px; }
+
+    /* CTA */
+    .cta-card { text-align: center; padding: 26px 20px; }
+    .cta-title { font-size: 1.2rem; font-weight: 700; color: #ededed; margin-bottom: 6px; }
+    .cta-sub { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 18px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 11px 20px; border-radius: 999px; font-size: 0.92rem; font-weight: 600;
+      border: 1px solid transparent; cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+      min-width: 180px; text-align: center;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #34d399);
+      color: #052e1f; box-shadow: 0 16px 40px rgba(16, 185, 129, 0.3);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 20px 50px rgba(16, 185, 129, 0.45); }
+    .btn-secondary { background: #0a0a0c; color: var(--text-main); border-color: #27272a; }
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    footer {
+      margin-top: 32px; padding-top: 16px; border-top: 1px solid #27272a;
+      font-size: 0.85rem; color: var(--text-muted);
+      display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+    }
+    footer span strong { color: #ededed; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 24px 18px 20px; }
+      .page { padding-inline: 14px; }
+      .flow-arrow { font-size: 0.95rem; }
+      .flow-node { font-size: 0.78rem; padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <a href="../" class="back-link">&larr; Back to Portfolio</a>
+
+    <header>
+      <div class="hero">
+        <div class="hero-eyebrow">Featured Case Study · Insurance</div>
+        <h1 class="hero-title">Operating System for a US Home Insurance Company</h1>
+        <p class="hero-subtitle">
+          How a US-based home insurance provider replaced a sprawling, duplicate-ridden Excel
+          system with a Monday.com operating system spanning the entire policy lifecycle &mdash;
+          onboarding, applications, inspections, smart-home equipment, billing, claims, renewals,
+          and cancellations &mdash; unified by 41 Make.com scenarios, a custom Monday app, and five
+          integrated platforms working behind the scenes.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Monday.com</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">Monday Vibe App</span>
+          <span class="tag">Hubflo</span>
+          <span class="tag">QuickBooks Online</span>
+          <span class="tag">Box</span>
+          <span class="tag">Slack</span>
+          <span class="tag">Property &amp; Home Insurance</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sections">
+
+      <!-- Stat row -->
+      <section class="card">
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-num">1,000+</div>
+            <div class="stat-label">Policies under management</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">300+</div>
+            <div class="stat-label">Active policies</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">41</div>
+            <div class="stat-label">Make scenarios orchestrating it all</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">9</div>
+            <div class="stat-label">Connected Monday boards</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Challenge -->
+      <section class="card">
+        <h2 class="card-title"><span>🎯</span> The Challenge</h2>
+        <p>
+          This insurer bundles a smart home security system with every home insurance policy &mdash;
+          so every customer relationship involves not just a policy, but a physical product to
+          ship, install, register, and activate, plus inspections, billing, claims, and annual
+          renewals. All of it was being run out of Excel.
+        </p>
+        <p>
+          <strong>The breaking point was renewals.</strong> Every policy is valid for one year.
+          When it expires, a new policy has to be created and signed. In Excel, the only way to
+          record that was to <strong>duplicate the customer</strong> &mdash; creating a second, third,
+          fourth record for the same person. Past 1,000 policies, the customer list was bloated
+          with duplicates, reporting was unreliable, and tracking who needed what, when, became
+          nearly impossible.
+        </p>
+        <p>
+          There were no reminders, no notifications, no escalations. Every deadline depended on
+          someone remembering to check a spreadsheet. The work was slow, manual, and error-prone &mdash;
+          and it could not scale.
+        </p>
+        <div class="goal-line">
+          <strong>Goals:</strong>
+          <ul>
+            <li>Eliminate customer duplication on renewal &mdash; one customer, many linked annual policies</li>
+            <li>Replace manual spreadsheet tracking with automated reminders and escalations</li>
+            <li>Give every department a clear, real-time view of what needs attention</li>
+            <li>Build something clean and scalable that Excel could never be</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Before vs After -->
+      <section class="card">
+        <h2 class="card-title"><span>⚖️</span> Before vs After</h2>
+        <div class="before-after">
+          <div class="ba-col ba-before">
+            <div class="ba-header">Before &mdash; Excel</div>
+            <ul class="ba-list">
+              <li>Each annual renewal duplicated the customer record</li>
+              <li>Customer list bloated with duplicates</li>
+              <li>Reporting unreliable, monitoring nearly impossible</li>
+              <li>No reminders, notifications, or escalations</li>
+              <li>Every deadline depended on manual checking</li>
+              <li>New customer = data entered into 5 separate places</li>
+              <li>Could not scale cleanly past a few hundred policies</li>
+            </ul>
+          </div>
+          <div class="ba-col ba-after">
+            <div class="ba-header">After &mdash; Monday + Make</div>
+            <ul class="ba-list">
+              <li>One customer record, many linked annual policies</li>
+              <li>Clean data, reliable dashboards and reporting</li>
+              <li>Automated reminders, notifications, and escalations</li>
+              <li>Nothing depends on someone remembering</li>
+              <li>Single-entry onboarding via a custom Monday app</li>
+              <li>Risk parameters flagged automatically on intake</li>
+              <li>Scales cleanly past 1,000 policies</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Architecture -->
+      <section class="card">
+        <h2 class="card-title"><span>🏗</span> The Architecture</h2>
+        <p>
+          Monday.com is the system of record. A custom Monday app feeds data in; Make.com
+          orchestrates everything behind the scenes; and five external platforms each handle
+          what they do best. The Monday Customer Item ID acts as the immutable identifier across
+          all of them, so when emails, addresses, or policy numbers change, every record stays
+          linked end to end.
+        </p>
+
+        <div class="arch">
+          <div class="arch-box arch-input">
+            <div class="arch-box-label">Input Layer</div>
+            <div class="arch-box-name">✨ Monday Vibe App</div>
+            <div class="arch-box-sub">Single-entry customer &amp; policy onboarding</div>
+          </div>
+          <div class="arch-connector">&darr;</div>
+          <div class="arch-box arch-hub">
+            <div class="arch-box-label">System of Record</div>
+            <div class="arch-box-name">📋 Monday.com</div>
+            <div class="arch-box-sub">9 connected boards · workflow state · dashboards · reminder logic</div>
+          </div>
+          <div class="arch-make-band">
+            &updownarrow; orchestrated by <strong>Make.com</strong> &mdash; 41 scenarios connecting every system &updownarrow;
+          </div>
+          <div class="arch-systems">
+            <div class="arch-box">
+              <div class="arch-box-name">Hubflo</div>
+              <div class="arch-box-sub">Customer portal &amp; e-signature</div>
+            </div>
+            <div class="arch-box">
+              <div class="arch-box-name">QuickBooks Online</div>
+              <div class="arch-box-sub">Billing &amp; payments</div>
+            </div>
+            <div class="arch-box">
+              <div class="arch-box-name">Box</div>
+              <div class="arch-box-sub">Signed document repository</div>
+            </div>
+            <div class="arch-box">
+              <div class="arch-box-name">Slack</div>
+              <div class="arch-box-sub">Escalation alerts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREENSHOT PLACEHOLDER: replace this whole div with <img src="..." alt="Leadership dashboard"> wrapped in a .shot -->
+        <div class="shot-placeholder shot-placeholder-wide">
+          <div class="shot-placeholder-icon">🖼</div>
+          <div class="shot-placeholder-label">Screenshot: Leadership dashboard / system overview</div>
+          <div class="shot-placeholder-hint">A high-level Monday dashboard showing all customers/policies at a glance</div>
+        </div>
+      </section>
+
+      <!-- The Monday Vibe App -->
+      <section class="card">
+        <h2 class="card-title"><span>✨</span> The Standout: A Custom Monday App</h2>
+        <p>
+          Most Monday work is board configuration and automation. This went further: a custom
+          Monday app, built with Monday Vibe, that turns customer onboarding from a five-board
+          chore into a single screen.
+        </p>
+        <p>
+          <strong>Before the app</strong>, adding a new customer meant manually entering different
+          information into five different boards &mdash; Customers, Policies, Applications, Inspections,
+          and Smart Home &mdash; and manually creating the links between them. Tedious, slow, and easy
+          to get wrong.
+        </p>
+        <p>
+          <strong>With the app</strong>, the manager enters everything once, in one place. The app
+          automatically distributes the records across all five boards and creates every
+          cross-board connection in the background. No board-hopping. No manual linking. One
+          entry, everything wired up correctly.
+        </p>
+
+        <!-- SCREENSHOT PLACEHOLDER: replace with <img> of the Vibe app single-entry screen -->
+        <div class="shot-placeholder shot-placeholder-wide">
+          <div class="shot-placeholder-icon">✨</div>
+          <div class="shot-placeholder-label">Screenshot: Monday Vibe single-entry app</div>
+          <div class="shot-placeholder-hint">The single-entry onboarding screen — this is the money shot for the page</div>
+        </div>
+      </section>
+
+      <!-- Key Automations -->
+      <section class="card">
+        <h2 class="card-title"><span>⚙️</span> Key Automations</h2>
+        <p>
+          Forty-one Make scenarios drive the system. A few of the most impactful:
+        </p>
+
+        <div class="feature-block feature-highlight">
+          <div class="feature-block-title">
+            Policy renewal lifecycle
+            <span class="feature-pill">The headline fix</span>
+          </div>
+          <div class="feature-block-body">
+            Customer and policy are modeled as separate, linked records. A customer keeps one
+            record for life; each annual policy is a new linked item. Renewals no longer duplicate
+            the customer &mdash; ending the data bloat that made Excel reporting impossible and giving
+            the team a clean, accurate view of every customer's full history.
+          </div>
+        </div>
+
+        <div class="feature-block">
+          <div class="feature-block-title">Inspection ordering &mdash; never missed</div>
+          <div class="feature-block-body">
+            Home inspections must be ordered on a strict cadence. The system removes any chance of
+            forgetting:
+            <ul>
+              <li>Automatically sets each inspection's order date to the next Thursday</li>
+              <li>Thursday morning, emails the manager the full list of inspections due that day</li>
+              <li>Surfaces a dedicated board group so the manager can visually confirm what's due</li>
+              <li>At 3 PM, sends a reminder if any inspection still hasn't been ordered &mdash; a safety net before the day ends</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature-block feature-highlight">
+          <div class="feature-block-title">
+            Red Flag risk detection
+            <span class="feature-pill">Underwriting</span>
+          </div>
+          <div class="feature-block-body">
+            When a new customer is added, the system automatically checks customer, policy,
+            billing, and home parameters against acceptable ranges &mdash; for example a homeowner over
+            70, a roof older than 10 years, or coverage limits outside set bands. If anything is
+            out of range, it:
+            <ul>
+              <li>Sets a visible <strong>Red Flag</strong> marking exactly which parameter is out of range</li>
+              <li>Creates a subtask assigned to the right manager to review the flag and policy</li>
+              <li>Automatically removes the Red Flag once that subtask is marked complete</li>
+            </ul>
+            Risk gets caught at intake, routed to a human, and closed out cleanly &mdash; no manual monitoring.
+          </div>
+        </div>
+
+        <div class="feature-block">
+          <div class="feature-block-title">Smart-home logistics SLA monitoring</div>
+          <div class="feature-block-body">
+            Because every policy ships with a physical security kit, the system watches the
+            fulfillment chain and escalates when a stage stalls &mdash; ordered but not shipped within
+            2 days, shipped but not installed within 5 days, installed but not registered within
+            2 days, and more. Nothing gets stuck silently.
+          </div>
+        </div>
+
+        <div class="feature-block">
+          <div class="feature-block-title">Department-specific daily reminders</div>
+          <div class="feature-block-body">
+            Different departments get different daily digests of exactly what they need to act on &mdash;
+            billing discrepancies routed to the accountant, escalations to managers, and so on.
+            Each person sees their own work, not everyone else's noise.
+          </div>
+        </div>
+
+        <div class="feature-block">
+          <div class="feature-block-title">Multi-due-date notifications &amp; escalations</div>
+          <div class="feature-block-body">
+            Throughout the policy lifecycle, the system tracks dozens of due dates and surfaces
+            reminders and escalations &mdash; via Monday dashboards and Slack &mdash; so deadlines are driven
+            by the system, not by memory.
+          </div>
+        </div>
+      </section>
+
+      <!-- Smart Home Lifecycle Flow -->
+      <section class="card">
+        <h2 class="card-title"><span>🔗</span> The Smart-Home Fulfillment Lifecycle</h2>
+        <p>
+          One example of an end-to-end tracked workflow: the journey of the security kit that
+          ships with every policy, with SLA gates monitored at each step.
+        </p>
+        <div class="flow-wrapper">
+          <div class="flow-row">
+            <span class="flow-node">Order</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-node">Ship</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-node">Install</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-node">Register</span>
+            <span class="flow-arrow">&rarr;</span>
+            <span class="flow-node">Activate Monitoring</span>
+          </div>
+          <div class="flow-note">
+            <strong>SLA gates:</strong> ordered &rarr; shipped (2 days) &middot; shipped &rarr; installed (5 days) &middot; installed &rarr; registered (2 days) &mdash; each breach escalates automatically
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Impact -->
+      <section class="card">
+        <h2 class="card-title"><span>📈</span> Results &amp; Impact</h2>
+        <ul class="results-list">
+          <li><strong>The renewal problem is solved</strong> &mdash; one customer, many linked policies, no more duplicate records bloating the data.</li>
+          <li><strong>Nothing falls through the cracks</strong> &mdash; inspections, due dates, SLAs, and risk flags are all driven by automation, not memory.</li>
+          <li><strong>Onboarding collapsed to a single entry</strong> &mdash; the custom Vibe app replaced manual entry across five boards.</li>
+          <li><strong>Risk caught at intake</strong> &mdash; out-of-range parameters are flagged and routed to a manager automatically.</li>
+          <li><strong>Clean, scalable, and reportable</strong> &mdash; the biggest win. With this volume of automation and structure, a clean, scalable system was simply impossible in Excel. Now it runs 1,000+ policies and keeps going.</li>
+        </ul>
+      </section>
+
+      <!-- Tech Stack -->
+      <section class="card">
+        <h2 class="card-title"><span>🛠</span> Tech &amp; Stack</h2>
+        <div class="stack-grid">
+          <div>
+            <div class="stack-block-title">System of record</div>
+            <div class="stack-block-items">Monday.com &mdash; 9 boards, dashboards, status-driven automations, reminder logic</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Custom app</div>
+            <div class="stack-block-items">Monday Vibe &mdash; single-entry onboarding app with auto-distribution</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Orchestration</div>
+            <div class="stack-block-items">Make.com &mdash; 41 scenarios across the full lifecycle</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Customer portal &amp; e-sign</div>
+            <div class="stack-block-items">Hubflo, Hubflo Smartdocs</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Billing</div>
+            <div class="stack-block-items">QuickBooks Online</div>
+          </div>
+          <div>
+            <div class="stack-block-title">Documents &amp; alerts</div>
+            <div class="stack-block-items">Box (document repository), Slack (escalations)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screenshots Gallery -->
+      <section class="card">
+        <h2 class="card-title"><span>🖼</span> Inside the System</h2>
+        <p>Screenshots from the build (test data, no real customer information).</p>
+        <div class="shot-grid">
+          <!-- Replace each placeholder div with: <div class="shot"><img src="URL" alt="..."><div class="shot-caption">Caption</div></div> -->
+          <div class="shot-placeholder">
+            <div class="shot-placeholder-icon">👤</div>
+            <div class="shot-placeholder-label">Customers board</div>
+            <div class="shot-placeholder-hint">Master customer records</div>
+          </div>
+          <div class="shot-placeholder">
+            <div class="shot-placeholder-icon">📄</div>
+            <div class="shot-placeholder-label">Policies board</div>
+            <div class="shot-placeholder-hint">With billing &amp; mortgagee views</div>
+          </div>
+          <div class="shot-placeholder">
+            <div class="shot-placeholder-icon">✍️</div>
+            <div class="shot-placeholder-label">Applications board</div>
+            <div class="shot-placeholder-hint">Reminder cadence + e-sign status</div>
+          </div>
+          <div class="shot-placeholder">
+            <div class="shot-placeholder-icon">🏠</div>
+            <div class="shot-placeholder-label">Inspections board</div>
+            <div class="shot-placeholder-hint">Thursday ordering group</div>
+          </div>
+          <div class="shot-placeholder">
+            <div class="shot-placeholder-icon">📦</div>
+            <div class="shot-placeholder-label">Smart Home board</div>
+            <div class="shot-placeholder-hint">Order → activate tracking</div>
+          </div>
+          <div class="shot-placeholder">
+            <div class="shot-placeholder-icon">🚩</div>
+            <div class="shot-placeholder-label">Red Flag in action</div>
+            <div class="shot-placeholder-hint">Flagged parameter + assigned subtask</div>
+          </div>
+          <div class="shot-placeholder">
+            <div class="shot-placeholder-icon">⚙️</div>
+            <div class="shot-placeholder-label">A Make scenario</div>
+            <div class="shot-placeholder-hint">One of the 41 — pick an impressive one</div>
+          </div>
+          <div class="shot-placeholder">
+            <div class="shot-placeholder-icon">💬</div>
+            <div class="shot-placeholder-label">Slack escalation</div>
+            <div class="shot-placeholder-hint">What an alert looks like in practice</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="card cta-card">
+        <div class="cta-title">Running your agency on spreadsheets and disconnected tools?</div>
+        <div class="cta-sub">
+          This is the kind of system I build for insurance agencies and carriers &mdash; the full policy
+          lifecycle, unified in Monday.com, connected to the tools you already use, with the
+          reminders, risk flags, and reporting that spreadsheets can never give you.
+        </div>
+        <div class="cta-row">
+          <a href="../" class="btn btn-secondary">View More Projects</a>
+          <a href="mailto:viktorautomationm@gmail.com" class="btn btn-primary">Book a Discovery Call</a>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <span>Built by <strong>Viktor T</strong> &mdash; Monday.com &amp; Make Automation Specialist · Insurance &amp; Financial Services</span>
+      <span><a href="../" style="color: var(--accent-bright);">&larr; Back to Portfolio</a></span>
+    </footer>
+
+  </div>
+</body>
+</html>

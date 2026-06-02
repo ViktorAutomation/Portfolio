@@ -429,6 +429,63 @@
       .step-num { font-size: 1.3rem; }
       .resp-letter { font-size: 1.8rem; }
     }
+
+    /* Lightbox overlay for full-page image viewing */
+    .shot img { cursor: zoom-in; }
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-overlay img {
+      max-width: 96%;
+      max-height: 92%;
+      width: auto;
+      border-radius: 8px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.8);
+      cursor: default;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 16px;
+      right: 22px;
+      width: 40px;
+      height: 40px;
+      font-size: 1.7rem;
+      line-height: 1;
+      color: #ededed;
+      background: rgba(20, 20, 24, 0.8);
+      border: 1px solid #3f3f46;
+      border-radius: 999px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .lightbox-close:hover {
+      border-color: var(--accent);
+      color: var(--accent-bright);
+    }
+    .lightbox-hint {
+      position: fixed;
+      bottom: 18px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #a1a1aa;
+      z-index: 1001;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -746,5 +803,39 @@
     </footer>
 
   </div>
+
+  <!-- Lightbox: click any screenshot to view it full-page -->
+  <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close image">&times;</button>
+    <img id="lightboxImg" src="" alt="" />
+    <div class="lightbox-hint">Click outside the image, press Esc, or tap &times; to close</div>
+  </div>
+
+  <script>
+    (function () {
+      var overlay = document.getElementById('lightbox');
+      var overlayImg = document.getElementById('lightboxImg');
+      var closeBtn = document.getElementById('lightboxClose');
+      function openLightbox(src, alt) {
+        overlayImg.src = src;
+        overlayImg.alt = alt || '';
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeLightbox() {
+        overlay.classList.remove('open');
+        overlayImg.src = '';
+        document.body.style.overflow = '';
+      }
+      document.querySelectorAll('.shot img').forEach(function (img) {
+        img.addEventListener('click', function () { openLightbox(img.src, img.alt); });
+      });
+      overlay.addEventListener('click', function (e) { if (e.target !== overlayImg) closeLightbox(); });
+      closeBtn.addEventListener('click', closeLightbox);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) closeLightbox();
+      });
+    })();
+  </script>
 </body>
 </html>

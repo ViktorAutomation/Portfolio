@@ -316,6 +316,62 @@
       box-shadow: 0 18px 44px rgba(16, 185, 129, 0.42);
     }
 
+    /* ---------- Testimonial ---------- */
+    .testimonial-card {
+      border: 1px solid rgba(16, 185, 129, 0.55);
+    }
+
+    .testimonial-quote {
+      margin: 0;
+      font-size: 1rem;
+      color: #ededed;
+      line-height: 1.7;
+    }
+
+    .testimonial-quote p {
+      margin-bottom: 12px;
+    }
+
+    .testimonial-quote p + p {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    .testimonial-quote p:last-child {
+      margin-bottom: 0;
+    }
+
+    .testimonial-meta {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid #27272a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .testimonial-name {
+      font-weight: 600;
+      color: #ededed;
+    }
+
+    .testimonial-role {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .testimonial-verify {
+      font-size: 0.88rem;
+      color: var(--accent-bright);
+      white-space: nowrap;
+    }
+
+    .testimonial-verify:hover {
+      text-decoration: underline;
+    }
+
     .card-title {
       font-size: 1.05rem;
       font-weight: 600;
@@ -545,8 +601,8 @@
           <div class="hero-footer">
             <div class="button-row">
               <a href="/services.html" class="btn btn-accent">
-  Services &amp; Pricing
-</a>
+                Services &amp; Pricing
+              </a>
               <a
                 href="https://www.upwork.com/freelancers/~019b07d8b6eefca9ad?mp_source=share"
                 class="btn btn-secondary"
@@ -555,11 +611,11 @@
               >
                 View My Upwork Profile <span>↗</span>
               </a>
-             <a href="https://calendly.com/viktorautomationm/project-discussion" 
-   target="_blank" 
-   rel="noopener" 
-   class="btn btn-primary">
-   Book a Discovery Call
+              <a href="https://calendly.com/viktorautomationm/project-discussion"
+                 target="_blank"
+                 rel="noopener"
+                 class="btn btn-primary">
+                Book a Discovery Call
               </a>
             </div>
           </div>
@@ -630,8 +686,46 @@
             Read the full case study &rarr;
           </a>
           <a href="/services.html" class="case-study-link" style="background: rgba(19,19,22,0.96); color: var(--accent); border: 1px solid rgba(16,185,129,0.7); box-shadow: 0 0 0 1px rgba(16,185,129,0.35); margin-left: 10px;">
-  See packages &amp; pricing &rarr;
-</a>
+            See packages &amp; pricing &rarr;
+          </a>
+        </div>
+      </section>
+
+      <!-- CLIENT TESTIMONIAL -->
+      <section class="card testimonial-card">
+        <div class="featured-eyebrow">Client Recommendation</div>
+        <blockquote class="testimonial-quote">
+          <p>
+            &ldquo;I had the pleasure of working with Viktor on a complex Monday.com and Hubflo
+            customer portal implementation for our insurance business, and I can't recommend
+            him highly enough.&rdquo;
+          </p>
+          <p>
+            &ldquo;From day one, Viktor was knowledgeable, responsive, proactive and genuinely
+            invested in helping us succeed. He took the time to understand our workflows,
+            offered thoughtful solutions, and was always willing to iterate as our requirements
+            evolved. His communication was excellent, deadlines were met, and he consistently
+            demonstrated a high level of professionalism and technical expertise. His efforts
+            were exceptional throughout the entire project.&rdquo;
+          </p>
+          <p>
+            &ldquo;If you're looking for someone with deep tech development skills, with Monday.com
+            expertise, who is easy to work with, highly skilled, and truly committed to his
+            clients' success, I wouldn't hesitate to recommend Viktor.&rdquo;
+          </p>
+        </blockquote>
+
+        <div class="testimonial-meta">
+          <div>
+            <div class="testimonial-name">Mark Coons</div>
+            <div class="testimonial-role">Founder &amp; CEO, Savvi Insurance</div>
+          </div>
+          <a href="https://www.linkedin.com/in/viktor-trandafir/"
+             target="_blank"
+             rel="noopener"
+             class="testimonial-verify">
+            Verify on LinkedIn &#8599;
+          </a>
         </div>
       </section>
 

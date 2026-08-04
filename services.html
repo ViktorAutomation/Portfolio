@@ -237,6 +237,115 @@
 
   .care-opt .hours { color: var(--muted); font-size: 0.9rem; margin-top: 2px; }
 
+  /* ---------- Flexible engagement ---------- */
+  .flex-block {
+    margin: 32px 0 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 30px;
+  }
+
+  .flex-block h2 {
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+  }
+
+  .flex-block p.intro {
+    color: var(--muted);
+    max-width: 720px;
+    margin-bottom: 20px;
+  }
+
+  .hourly-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 22px;
+  }
+
+  .hourly-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .hourly-head .label {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .hourly-head .rate {
+    color: var(--accent-bright);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .hourly-box p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .contact-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .contact-card {
+    display: block;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .contact-card:hover {
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+  }
+
+  .contact-card.primary {
+    border-color: rgba(16, 185, 129, 0.45);
+  }
+
+  .contact-card.primary:hover {
+    border-color: var(--accent);
+  }
+
+  .contact-card .name {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .contact-card.primary .name { color: var(--accent-bright); }
+
+  .contact-card .sub {
+    font-size: 0.84rem;
+    color: var(--muted);
+  }
+
+  .flex-block p.closer {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin: 0;
+  }
+
   /* ---------- How it works ---------- */
   .how {
     margin: 56px 0 0;
@@ -348,6 +457,7 @@
     .meta-row { flex-direction: column; gap: 2px; }
     .meta-row .k { flex: none; }
     .cta { padding: 34px 22px; }
+    .flex-block { padding: 24px 22px; }
   }
 </style>
 </head>
@@ -477,6 +587,56 @@
     </div>
   </section>
 
+  <!-- Flexible engagement + contact -->
+  <section class="flex-block">
+    <div class="tier-step" style="margin-bottom:10px;">Something else in mind?</div>
+    <h2>Not every project fits a package</h2>
+    <p class="intro">
+      Some work is a clean fixed-scope build. Some is a system that already exists and needs
+      extending, a workflow nobody has mapped yet, or a problem that needs a conversation before
+      anyone can put a number on it. All of that is welcome — tell me how your operation runs
+      today and I'll tell you honestly what I'd do about it, and whether I'm the right person for it.
+    </p>
+
+    <div class="hourly-box">
+      <div class="hourly-head">
+        <span class="label">Hourly engagements</span>
+        <span class="rate">$55/hour</span>
+      </div>
+      <p>
+        For ongoing support, changes to a live system, troubleshooting, or work where the scope
+        genuinely can't be defined up front. New builds are quoted fixed-price — it protects your
+        budget and my focus — but hourly is there when the work doesn't fit that shape.
+      </p>
+    </div>
+
+    <div class="contact-label">Reach me wherever is easiest</div>
+    <div class="contact-grid">
+      <a class="contact-card primary" href="https://calendly.com/viktorautomationm/project-discussion" target="_blank" rel="noopener">
+        <div class="name">Book a call ↗</div>
+        <div class="sub">30 minutes, no pitch</div>
+      </a>
+      <a class="contact-card" href="mailto:viktorautomationm@gmail.com">
+        <div class="name">Email</div>
+        <div class="sub">viktorautomationm@gmail.com</div>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/viktor-trandafir/" target="_blank" rel="noopener">
+        <div class="name">LinkedIn ↗</div>
+        <div class="sub">Message me directly</div>
+      </a>
+      <a class="contact-card" href="https://www.upwork.com/freelancers/~019b07d8b6eefca9ad?mp_source=share" target="_blank" rel="noopener">
+        <div class="name">Upwork ↗</div>
+        <div class="sub">Top Rated Plus · 100% JSS</div>
+      </a>
+    </div>
+
+    <p class="closer">
+      A short description of how you work today — or a Loom walkthrough of the process that
+      frustrates you most — is enough to start. Most of my clients are US-based, so I work
+      US hours as standard.
+    </p>
+  </section>
+
   <!-- How it works -->
   <section class="how">
     <h2>How every engagement runs</h2>
@@ -512,12 +672,12 @@
       and what it would cost. No pitch deck, just a builder looking at your process.
     </p>
     <a class="btn" href="https://calendly.com/viktorautomationm/project-discussion" target="_blank" rel="noopener">Book a project discussion →</a>
-    <span class="alt">Prefer to look around first? <a href="https://viktorautomation.github.io/Portfolio/Insurance/">Read the insurance case study</a></span>
+    <span class="alt">Prefer to look around first? <a href="/Insurance/">Read the insurance case study</a></span>
   </section>
 
   <footer>
     <span>© 2026 Viktor — Monday.com + Make.com Automation</span>
-    <span><a href="https://viktorautomation.github.io/Portfolio/">Portfolio</a> · <a href="https://calendly.com/viktorautomationm/project-discussion">Book a call</a></span>
+    <span><a href="/">Portfolio</a> · <a href="https://calendly.com/viktorautomationm/project-discussion" target="_blank" rel="noopener">Book a call</a></span>
   </footer>
 
 </div>
